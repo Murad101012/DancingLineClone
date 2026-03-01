@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8131360186038143973}
   - component: {fileID: 7965822604755946435}
   - component: {fileID: 7413695825826016080}
+  - component: {fileID: 301393630568243114}
   - component: {fileID: 8605493408208099540}
   - component: {fileID: 1010790667330864193}
   - component: {fileID: 8223182865917876443}
@@ -93,6 +94,33 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &301393630568243114
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039633664303414315}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &8605493408208099540
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -139,4 +167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f292837e34344639531f1dffc4c9c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 1
+  speed: 6
+  raycastDistance: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  checkInterval: 0.01

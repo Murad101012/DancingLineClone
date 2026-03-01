@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,6 +23,8 @@ namespace Player
         [SerializeField] private float updateInterval;
         private WaitForSeconds _waitForSecondsCloneCube;
 
+        private bool _playerOnGround = true;
+
         private Coroutine _cloneCubesCoroutine;
 
         private void OnEnable()
@@ -31,6 +32,9 @@ namespace Player
             // This function prevent Zig-Zag, cropped line when pressed to change direction.
             // It's directly put cube where player press
             Movement.PlayerPressed += ChangeNextCloneCubePositionOnGoalPosition;
+
+            //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
+            Movement.GroundChange += GroundStateChange;
         }
 
         private void Awake()
@@ -47,6 +51,7 @@ namespace Player
         private void OnDisable()
         {
             Movement.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
+            Movement.GroundChange -= GroundStateChange;
         }
 
         private void InitializeCloneCubes()
@@ -86,12 +91,20 @@ namespace Player
         
         private void ChangeNextCloneCubePositionOnGoalPosition()
         {
-            _clonedCubes[_currentTransformChangedCubeClone].transform.position = goalPosition.position;
-            _currentTransformChangedCubeClone++;
-            if (_currentTransformChangedCubeClone == _clonedCubes.Length)
+            if (_playerOnGround)
             {
-                _currentTransformChangedCubeClone = 0;
+                _clonedCubes[_currentTransformChangedCubeClone].transform.position = goalPosition.position;
+                _currentTransformChangedCubeClone++;
+                if (_currentTransformChangedCubeClone == _clonedCubes.Length)
+                {
+                    _currentTransformChangedCubeClone = 0;
+                }  
             }
+        }
+
+        private void GroundStateChange(bool groundState)
+        {
+            _playerOnGround = groundState;
         }
     }
 }
