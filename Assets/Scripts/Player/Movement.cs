@@ -74,13 +74,12 @@ namespace Player
         /// </summary>
         private IEnumerator GroundCheckIEnumerator()
         {
-            LayerMask combinedMask = groundLayer | nonGroundLayer;
             //Debug.Log(combinedMask.value);
             while (true)
             {
                 yield return _waitForSecondsGroundCheckInterval;
                 //BoxCast recommend by AI. Explore this if this is works and how it works.
-                if (Physics.BoxCast(_playerTransform.position, new Vector3(0.45f, 0.1f, 0.45f), Vector3.down, _playerTransform.rotation, raycastDistance, combinedMask))
+                if (Physics.BoxCast(_playerTransform.position, new Vector3(0.45f, 0.1f, 0.45f), Vector3.down, _playerTransform.rotation, raycastDistance, groundLayer))
                 {
                     if (!_onGround)
                     {
