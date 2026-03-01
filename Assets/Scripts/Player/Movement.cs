@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -10,6 +11,7 @@ namespace Player
         private Transform _playerTransform;
         [SerializeField] private int speed = 3;
         private bool _switchOrder;
+        public static event Action PlayerPressed;
 
         private void Awake()
         {
@@ -48,6 +50,7 @@ namespace Player
                     _switchOrder = false;
                     _playerTransform.rotation = MoveState.Instance.StateDirectionDictionary[MoveState.Instance.currentStates[1]];
                 }
+                PlayerPressed?.Invoke();
             }
         }
     }
