@@ -16,6 +16,7 @@ namespace Player
         [SerializeField] private int clonedCubesCount;
         [SerializeField] private Transform parentCubeClone;
         private int _currentTransformChangedCubeClone;
+        private MaterialPropertyBlock _propBlock;
         
         //Cubes will change their position to on
         [SerializeField] private Transform goalPosition;
@@ -39,6 +40,8 @@ namespace Player
 
         private void Awake()
         {
+            _propBlock = new MaterialPropertyBlock();
+            
             _waitForSecondsCloneCube = new WaitForSeconds(updateInterval);
             InitializeCloneCubes();
         }
@@ -61,6 +64,13 @@ namespace Player
             for (int i = 0; i < _clonedCubes.Length; i++)
             {
                 _clonedCubes[i] = Instantiate(cloneCube, parentCubeClone, goalPosition);
+                
+                // --- THE GPU INSTANCING TRICK ---
+                Renderer r = _clonedCubes[i].GetComponent<Renderer>();
+        
+                // Even an empty property block "breaks" SRP Batcher compatibility
+                // and forces the GPU to use Instancing for this specific object.
+                r.SetPropertyBlock(_propBlock);
             }
         }
 
