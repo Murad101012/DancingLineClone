@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Interfaces;
 using UnityEngine;
 
 namespace Player
 {
     /// <summary>
-    /// Current move directions update in <see cref="currentStates"/>
+    /// Current move directions update in <see cref="_currentStates"/>
     /// </summary>
     /// <remarks>
-    /// For get the latest directions, <see cref="Movement"/> script must take current directions from <see cref="currentStates"/>
+    /// For get the latest directions, <see cref="Movement"/> script must take current directions from <see cref="_currentStates"/>
     /// </remarks>
-    public class MoveState : MonoBehaviour
+    public class MoveState : MonoBehaviour, IStateSwitchable // Signing the contract
     {
-        public static MoveState Instance;
         public enum States
         {
             Forward,
@@ -21,54 +21,46 @@ namespace Player
             Right,
         }
         
-        public States[] currentStates = new States[2];
-        public Dictionary<States, Quaternion> StateDirectionDictionary = new(4);
+        private States[] _currentStates = new States[2];
+        private Quaternion[] _currentStatesAsQuaternions = new Quaternion[2];
+        private Dictionary<States, Quaternion> _stateDirectionDictionary = new(4);
         
-        public static event Action<States[]> OnStateChange;
-        public static void TriggerStateChange(States[] newStates)
+        public static event Action<Quaternion[]> OnStateChange;
+        private void PassStageChangePlayer()
         {
-            OnStateChange?.Invoke(newStates);
+            //1.Transform States to Quaternions to find where to player must rotate based on directions (states)
+            _currentStatesAsQuaternions[0] = _stateDirectionDictionary[_currentStates[0]];
+            _currentStatesAsQuaternions[1] = _stateDirectionDictionary[_currentStates[1]];
+            
+            //2.Fire event and send new directions to player as quaternion
+            OnStateChange?.Invoke(_currentStatesAsQuaternions);
         }
-
-        private void OnEnable()
-        {
-            OnStateChange += ChangeState;
-        }
+        
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if(Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            
             FirstInitialize();
         }
 
         private void FirstInitialize()
         {
             // Define the rotation based on state
-            StateDirectionDictionary.Add(States.Forward, Quaternion.identity);
-            StateDirectionDictionary.Add(States.Backward, Quaternion.Euler(0, 180, 0));
-            StateDirectionDictionary.Add(States.Left, Quaternion.Euler(0, -90, 0));
-            StateDirectionDictionary.Add(States.Right, Quaternion.Euler(0, 90, 0));
+            _stateDirectionDictionary.Add(States.Forward, Quaternion.identity);
+            _stateDirectionDictionary.Add(States.Backward, Quaternion.Euler(0, 180, 0));
+            _stateDirectionDictionary.Add(States.Left, Quaternion.Euler(0, -90, 0));
+            _stateDirectionDictionary.Add(States.Right, Quaternion.Euler(0, 90, 0));
         }
-
-        private void OnDisable()
-        {
-            OnStateChange -= ChangeState;
-        }
+        
         /// <summary>
         /// Current directions are change here by <see cref="Player.StateChanger.OnTriggerEnter"/> firing
         /// </summary>
-        private void ChangeState(States[] newStates)
+        public void ChangeState(States[] newStates)
         {
-            currentStates[0] = newStates[0];
-            currentStates[1] = newStates[1];
+            _currentStates[0] = newStates[0];
+            _currentStates[1] = newStates[1];
+            
+            //Passing new state changes to Movement.cs
+            PassStageChangePlayer();
         }
     }
 }

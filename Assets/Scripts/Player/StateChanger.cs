@@ -1,3 +1,4 @@
+using Interfaces;
 using UnityEngine;
 
 namespace Player
@@ -12,11 +13,13 @@ namespace Player
     public class StateChanger : MonoBehaviour
     {
         [SerializeField] private MoveState.States[] moveStates = new MoveState.States[2];
+        
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Player"))
+            IStateSwitchable stateSwitchable = other.GetComponent<IStateSwitchable>();
+            if (stateSwitchable != null)
             {
-                MoveState.TriggerStateChange(moveStates);
+                stateSwitchable.ChangeState(moveStates);
             }
         }
     }

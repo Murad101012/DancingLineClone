@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Player
@@ -9,28 +8,31 @@ namespace Player
     /// </summary>
     public class Movement : MonoBehaviour
     {
+        [SerializeField] private PlayerStatsSo playerStatsSo;
         private Transform _playerTransform;
-        private Rigidbody _playerRigidbody;
-        [SerializeField] private int speed = 3;
         private bool _switchOrder;
         
-        [SerializeField] private float raycastDistance = 2;
-        [SerializeField] private LayerMask groundLayer;
-        [SerializeField] private LayerMask nonGroundLayer;
-        [SerializeField] private float checkInterval = 0.01f;
-        private Coroutine _groundCheckCoroutine;
-        private WaitForSeconds _waitForSecondsGroundCheckInterval;
+        /// <remarks> This boolean duplicates from <see cref="MoveState._currentStates"/></remarks>
+        private Quaternion[] _currentStatesAsQuaternions = new Quaternion[2];
+        
+        /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onGround"/></remarks>
         private bool _onGround = true;
+        /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onNonGround"/></remarks>
+        private bool _onNonGround;
             
         public static event Action PlayerPressed;
-        public static event Action<bool> GroundChange;
+        public static event Action Dead;
+
+        private void OnEnable()
+        {
+            GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
+            GroundStateChecker.OnNonGroundChange += OnNonGroundStateChangeUpdater;
+            MoveState.OnStateChange += OnStateChange;
+        }
 
         private void Awake()
         {
             _playerTransform = transform;
-            _playerRigidbody = _playerTransform.GetComponent<Rigidbody>();
-            _waitForSecondsGroundCheckInterval = new WaitForSeconds(checkInterval);
-            BeginGroundCheck();
         }
 
         private void Update()
@@ -38,13 +40,31 @@ namespace Player
             MovePlayerToZIndex();
             SwitchOrder();
         }
-        
+
+        private void OnDisable()
+        {
+            GroundStateChecker.OnGroundChange -= OnGroundStateChangeUpdater;
+            GroundStateChecker.OnNonGroundChange -= OnNonGroundStateChangeUpdater;
+            MoveState.OnStateChange -= OnStateChange;
+        }
+
+        private void OnStateChange(Quaternion[] newStatesAsQuaternions)
+        {
+            _currentStatesAsQuaternions[0] = newStatesAsQuaternions[0];
+            _currentStatesAsQuaternions[1] = newStatesAsQuaternions[1];
+        }
+
         /// <remarks>
         /// Moving done by only where Z axis pointing, not by chancing player's rotation.
         /// </remarks>
+        //TODO: Change transform.position to RigidBody for prevent teleport
         private void MovePlayerToZIndex()
         {
-            _playerTransform.position += _playerTransform.forward * speed * Time.deltaTime;
+            //Player can only walk if it's on Ground Layer.
+            if (!_onNonGround)
+            {
+                _playerTransform.position += _playerTransform.forward * playerStatsSo.speed * Time.deltaTime;
+            }
         }
         
         /// <summary>
@@ -58,70 +78,31 @@ namespace Player
                 if (!_switchOrder)
                 {
                     _switchOrder = true;
-                    _playerTransform.rotation = MoveState.Instance.StateDirectionDictionary[MoveState.Instance.currentStates[0]];
+                    _playerTransform.rotation = _currentStatesAsQuaternions[0];
                 }
                 else
                 {
                     _switchOrder = false;
-                    _playerTransform.rotation = MoveState.Instance.StateDirectionDictionary[MoveState.Instance.currentStates[1]];
+                    _playerTransform.rotation = _currentStatesAsQuaternions[1];
                 }
                 PlayerPressed?.Invoke();
             }
         }
 
-        /// <summary>
-        /// Making player only can move, change direction on Ground Layer with Raycast and <see cref="groundLayer"/> by masking
-        /// </summary>
-        private IEnumerator GroundCheckIEnumerator()
+        private void OnGroundStateChangeUpdater(bool currentState)
         {
-            //Debug.Log(combinedMask.value);
-            while (true)
-            {
-                yield return _waitForSecondsGroundCheckInterval;
-                //BoxCast recommend by AI. Explore this if this is works and how it works.
-                if (Physics.BoxCast(_playerTransform.position, new Vector3(0.45f, 0.1f, 0.45f), Vector3.down, _playerTransform.rotation, raycastDistance, groundLayer))
-                {
-                    if (!_onGround)
-                    {
-                        _onGround = true;
-                        GravityDisable();
-                        GroundChange?.Invoke(_onGround);
-                    }
-                }
-                else
-                {
-                    if (_onGround)
-                    {
-                        _onGround = false;
-                        GravityEnable();
-                        GroundChange?.Invoke(_onGround);
-                    }
-                }
-            }
-            
+            _onGround = currentState;
         }
         
-        private void BeginGroundCheck()
+        private void OnNonGroundStateChangeUpdater(bool currentState)
         {
-            _groundCheckCoroutine = StartCoroutine(GroundCheckIEnumerator());
-        }
-
-        private void StopGroundCheck()
-        {
-            if (_groundCheckCoroutine != null)
+            _onNonGround = currentState;
+            
+            //TODO: Move Dead section to own separate function in future
+            if (currentState)
             {
-                StopCoroutine(_groundCheckCoroutine);
+                Dead?.Invoke();
             }
-        }
-
-        private void GravityEnable()
-        {
-            _playerRigidbody.useGravity = true;
-        }
-
-        private void GravityDisable()
-        {
-            _playerRigidbody.useGravity = false;
         }
     }
 }

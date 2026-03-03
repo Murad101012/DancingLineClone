@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8605493408208099540}
   - component: {fileID: 1010790667330864193}
   - component: {fileID: 8223182865917876443}
+  - component: {fileID: 2889111229900714444}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -168,8 +169,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 6
-  raycastDistance: 2
+--- !u!114 &2889111229900714444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039633664303414315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ea3807cb714ad385ec29b942bce44e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.GroundStateChecker
+  checkInterval: 0.01
+  raycastDistance: 0.6
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  checkInterval: 0.01
+  nonGroundLayer:
+    serializedVersion: 2
+    m_Bits: 128

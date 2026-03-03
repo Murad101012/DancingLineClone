@@ -48,7 +48,7 @@ public class PathCreatorWindow : EditorWindow
         EditorGUILayout.BeginVertical("box");
         
         
-        EditorGUILayout.ObjectField(_pathCreatorSo, typeof(PathCreatorSO), false);
+        _pathCreatorSo = (PathCreatorSO)EditorGUILayout.ObjectField("Path SO", _pathCreatorSo, typeof(PathCreatorSO), false);
         if (GUILayout.Button("Create new PathCreator"))
         {
             _pathCreatorSo = CreateInstance<PathCreatorSO>();
@@ -119,6 +119,21 @@ public class PathCreatorWindow : EditorWindow
         }
         
         _pathWidth = EditorGUILayout.FloatField("Path Width", _pathWidth);
+        if (_pathCreatorSo != null)
+        {
+            if (_pathCreatorSo.points.Count > 1)
+            {
+                EditorGUI.BeginDisabledGroup(false);
+            }
+            else
+            {
+                EditorGUI.BeginDisabledGroup(true);
+            }
+        }
+        else
+        {
+            EditorGUI.BeginDisabledGroup(true);
+        }
         if (GUILayout.Button("Bake PathCreatorSO"))
         {
             GameObject oldPath = GameObject.Find("BakedPath_" + _pathCreatorSo.name);
@@ -131,6 +146,7 @@ public class PathCreatorWindow : EditorWindow
                 BakeMesh();
             }
         }
+        EditorGUI.BeginDisabledGroup(false);
 
         EditorGUILayout.EndVertical();
     }

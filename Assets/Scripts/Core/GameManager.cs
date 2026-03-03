@@ -1,24 +1,34 @@
+using System;
+using Player;
 using UnityEngine;
 
 namespace Core
 {
+    /// <summary>
+    /// Operator script that manages the game
+    /// </summary>
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Instance;
-
         public bool dead;
+
+        private void OnEnable()
+        {
+            Movement.Dead += Death;
+        }
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else if(Instance != this)
-            {
-                Destroy(gameObject);
-            }
+        }
+
+        private void OnDisable()
+        {
+            Movement.Dead -= Death;
+        }
+
+        private void Death()
+        {
+            dead = true;
         }
     }
 }

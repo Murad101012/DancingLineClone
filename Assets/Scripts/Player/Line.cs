@@ -35,7 +35,7 @@ namespace Player
             Movement.PlayerPressed += ChangeNextCloneCubePositionOnGoalPosition;
 
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
-            Movement.GroundChange += GroundStateChange;
+            GroundStateChecker.OnGroundChange += OnGroundStateChange;
         }
 
         private void Awake()
@@ -54,7 +54,7 @@ namespace Player
         private void OnDisable()
         {
             Movement.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
-            Movement.GroundChange -= GroundStateChange;
+            GroundStateChecker.OnGroundChange -= OnGroundStateChange;
         }
 
         private void InitializeCloneCubes()
@@ -65,12 +65,8 @@ namespace Player
             {
                 _clonedCubes[i] = Instantiate(cloneCube, parentCubeClone, goalPosition);
                 
-                // --- THE GPU INSTANCING TRICK ---
-                Renderer r = _clonedCubes[i].GetComponent<Renderer>();
-        
-                // Even an empty property block "breaks" SRP Batcher compatibility
-                // and forces the GPU to use Instancing for this specific object.
-                r.SetPropertyBlock(_propBlock);
+                //Breaking SRP batch by overriding with an empty Property Block.
+                _clonedCubes[i].GetComponent<Renderer>().SetPropertyBlock(_propBlock);
             }
         }
 
@@ -112,7 +108,7 @@ namespace Player
             }
         }
 
-        private void GroundStateChange(bool groundState)
+        private void OnGroundStateChange(bool groundState)
         {
             _playerOnGround = groundState;
         }
