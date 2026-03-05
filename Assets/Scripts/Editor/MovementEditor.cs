@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using Player; // Your namespace
 
-namespace Player.Editor
+namespace Editor
 {
     [CustomEditor(typeof(Movement))]
     public class MovementEditor : UnityEditor.Editor
@@ -32,7 +32,7 @@ namespace Player.Editor
                 GUI.backgroundColor = Color.red;
                 // Draw a professional HelpBox if the SO is missing
                 EditorGUILayout.HelpBox(
-                    "CRITICAL: PlayerStatsSo is missing! The player will not move. Please assign a Stats Asset.",
+                    "CRITICAL: PlayerStatsSo is missing! Please assign a Stats Asset.",
                     MessageType.Error);
             }
             GUI.backgroundColor = _originalColor;

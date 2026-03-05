@@ -7,5 +7,9 @@ namespace Player
     {
         [Header("Movement")]
         public int speed;
+        
+        [Header("Level Initialization")]
+        public Vector3 firstLevelBeginPosition;
+        public Quaternion firstLevelBeginRotation;
     }
 }

@@ -1,4 +1,8 @@
 using System;
+using System.Collections;
+using Core;
+using Gameplay;
+using Interfaces;
 using UnityEngine;
 
 namespace Player
@@ -6,7 +10,7 @@ namespace Player
     /// <summary>
     /// Main script where actual moving happen and controls Player.prefab
     /// </summary>
-    public class Movement : MonoBehaviour
+    public class Movement : MonoBehaviour, ILevelEntity
     {
         [SerializeField] private PlayerStatsSo playerStatsSo;
         private Transform _playerTransform;
@@ -19,6 +23,12 @@ namespace Player
         private bool _onGround = true;
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onNonGround"/></remarks>
         private bool _onNonGround;
+        
+        //It's required for adding interface this class using, so it's prevent using expensive functions as FindObjectOfType
+        [SerializeField] private LevelRegistrySo registry;
+
+        
+        private Coroutine _movePlayerToZIndexCoroutine;
             
         public static event Action PlayerPressed;
         public static event Action Dead;
@@ -28,16 +38,24 @@ namespace Player
             GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
             GroundStateChecker.OnNonGroundChange += OnNonGroundStateChangeUpdater;
             MoveState.OnStateChange += OnStateChange;
+            registry.Register(this);
         }
 
         private void Awake()
         {
             _playerTransform = transform;
+            if (playerStatsSo == null)
+            {
+                Debug.LogWarning("playerStatsSo is not assigned, using dummy playerStatsSo with default values");
+                playerStatsSo = ScriptableObject.CreateInstance<PlayerStatsSo>();
+                playerStatsSo.speed = 3;
+                playerStatsSo.firstLevelBeginPosition = transform.position;
+                playerStatsSo.firstLevelBeginRotation = transform.rotation;
+            }
         }
 
         private void Update()
         {
-            MovePlayerToZIndex();
             SwitchOrder();
         }
 
@@ -46,6 +64,26 @@ namespace Player
             GroundStateChecker.OnGroundChange -= OnGroundStateChangeUpdater;
             GroundStateChecker.OnNonGroundChange -= OnNonGroundStateChangeUpdater;
             MoveState.OnStateChange -= OnStateChange;
+            registry.Unregister(this);
+        }
+        
+        public void OnLevelStart()
+        {
+            _movePlayerToZIndexCoroutine = StartCoroutine(MovePlayerToZIndex());
+        }
+        
+        public void OnLevelStop()
+        {
+            if (_movePlayerToZIndexCoroutine != null)
+            {
+                StopCoroutine(_movePlayerToZIndexCoroutine);
+            }
+        }
+
+        public void OnLevelRestart()
+        {
+            _playerTransform.position = playerStatsSo.firstLevelBeginPosition;
+            _playerTransform.rotation = playerStatsSo.firstLevelBeginRotation;
         }
 
         private void OnStateChange(Quaternion[] newStatesAsQuaternions)
@@ -53,17 +91,19 @@ namespace Player
             _currentStatesAsQuaternions[0] = newStatesAsQuaternions[0];
             _currentStatesAsQuaternions[1] = newStatesAsQuaternions[1];
         }
-
+        
+        
         /// <remarks>
         /// Moving done by only where Z axis pointing, not by chancing player's rotation.
         /// </remarks>
-        //TODO: Change transform.position to RigidBody for prevent teleport
-        private void MovePlayerToZIndex()
+        //TODO: Change transform.position to RigidBody for prevent teleport and transform to Update()
+        private IEnumerator MovePlayerToZIndex()
         {
             //Player can only walk if it's on Ground Layer.
-            if (!_onNonGround)
+            while (!_onNonGround)
             {
                 _playerTransform.position += _playerTransform.forward * playerStatsSo.speed * Time.deltaTime;
+                yield return null;
             }
         }
         

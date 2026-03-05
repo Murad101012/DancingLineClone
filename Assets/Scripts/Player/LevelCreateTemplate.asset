@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1760109267487f924cdbf81d004045, type: 3}
   m_Name: LevelCreateTemplate
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerStatsSo
-  speed: 0
+  speed: 3
+  firstLevelBeginPosition: {x: 7.146, y: 1, z: -6.481}
+  firstLevelBeginRotation: {x: 0, y: 0, z: 0, w: 1}

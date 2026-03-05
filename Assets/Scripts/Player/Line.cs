@@ -1,4 +1,6 @@
 using System.Collections;
+using Core;
+using Interfaces;
 using UnityEngine;
 
 namespace Player
@@ -6,7 +8,7 @@ namespace Player
     /// <summary>
     /// Trail comes right behind of player
     /// </summary>
-    public class Line : MonoBehaviour
+    public class Line : MonoBehaviour, ILevelEntity
     {
         //CloneCube section for line effect
         [Header("Pool Settings")]
@@ -20,6 +22,9 @@ namespace Player
         
         //Cubes will change their position to on
         [SerializeField] private Transform goalPosition;
+        
+        //It's required for adding interface this class using, so it's prevent using expensive functions as FindObjectOfType
+        [SerializeField] private LevelRegistrySo registry;
         
         [SerializeField] private float updateInterval;
         private WaitForSeconds _waitForSecondsCloneCube;
@@ -36,6 +41,8 @@ namespace Player
 
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
+            
+            registry.Register(this);
         }
 
         private void Awake()
@@ -46,15 +53,11 @@ namespace Player
             InitializeCloneCubes();
         }
 
-        private void Start()
-        {
-            StartTransformCloneCubes();
-        }
-
         private void OnDisable()
         {
             Movement.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
+            registry.Unregister(this);
         }
 
         private void InitializeCloneCubes()
@@ -111,6 +114,25 @@ namespace Player
         private void OnGroundStateChange(bool groundState)
         {
             _playerOnGround = groundState;
+        }
+
+        public void OnLevelStart()
+        {
+            StartTransformCloneCubes();
+        }
+
+        public void OnLevelStop()
+        {
+            StopTransformCloneCubes();
+        }
+
+        public void OnLevelRestart()
+        {
+            //Resetting all clone cubes transformation to where player is
+            for (int i = 0; i < _clonedCubes.Length; i++)
+            {
+                _clonedCubes[i].transform.position = goalPosition.position;
+            }
         }
     }
 }
