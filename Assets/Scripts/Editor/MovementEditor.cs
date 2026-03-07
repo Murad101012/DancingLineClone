@@ -23,7 +23,7 @@ namespace Editor
             Movement movement = (Movement)target;
 
             // Use serializedObject to find the property safely
-            SerializedProperty statsProp = serializedObject.FindProperty("playerStatsSo");
+            SerializedProperty statsProp = serializedObject.FindProperty("objectStatsSo");
 
             EditorGUILayout.Space(); // Add some breathing room
 

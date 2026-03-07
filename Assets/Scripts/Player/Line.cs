@@ -8,7 +8,7 @@ namespace Player
     /// <summary>
     /// Trail comes right behind of player
     /// </summary>
-    public class Line : MonoBehaviour, ILevelEntity
+    public class Line : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
     {
         //CloneCube section for line effect
         [Header("Pool Settings")]
@@ -22,9 +22,6 @@ namespace Player
         
         //Cubes will change their position to on
         [SerializeField] private Transform goalPosition;
-        
-        //It's required for adding interface this class using, so it's prevent using expensive functions as FindObjectOfType
-        [SerializeField] private LevelRegistrySo registry;
         
         [SerializeField] private float updateInterval;
         private WaitForSeconds _waitForSecondsCloneCube;
@@ -42,7 +39,8 @@ namespace Player
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
             
-            registry.Register(this);
+            if (LevelRegistrySo.Instance == null) return;
+            LevelRegistrySo.Instance.Register(this);
         }
 
         private void Awake()
@@ -57,7 +55,9 @@ namespace Player
         {
             Movement.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
-            registry.Unregister(this);
+            
+            if (LevelRegistrySo.Instance == null) return;
+            LevelRegistrySo.Instance.Unregister(this);
         }
 
         private void InitializeCloneCubes()
@@ -125,13 +125,26 @@ namespace Player
         {
             StopTransformCloneCubes();
         }
-
+        
         public void OnLevelRestart()
+        {
+            Reset();
+        }
+
+        public void OnLevelCheckPoint()
+        {
+            Reset();
+        }
+
+        /// <summary>
+        /// Functions are usually require same modify for both <see cref="IOnRestart"/> and <see cref="IOnCheckPoint"/>>
+        /// </summary>
+        private void Reset()
         {
             //Resetting all clone cubes transformation to where player is
             for (int i = 0; i < _clonedCubes.Length; i++)
             {
-                _clonedCubes[i].transform.position = goalPosition.position;
+                _clonedCubes[i].transform.position = transform.position;
             }
         }
     }

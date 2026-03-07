@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8223182865917876443}
   - component: {fileID: 2889111229900714444}
   - component: {fileID: 2043520347538178414}
+  - component: {fileID: 4410637167621894252}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -168,8 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f292837e34344639531f1dffc4c9c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  playerStatsSo: {fileID: 0}
-  registry: {fileID: 11400000, guid: e17844956e4e7867e9dc8e5568fc042c, type: 2}
+  objectStatsSo: {fileID: 0}
 --- !u!114 &2889111229900714444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,3 +202,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412716a8130b471a837b020eaf2b8896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.CheckpointSender
+  objectStatsSo: {fileID: 0}
+--- !u!114 &4410637167621894252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039633664303414315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74f4c71d5fc4e3eb95b58bcdf0e27d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.RestartManager
+  objectStatsSo: {fileID: 0}

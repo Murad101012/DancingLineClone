@@ -595,7 +595,6 @@ MonoBehaviour:
   clonedCubesCount: 70
   parentCubeClone: {fileID: 355562549}
   goalPosition: {fileID: 49308188}
-  registry: {fileID: 11400000, guid: e17844956e4e7867e9dc8e5568fc042c, type: 2}
   updateInterval: 0.07
 --- !u!4 &355562549
 Transform:
@@ -961,7 +960,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 453676926}
         m_TargetAssemblyTypeName: Core.LevelStateManager, Assembly-CSharp
-        m_MethodName: RestartTheGame
+        m_MethodName: RestartTheLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1055,7 +1054,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568b8eeea82041d693889477552a20e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelStateManager
-  levelRegistrySo: {fileID: 11400000, guid: e17844956e4e7867e9dc8e5568fc042c, type: 2}
   levelPropertiesSo: {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   levelBeginButton: {fileID: 264532530}
 --- !u!114 &453676927
@@ -1071,6 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatLogic
   defeatScreen: {fileID: 1835163833}
+  checkPointButton: {fileID: 1403443061}
 --- !u!1001 &748255837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1714,7 +1713,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 453676926}
         m_TargetAssemblyTypeName: Core.LevelStateManager, Assembly-CSharp
-        m_MethodName: ResumeTheGameCheckpoint
+        m_MethodName: CheckPointTheLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2217,6 +2216,10 @@ PrefabInstance:
       propertyPath: 'currentStates.Array.data[1]'
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2043520347538178414, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8039633664303414315, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2274,11 +2277,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8223182865917876443, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: objectStatsSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
+    - target: {fileID: 8223182865917876443, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: playerStatsSo
       value: 
       objectReference: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
     m_RemovedComponents:
-    - {fileID: 6275711966375353507, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

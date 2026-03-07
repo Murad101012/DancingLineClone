@@ -1,10 +1,11 @@
+using Core;
 using Player;
 using UnityEditor;
 using UnityEngine;
 
 namespace Editor
 {
-    [CustomEditor(typeof(PlayerStatsSo))]
+    [CustomEditor(typeof(ObjectStatsSo))]
     public class PlayerStatsSoEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
@@ -13,7 +14,7 @@ namespace Editor
 
             // 'target' is a built-in variable in the Editor class. 
             // We just need to cast it to your specific type.
-            PlayerStatsSo script = (PlayerStatsSo)target; 
+            ObjectStatsSo script = (ObjectStatsSo)target; 
 
             EditorGUILayout.Space();
             GUI.backgroundColor = Color.cyan;
@@ -25,7 +26,7 @@ namespace Editor
             }
         }
 
-        private void FetchPlayerData(PlayerStatsSo script)
+        private void FetchPlayerData(ObjectStatsSo script)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
 

@@ -10,9 +10,9 @@ namespace Player
     /// <summary>
     /// Main script where actual moving happen and controls Player.prefab
     /// </summary>
-    public class Movement : MonoBehaviour, ILevelEntity
+    public class Movement : MonoBehaviour, ILevelState
     {
-        [SerializeField] private PlayerStatsSo playerStatsSo;
+        [SerializeField] private ObjectStatsSo objectStatsSo;
         private Transform _playerTransform;
         private bool _switchOrder;
         
@@ -23,9 +23,6 @@ namespace Player
         private bool _onGround = true;
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onNonGround"/></remarks>
         private bool _onNonGround;
-        
-        //It's required for adding interface this class using, so it's prevent using expensive functions as FindObjectOfType
-        [SerializeField] private LevelRegistrySo registry;
 
         
         private Coroutine _movePlayerToZIndexCoroutine;
@@ -38,19 +35,19 @@ namespace Player
             GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
             GroundStateChecker.OnNonGroundChange += OnNonGroundStateChangeUpdater;
             MoveState.OnStateChange += OnStateChange;
-            registry.Register(this);
+            
+            if (LevelRegistrySo.Instance == null) return;
+            LevelRegistrySo.Instance.Register(this);
         }
 
         private void Awake()
         {
             _playerTransform = transform;
-            if (playerStatsSo == null)
+            if (objectStatsSo == null)
             {
-                Debug.LogWarning("playerStatsSo is not assigned, using dummy playerStatsSo with default values");
-                playerStatsSo = ScriptableObject.CreateInstance<PlayerStatsSo>();
-                playerStatsSo.speed = 3;
-                playerStatsSo.firstLevelBeginPosition = transform.position;
-                playerStatsSo.firstLevelBeginRotation = transform.rotation;
+                Debug.LogWarning($"objectStatsSo is not assigned, using dummy objectStatsSo with default values for {name}");
+                objectStatsSo = ScriptableObject.CreateInstance<ObjectStatsSo>();
+                objectStatsSo.speed = 3;
             }
         }
 
@@ -64,7 +61,9 @@ namespace Player
             GroundStateChecker.OnGroundChange -= OnGroundStateChangeUpdater;
             GroundStateChecker.OnNonGroundChange -= OnNonGroundStateChangeUpdater;
             MoveState.OnStateChange -= OnStateChange;
-            registry.Unregister(this);
+            
+            if (LevelRegistrySo.Instance == null) return;
+            LevelRegistrySo.Instance.Unregister(this);
         }
         
         public void OnLevelStart()
@@ -78,12 +77,6 @@ namespace Player
             {
                 StopCoroutine(_movePlayerToZIndexCoroutine);
             }
-        }
-
-        public void OnLevelRestart()
-        {
-            _playerTransform.position = playerStatsSo.firstLevelBeginPosition;
-            _playerTransform.rotation = playerStatsSo.firstLevelBeginRotation;
         }
 
         private void OnStateChange(Quaternion[] newStatesAsQuaternions)
@@ -102,7 +95,7 @@ namespace Player
             //Player can only walk if it's on Ground Layer.
             while (!_onNonGround)
             {
-                _playerTransform.position += _playerTransform.forward * playerStatsSo.speed * Time.deltaTime;
+                _playerTransform.position += _playerTransform.forward * objectStatsSo.speed * Time.deltaTime;
                 yield return null;
             }
         }
@@ -115,6 +108,7 @@ namespace Player
             if (Input.GetKeyDown(KeyCode.Space) && _onGround)
             {
                 //Switch between 0 and 1 currentStates with _switchOrder boolean
+                //TODO: Learn States and replace if with state logic
                 if (!_switchOrder)
                 {
                     _switchOrder = true;
