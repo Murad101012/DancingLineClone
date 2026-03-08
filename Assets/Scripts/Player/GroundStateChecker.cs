@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace Player
 {
+    /// <summary>
+    /// Ground checking happen here if player on Ground (Can move) or Non-Ground (Can't move and cause defeat)
+    /// </summary>
     public class GroundStateChecker : MonoBehaviour
     {
         private bool _onGround = true;
         private bool _onNonGround;
         private WaitForSeconds _waitForSecondsGroundCheckInterval;
         private Coroutine _groundCheckCoroutine;
+        
+        //If ground change, and it's on ground it will be true, otherwise false
         public static event Action<bool> OnGroundChange;
         public static event Action<bool> OnNonGroundChange;
         [SerializeField] private float checkInterval = 0.01f;

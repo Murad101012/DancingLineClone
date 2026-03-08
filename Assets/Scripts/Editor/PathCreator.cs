@@ -1,4 +1,5 @@
 using Player;
+using Player.States;
 using UnityEditor;
 using UnityEngine;
 
@@ -70,12 +71,12 @@ namespace Editor
                 if (!_onRecord)
                 {
                     _onRecord = true;
-                    Movement.PlayerPressed += PlayerMovementClick;
+                    PlayerMoveState.PlayerPressed += PlayerMovementClick;
                 }
                 else
                 {
                     _onRecord = false;
-                    Movement.PlayerPressed -= PlayerMovementClick;
+                    PlayerMoveState.PlayerPressed -= PlayerMovementClick;
                 }
             }
 
@@ -196,6 +197,7 @@ namespace Editor
             }
         }
     
+        /// <remarks>This section planned by me but made with AI to write the code.</remarks>>
         private void BakeMesh()
         {
             GameObject oldPath = GameObject.Find("BakedPath_" + _pathCreatorSo.name);

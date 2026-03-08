@@ -1,6 +1,7 @@
 using System.Collections;
 using Core;
 using Interfaces;
+using Player.States;
 using UnityEngine;
 
 namespace Player
@@ -34,7 +35,7 @@ namespace Player
         {
             // This function prevent Zig-Zag, cropped line when pressed to change direction.
             // It's directly put cube where player press
-            Movement.PlayerPressed += ChangeNextCloneCubePositionOnGoalPosition;
+            PlayerMoveState.PlayerPressed += ChangeNextCloneCubePositionOnGoalPosition;
 
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
@@ -53,7 +54,7 @@ namespace Player
 
         private void OnDisable()
         {
-            Movement.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
+            PlayerMoveState.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
             
             if (LevelRegistrySo.Instance == null) return;

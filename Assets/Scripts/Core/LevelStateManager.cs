@@ -13,14 +13,14 @@ namespace Core
         
         private void OnEnable()
         {
-            Movement.Dead += StopTheGame;
+            PlayerCoreLogic.Dead += StopTheGame;
             _levelRegistrySo = ScriptableObject.CreateInstance<LevelRegistrySo>();
             LevelRegistrySo.Instance.Register(this);
         }
         
         private void OnDisable()
         {
-            Movement.Dead -= StopTheGame;
+            PlayerCoreLogic.Dead -= StopTheGame;
             Destroy(_levelRegistrySo);
             LevelRegistrySo.Instance.Unregister(this);
         }

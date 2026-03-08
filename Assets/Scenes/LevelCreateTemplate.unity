@@ -1090,6 +1090,10 @@ PrefabInstance:
       propertyPath: 'moveStates.Array.data[1]'
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300198483264656430, guid: efddb3855e12697e189d2530138ceffb, type: 3}
+      propertyPath: 'moveDirections.Array.data[0]'
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4137054279177578272, guid: efddb3855e12697e189d2530138ceffb, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -2282,6 +2286,10 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
     - target: {fileID: 8223182865917876443, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: playerStatsSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
+    - target: {fileID: 8223182865917876443, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: <ObjectStatsSo>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
     m_RemovedComponents:

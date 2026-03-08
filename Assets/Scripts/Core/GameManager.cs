@@ -13,7 +13,7 @@ namespace Core
 
         private void OnEnable()
         {
-            Movement.Dead += Death;
+            PlayerCoreLogic.Dead += Death;
         }
 
         private void Awake()
@@ -23,7 +23,7 @@ namespace Core
 
         private void OnDisable()
         {
-            Movement.Dead -= Death;
+            PlayerCoreLogic.Dead -= Death;
         }
 
         private void Death()

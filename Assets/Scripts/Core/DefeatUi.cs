@@ -18,7 +18,7 @@ namespace Core
         
         private void OnEnable()
         {
-            Movement.Dead += Defeated;
+            PlayerCoreLogic.Dead += Defeated;
             CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
             if (LevelRegistrySo.Instance == null) return;
             LevelRegistrySo.Instance.Register(this);
@@ -26,7 +26,7 @@ namespace Core
 
         private void OnDisable()
         {
-            Movement.Dead -= Defeated;
+            PlayerCoreLogic.Dead -= Defeated;
             CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
             if (LevelRegistrySo.Instance == null) return;
             LevelRegistrySo.Instance.Unregister(this);
@@ -35,7 +35,7 @@ namespace Core
         {
             if (checkPointButton != null)
                 checkPointButton.interactable = true;
-            else Debug.LogWarning("DefeatUi: No checkpoint button found");
+            else Debug.LogWarning($"{name}: No checkpoint button found");
         }
 
         private void Defeated()
