@@ -11,7 +11,6 @@ namespace Player.States
         
         public void StateBegin()
         {
-            
         }
 
         public void StateTick()

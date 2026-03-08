@@ -89,8 +89,8 @@ namespace Player
         /// </summary>
         private void OnCollisionEnter(Collision other)
         {
-            //Explore this what is that bitmask comparise
-            // Turn layer 7 into 128 for the comparison
+            //TODO Explore this what is that bitmask comparise
+            //Turn layer 7 into 128 for the comparison
             if (1 << other.gameObject.layer == nonGroundLayer.value)
             {
                 _onNonGround = true;

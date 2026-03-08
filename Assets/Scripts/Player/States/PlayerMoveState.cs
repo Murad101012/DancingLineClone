@@ -1,8 +1,6 @@
 using System;
 using Interfaces;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Player.States
 {

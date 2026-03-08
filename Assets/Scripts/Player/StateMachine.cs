@@ -22,7 +22,7 @@ namespace Player
 
         private void OnEnable()
         {
-            PlayerCoreLogic.Dead += ChangeStateDead;
+            PlayerCoreLogic.Dead += ChangeStateIdle;
             LevelRegistrySo.Instance.Register(this);
         }
 
@@ -32,7 +32,6 @@ namespace Player
             //Initializing Caches
             _idleState = new PlayerIdleState(_playerCoreLogic);
             _moveState = new PlayerMoveState(_playerCoreLogic);
-            _deadState = new PlayerDeadState(_playerCoreLogic);
             
             //Setting player state default to PlayerMoveState
             ChangeStateIdle();
@@ -45,7 +44,7 @@ namespace Player
 
         private void OnDisable()
         {
-            PlayerCoreLogic.Dead -= ChangeStateDead;
+            PlayerCoreLogic.Dead -= ChangeStateIdle;
             LevelRegistrySo.Instance.Unregister(this);
         }
 
@@ -57,10 +56,6 @@ namespace Player
         }
 
         #region StateChanges
-        private void ChangeStateDead()
-        {
-            ChangeState(_deadState);
-        }
 
         private void ChangeStateMove()
         {
