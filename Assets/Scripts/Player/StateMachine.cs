@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Interfaces;
 using Player.States;
@@ -18,16 +19,16 @@ namespace Player
         //Caching to current States
         private IPlayerState _idleState;
         private IPlayerState _moveState;
-        private IPlayerState _deadState;
 
         private void OnEnable()
         {
             PlayerCoreLogic.Dead += ChangeStateIdle;
-            LevelRegistrySo.Instance.Register(this);
         }
 
         private void Awake()
         {
+            LevelRegistrySo.Instance.Register(this);
+
             _playerCoreLogic = GetComponent<PlayerCoreLogic>();
             //Initializing Caches
             _idleState = new PlayerIdleState(_playerCoreLogic);
@@ -45,6 +46,10 @@ namespace Player
         private void OnDisable()
         {
             PlayerCoreLogic.Dead -= ChangeStateIdle;
+        }
+
+        private void OnDestroy()
+        {
             LevelRegistrySo.Instance.Unregister(this);
         }
 

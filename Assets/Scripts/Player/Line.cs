@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Core;
 using Interfaces;
@@ -39,13 +40,11 @@ namespace Player
 
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
-            
-            if (LevelRegistrySo.Instance == null) return;
-            LevelRegistrySo.Instance.Register(this);
         }
 
         private void Awake()
         {
+            LevelRegistrySo.Instance.Register(this);
             _propBlock = new MaterialPropertyBlock();
             
             _waitForSecondsCloneCube = new WaitForSeconds(updateInterval);
@@ -56,8 +55,10 @@ namespace Player
         {
             PlayerMoveState.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
-            
-            if (LevelRegistrySo.Instance == null) return;
+        }
+
+        private void OnDestroy()
+        {
             LevelRegistrySo.Instance.Unregister(this);
         }
 

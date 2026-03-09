@@ -20,7 +20,10 @@ namespace Core
         {
             PlayerCoreLogic.Dead += Defeated;
             CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
-            if (LevelRegistrySo.Instance == null) return;
+        }
+
+        private void Awake()
+        {
             LevelRegistrySo.Instance.Register(this);
         }
 
@@ -28,9 +31,13 @@ namespace Core
         {
             PlayerCoreLogic.Dead -= Defeated;
             CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
-            if (LevelRegistrySo.Instance == null) return;
+        }
+
+        private void OnDestroy()
+        {
             LevelRegistrySo.Instance.Unregister(this);
         }
+
         private void RefreshCheckPointButtonState() 
         {
             if (checkPointButton != null)

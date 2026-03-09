@@ -1145,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568b8eeea82041d693889477552a20e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelStateManager
+  levelRegistrySo: {fileID: 11400000, guid: e17844956e4e7867e9dc8e5568fc042c, type: 2}
   levelPropertiesSo: {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   levelBeginButton: {fileID: 264532530}
 --- !u!114 &453676927
@@ -2751,6 +2752,30 @@ PrefabInstance:
     - target: {fileID: 2043520347538178414, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: edd6009b-227b-44ee-88ee-769363c73f2c
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364826820642362963, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: 'Player/ChangeDirection[/Keyboard/space]'
       objectReference: {fileID: 0}
     - target: {fileID: 8039633664303414315, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: m_Name
