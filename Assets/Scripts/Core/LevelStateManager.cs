@@ -1,3 +1,4 @@
+using System;
 using Gameplay;
 using Interfaces;
 using Player;
@@ -7,21 +8,27 @@ namespace Core
 {
     public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
     {
-        private LevelRegistrySo _levelRegistrySo;
+        [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private LevelPropertiesSo levelPropertiesSo;
         [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this button
         
         private void OnEnable()
         {
             PlayerCoreLogic.Dead += StopTheGame;
-            _levelRegistrySo = ScriptableObject.CreateInstance<LevelRegistrySo>();
+        }
+
+        private void Awake()
+        {
             LevelRegistrySo.Instance.Register(this);
         }
-        
+
         private void OnDisable()
         {
             PlayerCoreLogic.Dead -= StopTheGame;
-            Destroy(_levelRegistrySo);
+        }
+
+        private void OnDestroy()
+        {
             LevelRegistrySo.Instance.Unregister(this);
         }
 

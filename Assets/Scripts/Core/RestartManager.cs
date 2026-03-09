@@ -1,3 +1,4 @@
+using System;
 using Interfaces;
 using UnityEngine;
 
@@ -10,22 +11,26 @@ namespace Core
 
         private void OnEnable()
         {
-            if (LevelRegistrySo.Instance == null) return;
-            LevelRegistrySo.Instance.Register(this);
-            
             //Creating run-time ObjectStatsSO
             _objectStatsSo = ScriptableObject.CreateInstance<ObjectStatsSo>();
             _objectStatsSo.firstLevelBeginPosition = transform.position;
             _objectStatsSo.firstLevelBeginRotation = transform.rotation;
         }
 
+        private void Awake()
+        {
+            LevelRegistrySo.Instance.Register(this);
+        }
+
         private void OnDisable()
         {
-            if (LevelRegistrySo.Instance == null) return;
-            LevelRegistrySo.Instance.Unregister(this);
-            
             //Creating run-time ObjectStatsSO
             Destroy(_objectStatsSo);
+        }
+
+        private void OnDestroy()
+        {
+            LevelRegistrySo.Instance.Unregister(this);
         }
 
         /// <summary>

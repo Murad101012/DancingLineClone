@@ -1,6 +1,7 @@
 using System;
 using Interfaces;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player.States
 {
@@ -15,6 +16,7 @@ namespace Player.States
         private Transform _movementTransform;
         private bool _switchOrder;
         private DirectionController _directionController;
+        private readonly DancingLineCloneInput _dancingLineCloneInput = new(); //Cached
 
         /// <remarks> This boolean duplicates from
         /// <see cref="DirectionController.CurrentDirectionsAsQuaternions"/></remarks>
@@ -38,12 +40,16 @@ namespace Player.States
             
             _directionController.OnDirectionChange += OnDirectionChange;
             GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
+            
+            //New Input System
+            _dancingLineCloneInput.Player.Enable();
+            _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
         }
         
         public void StateTick()
         {
             MovePlayerForwardZIndex();
-            SwitchOrder();
+            //SwitchOrder(); //TODO: Remove if New Input System successfully implemented
         }
         
         /// <remarks>
@@ -58,9 +64,9 @@ namespace Player.States
         /// <summary>
         /// Player cube rotation change in runtime based on Space button and state of <see cref="_onGround"/>
         /// </summary>
-        private void SwitchOrder()
+        private void SwitchOrder(InputAction.CallbackContext context)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && _onGround)
+            if (_onGround)
             {
                 //Switch between 0 and 1 currentStates with _switchOrder boolean
                 if (!_switchOrder)
@@ -93,6 +99,7 @@ namespace Player.States
         {
             _directionController.OnDirectionChange -= OnDirectionChange;
             GroundStateChecker.OnGroundChange -= OnGroundStateChangeUpdater;
+            _dancingLineCloneInput.Player.ChangeDirection.performed -= SwitchOrder;
 
             /*Chancing _onGround = true, because when _onGround fired true when game begins,
             PlayerMoveState didn't subs to GroundStateChecker.OnGroundChange yet and since this

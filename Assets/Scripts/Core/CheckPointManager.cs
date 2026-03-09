@@ -16,16 +16,22 @@ namespace Core
 
         private void OnEnable()
         {
-            if (LevelRegistrySo.Instance == null) return;
-            LevelRegistrySo.Instance.Register(this);
             _objectStatsSo = ScriptableObject.CreateInstance<ObjectStatsSo>();
         }
-        
+
+        private void Awake()
+        {
+            LevelRegistrySo.Instance.Register(this);
+        }
+
         private void OnDisable()
         {
-            if (LevelRegistrySo.Instance == null) return;
-            LevelRegistrySo.Instance.Unregister(this);
             Destroy(_objectStatsSo);
+        }
+
+        private void OnDestroy()
+        {
+            LevelRegistrySo.Instance.Unregister(this);
         }
 
         /// <summary>

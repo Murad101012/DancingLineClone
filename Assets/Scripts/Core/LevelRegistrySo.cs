@@ -29,6 +29,8 @@ namespace Core
                 Instance = this;
             }
             _levelStates.Clear();
+            _onCheckPoints.Clear();
+            _onRestarts.Clear();
         }
 
         private void OnDisable()
@@ -39,7 +41,7 @@ namespace Core
             }
         }
 
-        //TODO: This Register type written by AI, must explore how this Generic <T> works
+        //TODO: Add Safe check to be sure not a script register/unregister twice
         public void Register<T>(T entity)
         {
             if (entity is ILevelState state) _levelStates.Add(state);

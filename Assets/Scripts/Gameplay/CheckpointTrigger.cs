@@ -11,16 +11,14 @@ namespace Gameplay
     public class CheckpointTrigger : MonoBehaviour, IOnRestart
     {
         private bool _triggered;
-
-        private void OnEnable()
+        
+        private void Awake()
         {
-            if(LevelRegistrySo.Instance == null) return;
             LevelRegistrySo.Instance.Register(this);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
-            if(LevelRegistrySo.Instance == null) return;
             LevelRegistrySo.Instance.Unregister(this);
         }
 
