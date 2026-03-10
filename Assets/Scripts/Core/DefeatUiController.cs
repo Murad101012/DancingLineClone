@@ -1,4 +1,3 @@
-using System;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Core
 {
-    public class DefeatUi : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
+    public class DefeatUiController : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
     {
         [Header("UI References")]
         [SerializeField] private GameObject defeatScreen;

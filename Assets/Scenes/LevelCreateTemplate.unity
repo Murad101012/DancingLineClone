@@ -1110,6 +1110,7 @@ GameObject:
   - component: {fileID: 453676925}
   - component: {fileID: 453676926}
   - component: {fileID: 453676927}
+  - component: {fileID: 453676928}
   m_Layer: 0
   m_Name: ManagerScripts
   m_TagString: Untagged
@@ -1160,6 +1161,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17340637d834d2a858437e98f0576e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatLogic
+--- !u!114 &453676928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453676923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef539a44b79c42afaeecc022ac101106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatUiController
   defeatScreen: {fileID: 1835163833}
   checkPointButton: {fileID: 1403443061}
 --- !u!1001 &721076865
