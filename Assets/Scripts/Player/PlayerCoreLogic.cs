@@ -12,7 +12,6 @@ namespace Player
     {
         [field: SerializeField] public ObjectStatsSo ObjectStatsSo { get; private set; }
 
-        //TODO Change Dead to a different script logic
         public static event Action Dead;
 
         private void OnEnable()
@@ -38,7 +37,6 @@ namespace Player
         
         private void OnNonGroundStateChangeUpdater(bool currentState)
         {
-            //TODO: Move Dead section to own separate function in future
             if (currentState)
             {
                 Dead?.Invoke();

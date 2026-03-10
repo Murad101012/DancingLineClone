@@ -1,4 +1,4 @@
-using System;
+using Animation;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -6,7 +6,10 @@ using UnityEngine.UI;
 
 namespace Core
 {
-    public class DefeatUi : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
+    /// <summary>
+    /// Responsible for managing life cycle of Defeat.prefab's gameobjects
+    /// </summary>
+    public class DefeatUiController : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
     {
         [Header("UI References")]
         [SerializeField] private GameObject defeatScreen;
@@ -15,22 +18,30 @@ namespace Core
         /// Duplicates from <see cref="CheckPointManager._checkPointTriggered"/>
         /// </remarks>
         private bool _checkPointTriggered;
+        private DefeatUiAnimation _defeatUiAnimation;
         
         private void OnEnable()
         {
             PlayerCoreLogic.Dead += Defeated;
             CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
+            
+            //It's require for smooth Defeat Screen disabling without preventing Scaling down animation
+            TryGetComponent(out _defeatUiAnimation);
+            _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
         }
 
         private void Awake()
         {
             LevelRegistrySo.Instance.Register(this);
         }
+        
+        private void DeleteThisFunctionWithSoftUndo(){}
 
         private void OnDisable()
         {
             PlayerCoreLogic.Dead -= Defeated;
             CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
+            _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
         }
 
         private void OnDestroy()
@@ -59,12 +70,22 @@ namespace Core
         {
             _checkPointTriggered = false;
             checkPointButton.interactable = _checkPointTriggered;
-            Reset();
+            NullCheckDefeatUiAnimationRewindEvent();
         }
 
         public void OnLevelCheckPoint()
         {
-            Reset();
+            NullCheckDefeatUiAnimationRewindEvent();
+        }
+
+        private void NullCheckDefeatUiAnimationRewindEvent()
+        {
+            if (_defeatUiAnimation == null)
+            {
+                Reset();
+                Debug.LogWarning($"{name}: DefeatUiController: _defeatUiAnimation is null, " +
+                                 $"bypassing animation");
+            }
         }
         
         #region Interfaces will be empty

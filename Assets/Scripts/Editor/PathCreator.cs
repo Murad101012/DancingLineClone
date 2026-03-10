@@ -197,7 +197,9 @@ namespace Editor
             }
         }
     
-        /// <remarks>This section planned by me but made with AI to write the code.</remarks>>
+        /// <remarks>This function planned, drawn by me (Author) and explained to AI to generate CODE,
+        /// so Code not belong to Author but AI. Author only made planning and explanation to AI,
+        /// How logic must be with vertices, lines, faces(triangles)</remarks>>
         private void BakeMesh()
         {
             GameObject oldPath = GameObject.Find("BakedPath_" + _pathCreatorSo.name);

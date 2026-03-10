@@ -4,6 +4,6 @@ namespace Interfaces
 {
     public interface ICheckPointReceiver
     {
-        void CheckPointReceive(Transform transform);
+        void CheckPointReceive(Transform transformPlayer);
     }
 }

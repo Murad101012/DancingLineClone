@@ -37,11 +37,11 @@ namespace Core
         /// <summary>
         /// This function called when <see cref="Gameplay.CheckpointTrigger"/> triggered
         /// </summary>
-        public void CheckPointReceive(Transform transform)
+        public void CheckPointReceive(Transform transformPlayer)
         {
             //Setting only X and Z positions of trigger but keeping Y same as player's it's position
-            _objectStatsSo.currentCheckpointPosition = new Vector3(transform.position.x, this.transform.position.y, transform.position.z);
-            _objectStatsSo.currentCheckpointRotation = this.transform.rotation;
+            _objectStatsSo.currentCheckpointPosition = new Vector3(transformPlayer.position.x, transform.position.y, transformPlayer.position.z);
+            _objectStatsSo.currentCheckpointRotation = transform.rotation;
             _checkPointTriggered = true;
             OnCheckpointUpdated?.Invoke();
         }
