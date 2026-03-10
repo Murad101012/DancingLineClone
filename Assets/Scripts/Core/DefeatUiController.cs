@@ -25,6 +25,8 @@ namespace Core
         {
             LevelRegistrySo.Instance.Register(this);
         }
+        
+        private void DeleteThisFunctionWithSoftUndo(){}
 
         private void OnDisable()
         {
