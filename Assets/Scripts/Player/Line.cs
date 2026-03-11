@@ -10,7 +10,7 @@ namespace Player
     /// <summary>
     /// Trail comes right behind of player
     /// </summary>
-    public class Line : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
+    public class Line : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IOnDead, IVictory
     {
         //CloneCube section for line effect
         [Header("Pool Settings")]
@@ -123,10 +123,7 @@ namespace Player
             StartTransformCloneCubes();
         }
 
-        public void OnLevelStop()
-        {
-            StopTransformCloneCubes();
-        }
+        public void OnLevelStop(){/*It will be empty*/}
         
         public void OnLevelRestart()
         {
@@ -136,6 +133,16 @@ namespace Player
         public void OnLevelCheckPoint()
         {
             Reset();
+        }
+        
+        public void OnDead()
+        {
+            StopTransformCloneCubes();
+        }
+        
+        public void OnVictory()
+        {
+            StopTransformCloneCubes();
         }
 
         /// <summary>

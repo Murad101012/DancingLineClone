@@ -5,7 +5,8 @@ using Interfaces;
 
 namespace Core
 {
-    //TODO: Make this summary not exclusive to ILevelState descirption
+    //TODO: Separate logic where Registers stay here but Triggers must have their own class
+    //TODO: Make this summary not exclusive to ILevelState description
     /// <summary>
     /// Central Registry point for Interfaces as <see cref="ILevelState"/> and etc. This script server for prevent to find <see cref="ILevelState"/>
     /// by using FindAnyObjectType which is CPU hungry operation. When game first begin, all scripts with <see cref="ILevelState"/>
@@ -21,6 +22,8 @@ namespace Core
         private List<ILevelState> _levelStates = new();
         private List<IOnCheckPoint> _onCheckPoints = new();
         private List<IOnRestart> _onRestarts = new();
+        private List<IVictory> _victories = new();
+        private List<IOnDead> _deads = new();
         
         private void OnEnable()
         {
@@ -41,12 +44,14 @@ namespace Core
             }
         }
 
-        //TODO: Add Safe check to be sure not a script register/unregister twice
+        //TODO: Add Safe check to be sure not a same script register/unregister itself more than once
         public void Register<T>(T entity)
         {
             if (entity is ILevelState state) _levelStates.Add(state);
             if (entity is IOnCheckPoint checkPoint) _onCheckPoints.Add(checkPoint);
             if (entity is IOnRestart restart) _onRestarts.Add(restart);
+            if (entity is IVictory victory) _victories.Add(victory);
+            if (entity is IOnDead dead) _deads.Add(dead);
         }
 
         public void Unregister<T>(T entity)
@@ -54,6 +59,8 @@ namespace Core
             if (entity is ILevelState state) _levelStates.Remove(state);
             if (entity is IOnCheckPoint checkPoint) _onCheckPoints.Remove(checkPoint);
             if (entity is IOnRestart restart) _onRestarts.Remove(restart);
+            if (entity is IVictory victory) _victories.Remove(victory);
+            if (entity is IOnDead dead) _deads.Remove(dead);
         }
 
         #region ILevelState Methods
@@ -89,6 +96,29 @@ namespace Core
             }
         }
         #endregion
+
+        #region IVictory Methods
+
+        public void TriggerOnVictory()
+        {
+            for (int i = 0; i < _victories.Count; i++)
+            {
+                _victories[i].OnVictory();
+            }
+        }
+        #endregion
+        
+        #region IVictory Methods
+
+        public void TriggerOnDead()
+        {
+            for (int i = 0; i < _deads.Count; i++)
+            {
+                _deads[i].OnDead();
+            }
+        }
+        #endregion
+        
     }
 }
 

@@ -11,7 +11,7 @@ namespace Player
     /// <see cref="PlayerMoveState"/> or <see cref="PlayerDeadState"/>
     /// </summary>
     [RequireComponent(typeof(PlayerCoreLogic))]
-    public class StateMachine : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState
+    public class StateMachine : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory
     {
         private IPlayerState _currentState;
         private PlayerCoreLogic _playerCoreLogic;
@@ -19,11 +19,6 @@ namespace Player
         //Caching to current States
         private IPlayerState _idleState;
         private IPlayerState _moveState;
-
-        private void OnEnable()
-        {
-            PlayerCoreLogic.Dead += ChangeStateIdle;
-        }
 
         private void Awake()
         {
@@ -42,12 +37,7 @@ namespace Player
         {
             _currentState?.StateTick();
         }
-
-        private void OnDisable()
-        {
-            PlayerCoreLogic.Dead -= ChangeStateIdle;
-        }
-
+        
         private void OnDestroy()
         {
             LevelRegistrySo.Instance.Unregister(this);
@@ -66,6 +56,11 @@ namespace Player
         {
             ChangeState(_moveState);
         }
+
+        public void OnDead()
+        {
+            ChangeStateIdle();
+        }
         
         private void ChangeStateIdle()
         {
@@ -79,6 +74,11 @@ namespace Player
         }
 
         public void OnLevelCheckPoint()
+        {
+            ChangeStateIdle();
+        }
+        
+        public void OnVictory()
         {
             ChangeStateIdle();
         }

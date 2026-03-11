@@ -9,7 +9,7 @@ namespace Core
     /// <summary>
     /// Responsible for managing life cycle of Defeat.prefab's gameobjects
     /// </summary>
-    public class DefeatUiController : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
+    public class DefeatUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead
     {
         [Header("UI References")]
         [SerializeField] private GameObject defeatScreen;
@@ -22,9 +22,8 @@ namespace Core
         
         private void OnEnable()
         {
-            PlayerCoreLogic.Dead += Defeated;
             CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
-            
+
             //It's require for smooth Defeat Screen disabling without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
             if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
@@ -37,7 +36,6 @@ namespace Core
         
         private void OnDisable()
         {
-            PlayerCoreLogic.Dead -= Defeated;
             CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
             if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
         }
@@ -54,7 +52,7 @@ namespace Core
             else Debug.LogWarning($"{name}: No checkpoint button found");
         }
 
-        private void Defeated()
+        public void OnDead()
         {
             defeatScreen.SetActive(true);
         }
@@ -85,17 +83,5 @@ namespace Core
                                  $"bypassing animation");
             }
         }
-        
-        #region Interfaces will be empty
-        public void OnLevelStart()
-        {
-            //It will be empty
-        }
-
-        public void OnLevelStop()
-        {
-            //It will be empty
-        }
-        #endregion
     }
 }

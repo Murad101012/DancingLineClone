@@ -1,4 +1,5 @@
 using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Core
@@ -10,9 +11,10 @@ namespace Core
     public class VictoryTrigger: MonoBehaviour
     {
         public static event Action OnVictoryTriggered;
+        
         private void OnTriggerEnter(Collider other)
         {
-            if(other.CompareTag("Player")) OnVictoryTriggered?.Invoke();
+            if(other.TryGetComponent(out IVictory _)) OnVictoryTriggered?.Invoke();
         }
     }
 }

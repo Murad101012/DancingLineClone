@@ -12,7 +12,7 @@ namespace Animation
     /// Animations for Defeat.prefab
     /// </summary>
     [RequireComponent(typeof(DefeatUiController))]
-    public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint
+    public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead
     {
         [SerializeField] private GameObject defeatRoot;
         [SerializeField] private Button button;
@@ -21,12 +21,7 @@ namespace Animation
         private Sequence _sequenceDefeatRoot;
         
         public event Action OnDefeatAnimationBackwardEnd;
-
-        private void OnEnable()
-        {
-            PlayerCoreLogic.Dead += OnDefeat;
-        }
-
+        
         private void Awake()
         {
             LevelRegistrySo.Instance.Register(this);
@@ -48,12 +43,7 @@ namespace Animation
             _sequenceDefeatRoot.OnRewind(() => OnDefeatAnimationBackwardEnd?.Invoke());
         }
 
-        private void OnDisable()
-        {
-            PlayerCoreLogic.Dead -= OnDefeat;
-        }
-
-        private void OnDefeat()
+        public void OnDead()
         {
             DefeatScreenAnimate();
         }
