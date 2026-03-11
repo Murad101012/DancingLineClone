@@ -24,7 +24,7 @@ namespace Core
         {
             CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
 
-            //It's require for smooth Defeat Screen disabling without preventing Scaling down animation
+            //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
             if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
         }
