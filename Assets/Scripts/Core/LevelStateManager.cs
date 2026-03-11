@@ -6,15 +6,21 @@ using UnityEngine;
 
 namespace Core
 {
-    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint
+    /// <summary>
+    /// It helps to change States of Level with Interfaces
+    /// </summary>
+    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory
     {
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private LevelPropertiesSo levelPropertiesSo;
-        [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this button
+        [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this 
+        private bool _isVictory;
         
         private void OnEnable()
         {
-            PlayerCoreLogic.Dead += StopTheGame;
+            PlayerCoreLogic.Dead += PlayerDead;
+            VictoryTrigger.OnVictoryTriggered += SetTheVictory;
+            VictoryLogic.OnRestartButtonPressed += RestartTheLevel;
         }
 
         private void Awake()
@@ -24,7 +30,9 @@ namespace Core
 
         private void OnDisable()
         {
-            PlayerCoreLogic.Dead -= StopTheGame;
+            PlayerCoreLogic.Dead -= PlayerDead;
+            VictoryTrigger.OnVictoryTriggered -= SetTheVictory;
+            VictoryLogic.OnRestartButtonPressed -= RestartTheLevel;
         }
 
         private void OnDestroy()
@@ -52,6 +60,18 @@ namespace Core
         {
             LevelRegistrySo.Instance.TriggerOnCheckPoint();
         }
+        
+        private void SetTheVictory()
+        {
+            LevelRegistrySo.Instance.TriggerOnVictory();
+        }
+
+        private void PlayerDead()
+        {
+            if (_isVictory) return;
+            LevelRegistrySo.Instance.TriggerOnDead();
+        }
+        
         #endregion
         
         public void OnLevelStart()
@@ -63,6 +83,7 @@ namespace Core
         
         public void OnLevelRestart()
         {
+            _isVictory = false;
             Reset();
         }
 
@@ -77,6 +98,11 @@ namespace Core
         private void Reset()
         {
             levelBeginButton.SetActive(true);
+        }
+
+        public void OnVictory()
+        {
+            _isVictory = true;
         }
     }
 }

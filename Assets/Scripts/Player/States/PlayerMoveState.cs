@@ -49,7 +49,6 @@ namespace Player.States
         public void StateTick()
         {
             MovePlayerForwardZIndex();
-            //SwitchOrder(); //TODO: Remove if New Input System successfully implemented
         }
         
         /// <remarks>
