@@ -27,7 +27,7 @@ namespace Core
             
             //It's require for smooth Defeat Screen disabling without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
-            _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
+            if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
         }
 
         private void Awake()
@@ -35,13 +35,11 @@ namespace Core
             LevelRegistrySo.Instance.Register(this);
         }
         
-        private void DeleteThisFunctionWithSoftUndo(){}
-
         private void OnDisable()
         {
             PlayerCoreLogic.Dead -= Defeated;
             CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
-            _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
+            if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
         }
 
         private void OnDestroy()
