@@ -14,6 +14,7 @@ namespace Player
         private ObjectStatsSo _objectStatsSo;
         private bool _checkPointTriggered;
         public static event Action OnCheckpointUpdated;
+        public event Action OnPlayerCheckPointComplete;
 
         private void OnEnable()
         {
@@ -55,6 +56,7 @@ namespace Player
             if (!_checkPointTriggered) return;
             transform.position = _objectStatsSo.currentCheckpointPosition;
             transform.rotation = _objectStatsSo.currentCheckpointRotation;
+            OnPlayerCheckPointComplete?.Invoke();
         }
         
         /// <summary>

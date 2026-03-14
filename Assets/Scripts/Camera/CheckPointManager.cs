@@ -15,6 +15,7 @@ namespace Camera
     {
         private CinemachineBrain _cineMachineBrain;
         private CinemachineCamera _cameraAtCheckPoint;
+        private bool _playerCheckPointHappen;
 
         private void OnEnable()
         {
@@ -41,10 +42,13 @@ namespace Camera
         {
             //TODO: GEMINI: The Risk: If you ever use a CinemachineFreeLook or a different camera type in the future, this code will crash with an InvalidCastException.
             _cameraAtCheckPoint = (CinemachineCamera)_cineMachineBrain.ActiveVirtualCamera;
+
+            _playerCheckPointHappen = true;
         }
 
         public void OnLevelCheckPoint()
         {
+            if (!_playerCheckPointHappen) return;
             //We check if the current camera at CineMachine brain using is same when at checkpoint
             CinemachineCamera currentCamera = (CinemachineCamera)_cineMachineBrain.ActiveVirtualCamera;
             if (currentCamera == _cameraAtCheckPoint) return;
@@ -60,6 +64,7 @@ namespace Camera
         public void OnLevelRestart()
         {
             _cameraAtCheckPoint = null;
+            _playerCheckPointHappen = false;
         }
     }
 }
