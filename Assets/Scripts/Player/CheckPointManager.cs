@@ -1,8 +1,9 @@
 using System;
+using Core;
 using Interfaces;
 using UnityEngine;
 
-namespace Core
+namespace Player
 {
     /// <summary>
     /// When a checkpoint triggered, current transform of object will be stored here for resetting

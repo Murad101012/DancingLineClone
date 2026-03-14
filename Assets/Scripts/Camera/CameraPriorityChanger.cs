@@ -4,9 +4,11 @@ using UnityEngine;
 namespace Camera
 {
     /// <summary>
-    /// Useful when chancing priority of a camera and make switch between Cinemachine Cameras
-    /// Can be use with CameraPriorityChanger.prefab
+    /// Useful when chancing priority of a camera and make switch between CineMachine Cameras
+    /// Can be uses with CameraPriorityChanger.prefab
     /// </summary>
+    /// <remarks>All CameraPriorityChanger.prefabs must be child of same gameObject for
+    /// properly using the Restart Feature for Camera with <see cref="RestartManager.cineMachineCamerasParent"/></remarks>
     public class CameraPriorityChanger : MonoBehaviour
     {
         /// <summary>

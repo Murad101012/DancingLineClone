@@ -1,8 +1,9 @@
 using System;
+using Core;
 using Interfaces;
 using UnityEngine;
 
-namespace Core
+namespace Player
 {
     //TODO: Do better naming since it's only change player transform not whole game's Restart parameters
     public class RestartManager : MonoBehaviour, IOnRestart
