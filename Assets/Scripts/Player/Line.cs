@@ -28,6 +28,7 @@ namespace Player
         private WaitForSeconds _waitForSecondsCloneCube;
         
         private RestartManager _restartManager;
+        private CheckPointManager _checkPointManager;
 
         private bool _playerOnGround = true;
 
@@ -42,14 +43,23 @@ namespace Player
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
             
-            /*Without this event, cubes can be misplaced on Restart/CheckPoint since,
+            /*Without these events, cubes can be misplaced on Restart/CheckPoint since,
             player position didn't update yet*/
             if (TryGetComponent(out _restartManager))
             {
                 _restartManager.OnPlayerRestartComplete += Reset;
+            }
+            else
+            {
+                Debug.LogWarning("RestartManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at Restart.");
+            }
+            
+            if (TryGetComponent(out _checkPointManager))
+            {
+                _checkPointManager.OnPlayerCheckPointComplete += Reset;
                 return;
             }
-            Debug.LogWarning("RestartManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at Restart.");
+            Debug.LogWarning("CheckPointManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at CheckPoint.");
         }
 
         private void Awake()
@@ -72,6 +82,11 @@ namespace Player
             {
                 _restartManager.OnPlayerRestartComplete -= Reset;
             }
+
+            if (_checkPointManager != null)
+            {
+                _checkPointManager.OnPlayerCheckPointComplete -= Reset;
+            }
         }
 
         private void OnDestroy()
@@ -86,6 +101,7 @@ namespace Player
             for (int i = 0; i < _clonedCubes.Length; i++)
             {
                 _clonedCubes[i] = Instantiate(cloneCube, _parentCubeClone);
+                _clonedCubes[i].transform.position = transform.position;
                 
                 //Breaking SRP batch by overriding with an empty Property Block.
                 _clonedCubes[i].GetComponent<Renderer>().SetPropertyBlock(_propBlock);
@@ -93,7 +109,7 @@ namespace Player
         }
 
         /// <summary>
-        /// Update _clonedCubes position based on <see cref="_playerTransform"/> at <see cref="_waitForSecondsCloneCube"/> seconds
+        /// Update _clonedCubes position based on player's transformation at <see cref="_waitForSecondsCloneCube"/> seconds
         /// </summary>
         IEnumerator TransformCloneCubes()
         {
@@ -119,14 +135,12 @@ namespace Player
         
         private void ChangeNextCloneCubePositionOnGoalPosition()
         {
-            if (_playerOnGround)
+            if (!_playerOnGround) return;
+            _clonedCubes[_currentTransformChangedCubeClone].transform.position = transform.position;
+            _currentTransformChangedCubeClone++;
+            if (_currentTransformChangedCubeClone == _clonedCubes.Length)
             {
-                _clonedCubes[_currentTransformChangedCubeClone].transform.position = transform.position;
-                _currentTransformChangedCubeClone++;
-                if (_currentTransformChangedCubeClone == _clonedCubes.Length)
-                {
-                    _currentTransformChangedCubeClone = 0;
-                }  
+                _currentTransformChangedCubeClone = 0;
             }
         }
 
@@ -162,7 +176,10 @@ namespace Player
 
         public void OnLevelCheckPoint()
         {
-            Reset();
+            if (_checkPointManager == null)
+            {
+                Reset();
+            }
         }
         
         /// <summary>

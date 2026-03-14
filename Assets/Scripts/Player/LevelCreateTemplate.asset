@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: LevelCreateTemplate
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerStatsSo
   speed: 3
-  firstLevelBeginPosition: {x: 7.146, y: 1, z: -6.481}
+  firstLevelBeginPosition: {x: 4.851, y: 0.53400004, z: -5.7202606}
   firstLevelBeginRotation: {x: 0, y: 0, z: 0, w: 1}
+  currentCheckpointPosition: {x: 0, y: 0, z: 0}
+  currentCheckpointRotation: {x: 0, y: 0, z: 0, w: 0}
