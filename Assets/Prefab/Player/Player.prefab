@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2043520347538178414}
   - component: {fileID: 4410637167621894252}
   - component: {fileID: 1879414546421939390}
-  - component: {fileID: 6364826820642362963}
+  - component: {fileID: 2583417093962047239}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc7c8b30d094fecb963e1a0085ebd1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.StateMachine
---- !u!114 &6364826820642362963
+--- !u!114 &2583417093962047239
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,24 +237,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8039633664303414315}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Script: {fileID: 11500000, guid: 67243b37d2974d58b617ce22d387f271, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: b938dec51760abf599de7e774368f576, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Line
+  cloneCube: {fileID: 1584803356839793424, guid: 9f479840ae1636475bb13bacfae6fa3e, type: 3}
+  clonedCubesCount: 70
+  parentCubeClone: {fileID: 0}
+  goalPosition: {fileID: 8131360186038143973}
+  updateInterval: 0.07

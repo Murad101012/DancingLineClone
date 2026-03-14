@@ -9,6 +9,7 @@ namespace Player
     public class RestartManager : MonoBehaviour, IOnRestart
     {
         private ObjectStatsSo _objectStatsSo;
+        public event Action OnPlayerRestartComplete;
 
         private void OnEnable()
         {
@@ -41,6 +42,7 @@ namespace Player
         {
             transform.position = _objectStatsSo.firstLevelBeginPosition;
             transform.rotation = _objectStatsSo.firstLevelBeginRotation;
+            OnPlayerRestartComplete?.Invoke();
         }
     }
 }

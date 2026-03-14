@@ -8,9 +8,11 @@ using UnityEngine;
 namespace Player
 { 
     /// <summary>
-    /// Trail comes right behind of player
+    /// Trail comes right behind of player.
     /// </summary>
-    public class Line : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IOnDead, IVictory
+    /// <remarks>Must add as component to the Player.prefab</remarks>
+    [RequireComponent(typeof(StateMachine))]
+    public class Line : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory
     {
         //CloneCube section for line effect
         [Header("Pool Settings")]
@@ -18,15 +20,14 @@ namespace Player
         [SerializeField] private GameObject cloneCube;
         private GameObject[] _clonedCubes;
         [SerializeField] private int clonedCubesCount;
-        [SerializeField] private Transform parentCubeClone;
+        private Transform _parentCubeClone;
         private int _currentTransformChangedCubeClone;
         private MaterialPropertyBlock _propBlock;
         
-        //Cubes will change their position to on
-        [SerializeField] private Transform goalPosition;
-        
         [SerializeField] private float updateInterval;
         private WaitForSeconds _waitForSecondsCloneCube;
+        
+        private RestartManager _restartManager;
 
         private bool _playerOnGround = true;
 
@@ -40,10 +41,22 @@ namespace Player
 
             //Stop Line drawing when player not on the ground (e.g. On air, Dead etc.)
             GroundStateChecker.OnGroundChange += OnGroundStateChange;
+            
+            /*Without this event, cubes can be misplaced on Restart/CheckPoint since,
+            player position didn't update yet*/
+            if (TryGetComponent(out _restartManager))
+            {
+                _restartManager.OnPlayerRestartComplete += Reset;
+                return;
+            }
+            Debug.LogWarning("RestartManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at Restart.");
         }
 
         private void Awake()
         {
+            //Creating a new GameObject to add CloneCubes under it
+            _parentCubeClone = new GameObject("CloneCubesParent").transform;
+            
             LevelRegistrySo.Instance.Register(this);
             _propBlock = new MaterialPropertyBlock();
             
@@ -55,6 +68,10 @@ namespace Player
         {
             PlayerMoveState.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
+            if (_restartManager != null)
+            {
+                _restartManager.OnPlayerRestartComplete -= Reset;
+            }
         }
 
         private void OnDestroy()
@@ -68,7 +85,7 @@ namespace Player
             _clonedCubes = new GameObject[clonedCubesCount];
             for (int i = 0; i < _clonedCubes.Length; i++)
             {
-                _clonedCubes[i] = Instantiate(cloneCube, parentCubeClone, goalPosition);
+                _clonedCubes[i] = Instantiate(cloneCube, _parentCubeClone);
                 
                 //Breaking SRP batch by overriding with an empty Property Block.
                 _clonedCubes[i].GetComponent<Renderer>().SetPropertyBlock(_propBlock);
@@ -76,7 +93,7 @@ namespace Player
         }
 
         /// <summary>
-        /// Update _clonedCubes position based on <see cref="goalPosition"/> at <see cref="_waitForSecondsCloneCube"/> seconds
+        /// Update _clonedCubes position based on <see cref="_playerTransform"/> at <see cref="_waitForSecondsCloneCube"/> seconds
         /// </summary>
         IEnumerator TransformCloneCubes()
         {
@@ -104,7 +121,7 @@ namespace Player
         {
             if (_playerOnGround)
             {
-                _clonedCubes[_currentTransformChangedCubeClone].transform.position = goalPosition.position;
+                _clonedCubes[_currentTransformChangedCubeClone].transform.position = transform.position;
                 _currentTransformChangedCubeClone++;
                 if (_currentTransformChangedCubeClone == _clonedCubes.Length)
                 {
@@ -125,16 +142,6 @@ namespace Player
 
         public void OnLevelStop(){/*It will be empty*/}
         
-        public void OnLevelRestart()
-        {
-            Reset();
-        }
-
-        public void OnLevelCheckPoint()
-        {
-            Reset();
-        }
-        
         public void OnDead()
         {
             StopTransformCloneCubes();
@@ -144,7 +151,20 @@ namespace Player
         {
             StopTransformCloneCubes();
         }
+        
+        public void OnLevelRestart()
+        {
+            if (_restartManager == null)
+            {
+                Reset();
+            }
+        }
 
+        public void OnLevelCheckPoint()
+        {
+            Reset();
+        }
+        
         /// <summary>
         /// Functions are usually require same modify for both <see cref="IOnRestart"/> and <see cref="IOnCheckPoint"/>>
         /// </summary>
