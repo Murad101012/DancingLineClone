@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2300198483264656430}
   - component: {fileID: 4137054279177578272}
   m_Layer: 0
-  m_Name: StateChangerPrefab
+  m_Name: DirectionChanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

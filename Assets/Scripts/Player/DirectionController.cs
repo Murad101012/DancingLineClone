@@ -11,7 +11,7 @@ namespace Player
     /// <remarks>
     /// For get the latest directions, <see cref="PlayerCoreLogic"/> script must take current directions from <see cref="_currentDirections"/>
     /// </remarks>
-    public class DirectionController : MonoBehaviour, IDirectionSwitchable // Signing the contract
+    public class DirectionController : MonoBehaviour, IDirectionSwitchable
     {
         public enum Directions
         {
@@ -52,7 +52,7 @@ namespace Player
         }
         
         /// <summary>
-        /// Current directions are change here by <see cref="DirectionChanger.OnTriggerEnter"/> firing
+        /// Current directions are change here by <see cref="CurrentDirectionChangerTrigger.OnTriggerEnter"/> firing
         /// </summary>
         public void ChangeDirection(Directions[] newStates)
         {
