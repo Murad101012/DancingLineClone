@@ -1,4 +1,5 @@
 using System;
+using Core;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,10 +21,10 @@ namespace Player.States
 
         /// <remarks> This boolean duplicates from
         /// <see cref="DirectionController.CurrentDirectionsAsQuaternions"/></remarks>
-        private Quaternion[] _currentDirectionsAsQuaternions = new Quaternion[2];
+        private Quaternion[] _currentDirectionsAsQuaternions;
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onGround"/></remarks>
         private bool _onGround = true;
-
+        
         public PlayerMoveState(PlayerCoreLogic playerCoreLogic) => _playerCoreLogic = playerCoreLogic;
         
         public static event Action PlayerPressed;
@@ -38,12 +39,13 @@ namespace Player.States
             _directionController = _playerCoreLogic.GetComponent<DirectionController>();
             _currentDirectionsAsQuaternions = _directionController.CurrentDirectionsAsQuaternions;
             
-            _directionController.OnDirectionChange += OnDirectionChange;
             GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
             
             //New Input System
             _dancingLineCloneInput.Player.Enable();
             _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
+            
+            LevelRegistrySo.Instance.Register(this);
         }
         
         public void StateTick()
@@ -65,12 +67,30 @@ namespace Player.States
         /// </summary>
         private void SwitchOrder(InputAction.CallbackContext context)
         {
-            if (_onGround)
+            if (!_onGround) return;
+            //Switch between 0 and 1 currentStates with _switchOrder boolean
+            if (!_switchOrder)
             {
-                //Switch between 0 and 1 currentStates with _switchOrder boolean
-                if (!_switchOrder)
+                /*If next direction will be assigned to _movementTransform.rotation already same as current
+                    direction of player going, then it will be assigned the other direction instead of based _switchOrder.
+                    This problem comes when in CurrentDirectionChangerTrigger overlap one of directions those player already have.*/
+                if (_movementTransform.rotation == _currentDirectionsAsQuaternions[0])
+                {
+                    _movementTransform.rotation = _currentDirectionsAsQuaternions[1];
+                }
+                else
                 {
                     _switchOrder = true;
+                    _movementTransform.rotation = _currentDirectionsAsQuaternions[0];
+                }
+            }
+            else
+            {
+                /*Same for this also. If player already going to _currentDirectionsAsQuaternions[1],
+                     assigned _currentDirectionsAsQuaternions[1] again make player doesn't change direction
+                     despite player pressed, so assign _currentDirectionsAsQuaternions[0] instead*/
+                if (_movementTransform.rotation == _currentDirectionsAsQuaternions[1])
+                {
                     _movementTransform.rotation = _currentDirectionsAsQuaternions[0];
                 }
                 else
@@ -78,8 +98,8 @@ namespace Player.States
                     _switchOrder = false;
                     _movementTransform.rotation = _currentDirectionsAsQuaternions[1];
                 }
-                PlayerPressed?.Invoke();
             }
+            PlayerPressed?.Invoke();
         }
         
         private void OnDirectionChange(Quaternion[] newStatesAsQuaternions)
@@ -96,7 +116,6 @@ namespace Player.States
  
         public void StateEnd()
         {
-            _directionController.OnDirectionChange -= OnDirectionChange;
             GroundStateChecker.OnGroundChange -= OnGroundStateChangeUpdater;
             _dancingLineCloneInput.Player.ChangeDirection.performed -= SwitchOrder;
 
@@ -105,6 +124,13 @@ namespace Player.States
             script not destroyed but cached, _onGround must be begin as true when this state
             call to use again*/
             _onGround = true;
+            
+            LevelRegistrySo.Instance.Unregister(this);
+        }
+
+        public void OnLevelRestart()
+        {
+            _switchOrder = false;
         }
     }
 }

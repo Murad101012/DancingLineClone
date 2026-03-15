@@ -27,8 +27,7 @@ namespace Player
         [SerializeField] private float updateInterval;
         private WaitForSeconds _waitForSecondsCloneCube;
         
-        private RestartManager _restartManager;
-        private CheckPointManager _checkPointManager;
+        private PositionRotationChangeCheckPointRestart _positionRotationChangeCheckPointRestart;
 
         private bool _playerOnGround = true;
 
@@ -45,21 +44,13 @@ namespace Player
             
             /*Without these events, cubes can be misplaced on Restart/CheckPoint since,
             player position didn't update yet*/
-            if (TryGetComponent(out _restartManager))
+            if (TryGetComponent(out _positionRotationChangeCheckPointRestart))
             {
-                _restartManager.OnPlayerRestartComplete += Reset;
-            }
-            else
-            {
-                Debug.LogWarning("RestartManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at Restart.");
-            }
-            
-            if (TryGetComponent(out _checkPointManager))
-            {
-                _checkPointManager.OnPlayerCheckPointComplete += Reset;
+                _positionRotationChangeCheckPointRestart.OnPlayerCheckPointComplete += Reset;
+                _positionRotationChangeCheckPointRestart.OnPlayerRestartComplete += Reset;
                 return;
             }
-            Debug.LogWarning("CheckPointManager not found in the current GameObject, Line.cs attached. CloneCubes can be misaligned at CheckPoint.");
+            Debug.LogWarning("Line: PositionRotationChangeCheckPointRestart not found. CloneCubes can be misaligned at CheckPoint and Restart.");
         }
 
         private void Awake()
@@ -78,14 +69,11 @@ namespace Player
         {
             PlayerMoveState.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
-            if (_restartManager != null)
+            
+            if (_positionRotationChangeCheckPointRestart != null)
             {
-                _restartManager.OnPlayerRestartComplete -= Reset;
-            }
-
-            if (_checkPointManager != null)
-            {
-                _checkPointManager.OnPlayerCheckPointComplete -= Reset;
+                _positionRotationChangeCheckPointRestart.OnPlayerCheckPointComplete -= Reset;
+                _positionRotationChangeCheckPointRestart.OnPlayerRestartComplete -= Reset;
             }
         }
 
@@ -136,6 +124,7 @@ namespace Player
         private void ChangeNextCloneCubePositionOnGoalPosition()
         {
             if (!_playerOnGround) return;
+            //TODO: Performance may be increase by storing _clonedCubes transforms into an Array and referencing to that Array instead when chancing transform.position 
             _clonedCubes[_currentTransformChangedCubeClone].transform.position = transform.position;
             _currentTransformChangedCubeClone++;
             if (_currentTransformChangedCubeClone == _clonedCubes.Length)
@@ -168,7 +157,7 @@ namespace Player
         
         public void OnLevelRestart()
         {
-            if (_restartManager == null)
+            if (_positionRotationChangeCheckPointRestart == null)
             {
                 Reset();
             }
@@ -176,7 +165,7 @@ namespace Player
 
         public void OnLevelCheckPoint()
         {
-            if (_checkPointManager == null)
+            if (_positionRotationChangeCheckPointRestart == null)
             {
                 Reset();
             }

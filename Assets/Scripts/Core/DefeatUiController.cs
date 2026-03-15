@@ -15,14 +15,14 @@ namespace Core
         [SerializeField] private GameObject defeatScreen;
         [SerializeField] private Button checkPointButton;
         /// <remarks>
-        /// Duplicates from <see cref="CheckPointManager._checkPointTriggered"/>
+        /// Duplicates from <see cref="CheckPointSnapshot._checkPointTriggered"/>
         /// </remarks>
         private bool _checkPointTriggered;
         private DefeatUiAnimation _defeatUiAnimation;
         
         private void OnEnable()
         {
-            CheckPointManager.OnCheckpointUpdated += RefreshCheckPointButtonState;
+            CheckPointSnapshot.OnCheckpointUpdated += RefreshCheckPointButtonState;
 
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
@@ -36,7 +36,7 @@ namespace Core
         
         private void OnDisable()
         {
-            CheckPointManager.OnCheckpointUpdated -= RefreshCheckPointButtonState;
+            CheckPointSnapshot.OnCheckpointUpdated -= RefreshCheckPointButtonState;
             if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
         }
 

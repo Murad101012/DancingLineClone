@@ -10,7 +10,7 @@ namespace Player
     /// Place the "StateChangerPrefab" in front of the player. 
     /// The transition occurs via <see cref="OnTriggerEnter"/>.
     /// </remarks>
-    public class DirectionChanger : MonoBehaviour
+    public class CurrentDirectionChangerTrigger : MonoBehaviour
     {
         [SerializeField] private DirectionController.Directions[] moveDirections = new DirectionController.Directions[2];
         
