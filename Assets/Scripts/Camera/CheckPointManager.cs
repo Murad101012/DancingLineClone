@@ -19,7 +19,7 @@ namespace Camera
 
         private void OnEnable()
         {
-            Player.CheckPointManager.OnCheckpointUpdated += OnCheckPointUpdated;
+            Player.CheckPointSnapshot.OnCheckpointUpdated += OnCheckPointUpdated;
         }
 
         private void Awake()
@@ -30,7 +30,7 @@ namespace Camera
 
         private void OnDisable()
         {
-            Player.CheckPointManager.OnCheckpointUpdated -= OnCheckPointUpdated;
+            Player.CheckPointSnapshot.OnCheckpointUpdated -= OnCheckPointUpdated;
         }
 
         private void OnDestroy()

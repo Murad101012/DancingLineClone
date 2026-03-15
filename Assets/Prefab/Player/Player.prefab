@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 4410637167621894252}
   - component: {fileID: 1879414546421939390}
   - component: {fileID: 2583417093962047239}
+  - component: {fileID: 7949861280973069816}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -243,3 +244,15 @@ MonoBehaviour:
   cloneCube: {fileID: 1584803356839793424, guid: 9f479840ae1636475bb13bacfae6fa3e, type: 3}
   clonedCubesCount: 70
   updateInterval: 0.07
+--- !u!114 &7949861280973069816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039633664303414315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498d4307201b4eb4938f45394cb694b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PositionRotationChangeCheckPoint
