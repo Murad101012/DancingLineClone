@@ -1,3 +1,5 @@
+using Core;
+using Interfaces;
 using Player;
 using Player.States;
 using UnityEditor;
@@ -5,7 +7,7 @@ using UnityEngine;
 
 namespace Editor
 {
-    public class PathCreator : EditorWindow
+    public class PathCreator : EditorWindow, ILevelState
     {
         private Vector2 _scrollPos;
         private PathCreatorSO _pathCreatorSo;
@@ -33,6 +35,7 @@ namespace Editor
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+                LevelRegistrySo.Instance.Register(this);
             }
         }
 
@@ -171,7 +174,7 @@ namespace Editor
             
                 //For make sure it's save on disk
                 EditorUtility.SetDirty(_pathCreatorSo);
-                AssetDatabase.SaveAssets();
+                //AssetDatabase.SaveAssets();
             }
         }
     
@@ -333,6 +336,19 @@ namespace Editor
 
             Debug.Log("Path Baked with Collision!");
         }
-    
+
+        public void OnLevelStart()
+        {
+            if (_onRecord)
+            {
+                _pathCreatorSo.points.Add(_playerTransform.position);
+                _pathCreatorSo.rotations.Add(_playerTransform.rotation);
+            }
+        }
+
+        public void OnLevelStop()
+        {
+            //It will be empty
+        }
     }
 }
