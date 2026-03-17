@@ -1,4 +1,3 @@
-using System;
 using Core;
 using Interfaces;
 using Unity.Cinemachine;
@@ -10,37 +9,23 @@ namespace Camera
     /// It will reset all cameras priority to zero except the CineMachine Camera at the beginning of the level
     /// </summary>
     [RequireComponent(typeof(CinemachineBrain))]
-    public class RestartManager : MonoBehaviour, IOnRestart
+    public class RestartManager : MonoBehaviour, IOnRestart, ILevelState, IReady
     {
         private CinemachineBrain _cineMachineBrain;
         private CinemachineCamera[] _cameras;
         [SerializeField] private Transform cineMachineCamerasParent;
-        private CinemachineCamera _cameraAtBeginning;
+        [SerializeField] private CinemachineCamera cameraAtBeginning;
 
         private void Awake()
         {
             LevelRegistrySo.Instance.Register(this);
+            LevelLoader.Instance?.RegisterIReady(this);
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
-            
-            if (cineMachineCamerasParent == null)
-            {
-                Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent is null, disabling the Restart feature for Camera");
-                enabled = false;
-                return;
-            }
-            _cameras = cineMachineCamerasParent.GetComponentsInChildren<CinemachineCamera>();
-            
-            if (_cameras != null) return;
-            Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
-                             " with CineMachineCamera component,  disabling the Restart feature for Camera");
-            enabled = false;
-        }
 
-        private void Start()
-        {
-            //Delaying the code, potentially brain hasn't assigned the virtualCamera yet.
-            _cameraAtBeginning = (CinemachineCamera)_cineMachineBrain.ActiveVirtualCamera;
+            if (cineMachineCamerasParent != null) return;
+            Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent is null, disabling the Restart feature for Camera");
+            enabled = false;
         }
 
         private void OnDestroy()
@@ -57,7 +42,31 @@ namespace Camera
             }
             
             //Making most priortiest the CineMachine Camera that at the beginning of the level
-            _cameraAtBeginning.Priority = 1;
+            cameraAtBeginning.Priority = 1;
         }
+        
+        public void Initialization()
+        {
+            //Getting all CineMachine cameras under parent and loading to _cameras variable
+            _cameras = cineMachineCamerasParent.GetComponentsInChildren<CinemachineCamera>(true);
+            if (_cameras.Length == 0 || _cameras == null)
+            {
+                Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
+                                 " with CineMachineCamera component,  disabling the Restart feature for Camera");
+                enabled = false;
+            }
+        }
+
+        public void OnLevelStart()
+        {
+            //Delaying the code, potentially brain hasn't assigned the virtualCamera yet.
+            if (cameraAtBeginning == null)
+            {
+                cameraAtBeginning = (CinemachineCamera)_cineMachineBrain.ActiveVirtualCamera;
+                Debug.LogWarning("RestartManager: Beginning Camera isn't set. Taking camera that active when player begin to play.");
+            }
+        }
+
+        public void OnLevelStop() {/*It will be empty*/}
     }
 }

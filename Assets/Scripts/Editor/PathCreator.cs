@@ -32,7 +32,7 @@ namespace Editor
 
         private void WhenGameBegin(PlayModeStateChange state)
         {
-            if (state == PlayModeStateChange.EnteredPlayMode)
+            if (state == PlayModeStateChange.EnteredPlayMode && _onRecord)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
                 LevelRegistrySo.Instance.Register(this);

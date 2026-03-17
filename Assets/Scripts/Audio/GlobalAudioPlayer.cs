@@ -12,38 +12,35 @@ namespace Audio
     [RequireComponent(typeof(AudioSource))]
     public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
     {
-        public static event Action<AudioClip> OnLevelClip;
         private AudioSource _audioSource;
-        [SerializeField] public AudioClip _clip;
+        [SerializeField] public AudioClip _clip; //Remove SerializeField after fully implementation
+        private LevelLoader _levelLoader;
         
-        //TODO: After make a class for LevelLoading, move these events to there.
-        ///<remarks>These events temporary settled in here, it will move to another class when it's created</remarks>
-        public static Action LevelLoaded;
-        public static Action LevelUnloaded;
-
-        private void OnEnable()
-        {
-            LevelLoaded += RegisterToLevel;
-            LevelUnloaded += UnregisterFromLevel;
-            OnLevelClip += InsertClip;
-        }
-
         private void Awake()
         {
-            DontDestroyOnLoad(this);
-            
             _audioSource = GetComponent<AudioSource>();
-            
-            //This is temporary. After Move LeveLoaded and LevelUnloaded events, remove it:
-            LevelLoaded?.Invoke();
-            OnLevelClip?.Invoke(_clip);
-        }
 
-        private void OnDisable()
+            if (TryGetComponent(out _levelLoader))
+            {
+                _levelLoader.LevelLoaded += RegisterToLevel;
+                _levelLoader.LevelUnloaded += UnregisterFromLevel;
+            }
+            else
+            {
+                Debug.LogWarning("GlobalAudioPlayer: LevelLoader not found, can't register");
+            }
+            
+            InsertClip(_clip);
+        }
+        
+
+        private void OnDestroy()
         {
-            LevelLoaded -= RegisterToLevel;
-            LevelUnloaded -= UnregisterFromLevel;
-            OnLevelClip -= InsertClip;
+            if (_levelLoader != null)
+            {
+                _levelLoader.LevelLoaded -= RegisterToLevel;
+                _levelLoader.LevelUnloaded -= UnregisterFromLevel;
+            }
         }
 
         private void RegisterToLevel()
