@@ -1,3 +1,19 @@
 .root-container {
     flex-grow: 1;
+    justify-content: center;
+}
+
+.container-test-button{
+    margin: 80px;
+}
+
+.container-test-button:hover .test-button{
+    translate: 0 -10px;
+    scale: 1.1;
+    transition-duration: .3s;
+}
+
+.test-button {
+    border-radius: 20px;
+    transition-duration: .5s;
 }

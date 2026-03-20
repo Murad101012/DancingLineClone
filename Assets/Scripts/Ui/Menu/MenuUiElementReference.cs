@@ -9,12 +9,12 @@ namespace Ui.Menu
     /// If chancing name of an element "string value" required, it must be done from here.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
-    public class MenuUiElementReference: MonoBehaviour //<-- It's require to other scripts to use [RequireComponent(typeof(MenuUiName))] to here
+    public class MenuUiElementReference: MonoBehaviour
     {
         private VisualElement _root;
         
-        private readonly string _testButton = "testButton";
-        public Button TestButtonReference;
+        private readonly string _levelLoadButtonName = "levelLoadButton";
+        public Button LevelLoadButtonReference;
         
         /// <summary>
         /// Scripts those are using <see cref="MenuUiElementReference"/> must implement this event, to prevent null UI Element problems.
@@ -35,13 +35,13 @@ namespace Ui.Menu
         
         private void Initialization()
         {
-            TestButtonReference = _root.Q<Button>(_testButton);
+            LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
             
             //We're beginning with true, otherwise each time null check make checkResult to true even one of the Null check find problem,
             //it might be overridden  it 
             CheckResult = true;
             
-            Validate(TestButtonReference, nameof(TestButtonReference));
+            Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
             
             
             if (!CheckResult)

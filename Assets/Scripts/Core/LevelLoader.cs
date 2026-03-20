@@ -19,8 +19,24 @@ namespace Core
         public Action LevelLoaded;
         public Action LevelUnloaded;
         private List<IReady> _iReadyList = new();
+        
+        [SerializeField] private LevelLoadEventSo levelLoadEventSo;
 
-        private void Start()
+        private void OnEnable()
+        {
+            if (levelLoadEventSo != null)
+            {
+                levelLoadEventSo.OnLevelNameLoad += LoadLevelAsync;
+            }
+            else
+            {
+                string updateNameOf = nameof(LevelLoadEventSo);
+                Debug.LogWarning($"{name}: {updateNameOf} isn't assigned, can't listen player's \"level load\" input." +
+                                 $"Loading a level not possible.");
+            }
+        }
+
+        private void Awake()
         {
             DontDestroyOnLoad(this);
 
@@ -28,11 +44,14 @@ namespace Core
             {
                 Instance = this;
             }
-            
-            LoadLevelAsync(sceneName);
         }
-        
-        
+
+        private void OnDisable()
+        {
+            levelLoadEventSo.OnLevelNameLoad -= LoadLevelAsync;
+        }
+
+
         private async void LoadLevelAsync(string sceneName)
         {
             // 1. Start the Unity Async Operation

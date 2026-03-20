@@ -1,6 +1,8 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/Ui/Menu/MenuStyle.uss?fileID=7433441132597879392&amp;guid=7fc032f73f7f76c7da3d46b9137e4bff&amp;type=3#MenuStyle"/>
     <ui:VisualElement class="root-container">
-        <ui:Button name = "testButton" text="Click me"/>
+        <ui:VisualElement class = "container-test-button" name="containerTestButton">
+            <ui:Button name="levelLoadButton" text="Click me" class="test-button"/>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

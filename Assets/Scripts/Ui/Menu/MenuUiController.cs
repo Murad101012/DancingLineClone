@@ -1,14 +1,17 @@
 using System;
+using Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Ui.Menu
 {
     /// <summary>
-    /// Responsible to control Menu's UI (e.g: changing behavior of an element (Interactable, Opacity, Enabled)) at level selection
+    /// Responsible to control Menu's UI (e.g: changing behavior of an element (Interactable, Opacity, Enabled)) at level selection,
+    /// acting as centralized hub for connecting buttons)
     /// </summary>
-    /// <remarks> To prevent using direct string references, you must first add reference to <see cref="MenuUiElementReference"/>
-    /// and get reference to string variable instead (Check MenuUiName for further information)</remarks>
+    /// <remarks> To prevent using direct string references to find a Visual Element in UIToolkit hierarchy,
+    /// you must get references from <see cref="MenuUiElementReference"/> to prevent typos and get latest Visual Element
+    /// names if their name changed</remarks>
     [RequireComponent(typeof(MenuUiElementReference))]
     [RequireComponent(typeof(UIDocument))]
     public class MenuUiController : MonoBehaviour
@@ -16,15 +19,21 @@ namespace Ui.Menu
         private UIDocument _uiDocument;
         private MenuUiElementReference _menuUiElementReference;
         
-        private void Start()
+        [SerializeField] private LevelLoadEventSo levelLoadEventSo;
+        
+        private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
-
+        }
+        
+        private void Start()
+        {
             if (!_menuUiElementReference.CheckFinished)
             {
-                Debug.LogWarning($"{name}: checkFinished is false, can't get reference to UI elements. So, disabling the MenuUiController." +
-                                 $"(Tip: check if race-condition happen (Meaning if {name} begin" +
-                                 " first before MenuUiElementReference finish it's Initialization(). " +
+                string updateTextOfClass = nameof(MenuUiElementReference);
+                Debug.LogWarning($"{name}: checkFinished is false, can't get reference to UI elements. So, " +
+                                 $"disabling the MenuUiController. (Tip: check if race-condition happen (Meaning if {name} begin" +
+                                 $" first before {updateTextOfClass} finish it's Initialization(). " +
                                  "If problem is race-condition then proceed to use IReady interface if it suits to current situation.)");
                 enabled = false;
                 return;
@@ -33,13 +42,27 @@ namespace Ui.Menu
             if (!_menuUiElementReference.CheckResult)
             {
                 Debug.LogWarning(
-                    $"{name}: checkResult is false, can't get reference to UI elements. So, disabling the MenuUiController.");
+                    $"{name}: checkResult is false, can't get reference to UI elements. So, disabling the {name}.");
                 enabled = false;
                 return;
             }
             
-            Debug.Log(_menuUiElementReference.TestButtonReference.text);
+            Initialization();
+        }
+
+        private void Initialization()
+        {
+            _menuUiElementReference.LevelLoadButtonReference.clicked += ClickedButton;
         }
         
+        private void ClickedButton()
+        {
+            levelLoadEventSo.RaiseOnLevelNameLoad("LevelCreateTemplate");
+        }
+
+        private void OnDestroy()
+        {
+            _menuUiElementReference.LevelLoadButtonReference.clicked -= ClickedButton;
+        }
     }
 }
