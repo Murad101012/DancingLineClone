@@ -5,9 +5,12 @@ using UnityEngine.UIElements;
 namespace Ui.Menu
 {
     /// <summary>
-    /// It serves as having centralized UI element's naming. It prevents potential typos when getting reference from <see cref="MenuUiController"/>.
-    /// If chancing name of an element "string value" required, it must be done from here.
+    /// Provides references to UIToolkit VisualElements.
     /// </summary>
+    /// <remarks>
+    /// Centralizes string-based UI queries to prevent typos. 
+    /// Use <see cref="CheckResult"/> to verify that all queried elements were successfully found in the UIDocument.
+    /// </remarks>
     [RequireComponent(typeof(UIDocument))]
     public class MenuUiElementReference: MonoBehaviour
     {
@@ -33,6 +36,7 @@ namespace Ui.Menu
             Initialization();
         }
         
+        //TODO check this with Unit Testing if all buttons come correctly from UIToolkit
         private void Initialization()
         {
             LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
@@ -53,8 +57,20 @@ namespace Ui.Menu
             CheckFinished = true;
         }
 
-        /// <param name="nameOfVisualElement">Checking nameOf inside the Validate() cause wrong string name,
-        /// so it must be added as parameter</param>
+        /// <summary>
+        /// Checks if a VisualElement is null and updates the global <see cref="CheckResult"/>.
+        /// </summary>
+        /// <param name="visualElement">The element to check.</param>
+        /// <param name="nameOfVisualElement">The name to display in the warning log.</param>
+        /// <remarks>
+        /// <para>If the element is null, a <c>Debug.LogWarning</c> is issued and <see cref="CheckResult"/> is set to false.</para>
+        /// <example>
+        /// <code>
+        /// Validate(myButton, nameof(myButton));
+        /// </code>
+        /// </example>
+        /// </remarks>
+
         private void Validate(VisualElement visualElement, string nameOfVisualElement)
         {
             if (visualElement != null) return;

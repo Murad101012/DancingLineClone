@@ -11,6 +11,7 @@ namespace Gameplay
     [CreateAssetMenu(menuName = "ScriptableObjects/LevelProperties")]
     public class LevelPropertiesSo : ScriptableObject
     {
+        //TODO: Change to Addressable type loading
         public string levelName;
         public Sprite levelImage;
         public AudioClip levelSound;

@@ -19,6 +19,7 @@ namespace Ui.Menu
         private UIDocument _uiDocument;
         private MenuUiElementReference _menuUiElementReference;
         
+        
         [SerializeField] private LevelLoadEventSo levelLoadEventSo;
         
         private void Awake()

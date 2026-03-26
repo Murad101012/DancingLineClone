@@ -69,12 +69,10 @@ namespace Player
         {
             PlayerMoveState.PlayerPressed -= ChangeNextCloneCubePositionOnGoalPosition;
             GroundStateChecker.OnGroundChange -= OnGroundStateChange;
-            
-            if (_positionRotationChangeCheckPointRestart != null)
-            {
-                _positionRotationChangeCheckPointRestart.OnPlayerCheckPointComplete -= Reset;
-                _positionRotationChangeCheckPointRestart.OnPlayerRestartComplete -= Reset;
-            }
+
+            if (_positionRotationChangeCheckPointRestart == null) return;
+            _positionRotationChangeCheckPointRestart.OnPlayerCheckPointComplete -= Reset;
+            _positionRotationChangeCheckPointRestart.OnPlayerRestartComplete -= Reset;
         }
 
         private void OnDestroy()

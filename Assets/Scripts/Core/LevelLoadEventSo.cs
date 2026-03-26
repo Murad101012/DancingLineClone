@@ -4,14 +4,17 @@ using UnityEngine;
 namespace Core
 {
     /// <summary>
-    /// For breaking dependency between <see cref="Ui.Menu.MenuUiController"/> which is sending signal to load a level
-    /// and <see cref="LevelLoader"/> which it's loading actual level, this ScriptableObject usefull.
-    /// 
-    /// Because, direct static event referencing from <see cref="Ui.Menu.MenuUiController"/> to <see cref="LevelLoader"/>
-    /// makes impossible to null check in <see cref="LevelLoader"/> to if <see cref="Ui.Menu.MenuUiController"/> class available
-    /// for listening to static event in <see cref="Ui.Menu.MenuUiController"/>. This scriptable object break this problem since we simple can check if reference to this
-    /// Scriptable object is null (not assigned) or not (assigned)
+    /// Serves as an intermediary Event Channel for level loading operations.
     /// </summary>
+    /// <remarks>
+    /// This ScriptableObject facilitates **Decoupling** between UI triggers and the Scene Management logic.
+    /// <para>Key Advantages:</para>
+    /// <list type="bullet">
+    /// <item>Prevents hard compile-time dependencies between UI and Core namespaces.</item>
+    /// <item>Allows for runtime null-checks on the Asset reference, avoiding static event leaks.</item>
+    /// <item>Enables testing UI or Level Loading in isolation without requiring both systems in the scene.</item>
+    /// </list>
+    /// </remarks>
     [CreateAssetMenu(fileName = "NewLevelLoadEventSo", menuName = "ScriptableObjects/LevelLoadEventSo")]
     public class LevelLoadEventSo : ScriptableObject
     {

@@ -8,6 +8,7 @@ namespace Interfaces
     /// With this, when scene completely loaded, Initialization() function
     /// will be call by <see cref="Core.LevelLoader.AfterSceneLoad"/> to prevent race-condition
     /// </summary>
+    /// <remarks>Proboably will be replaced with DI</remarks>
     public interface IReady
     {
         void Initialization();

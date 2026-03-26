@@ -41,6 +41,8 @@ namespace Player
         private void OnDestroy()
         {
             LevelRegistrySo.Instance.Unregister(this);
+            // This ensures the static event is unsubscribed
+            _currentState?.StateEnd();
         }
 
         private void ChangeState(IPlayerState newState)
