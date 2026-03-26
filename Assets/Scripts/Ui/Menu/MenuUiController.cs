@@ -1,5 +1,8 @@
 using System;
 using Core;
+using Gameplay;
+using Interfaces;
+using Ui.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,14 +17,19 @@ namespace Ui.Menu
     /// names if their name changed</remarks>
     [RequireComponent(typeof(MenuUiElementReference))]
     [RequireComponent(typeof(UIDocument))]
-    public class MenuUiController : MonoBehaviour
+    public class MenuUiController : MonoBehaviour, ILevelPreviewChange
     {
         private UIDocument _uiDocument;
         private MenuUiElementReference _menuUiElementReference;
-        
+        private readonly StyleBackground _nullStyleBackground = StyleKeyword.Null;
         
         [SerializeField] private LevelLoadEventSo levelLoadEventSo;
-        
+
+        private void OnEnable()
+        {
+            LevelPreviewChangeSender.OnLevelPreviewChange += OnLevelPreviewChange;
+        }
+
         private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
@@ -56,6 +64,11 @@ namespace Ui.Menu
             _menuUiElementReference.LevelLoadButtonReference.clicked += ClickedButton;
         }
         
+        private void OnDisable()
+        {
+            LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
+        }
+        
         private void ClickedButton()
         {
             levelLoadEventSo.RaiseOnLevelNameLoad("LevelCreateTemplate");
@@ -64,6 +77,30 @@ namespace Ui.Menu
         private void OnDestroy()
         {
             _menuUiElementReference.LevelLoadButtonReference.clicked -= ClickedButton;
+        }
+
+        public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
+        {
+            //Chancing name
+            _menuUiElementReference.LevelLabelNameReference.text = levelPropertiesSo.levelName;
+            
+            //Chancing image
+            _menuUiElementReference.LevelPreviewImageReference.style.backgroundImage = 
+                levelPropertiesSo.styleBackgroundLevelImage != null
+                    ? levelPropertiesSo.styleBackgroundLevelImage : _nullStyleBackground;
+            
+            //Disabling/enabling the buttons interactable if player first/last or between levels
+            if (levelPropertiesSo.levelIndex == 0)
+            {
+                _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(false);
+            }
+            if (levelPropertiesSo.levelIndex == levelPropertiesSo.totalLevels - 1)
+            {
+                _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(false);
+                return;
+            }
+            _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(true);
+            _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(true);
         }
     }
 }

@@ -15,3 +15,12 @@ MonoBehaviour:
   levelName: LevelCreateTemplate
   levelImage: {fileID: 0}
   levelSound: {fileID: 0}
+  styleBackgroundLevelImage:
+    m_Value:
+      m_Texture: {fileID: 0}
+      m_Sprite: {fileID: 240456465, guid: 9e02e6ab9582cab31a7f3037b34a0353, type: 3}
+      m_RenderTexture: {fileID: 0}
+      m_VectorImage: {fileID: 0}
+    m_Keyword: 0
+  totalLevels: 0
+  levelIndex: 0

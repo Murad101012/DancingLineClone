@@ -31,11 +31,17 @@
 }
 
 .level-image-preview-locked{
-    background-image: url('project://database/Assets/Scenes/Piano/Image/Test.jpeg');
     opacity: 0.9;
     -unity-background-image-tint-color: grey;
 }
 
 .level-image-preview-unlocked{
-    background-image: url('project://database/Assets/Scenes/Piano/Image/Test.jpeg');
+    opacity: 1;
+    -unity-background-image-tint-color: white;
+}
+
+.container-align-children-row{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }

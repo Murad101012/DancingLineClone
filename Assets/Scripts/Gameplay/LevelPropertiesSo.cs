@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Gameplay
 {
@@ -13,7 +14,21 @@ namespace Gameplay
     {
         //TODO: Change to Addressable type loading
         public string levelName;
-        public Sprite levelImage;
+        [SerializeField] private Sprite levelImage;
         public AudioClip levelSound;
+        [HideInInspector] public StyleBackground styleBackgroundLevelImage;
+        
+        //Required by MenuUiElementReference to disable/enable interactable of level change buttons
+        public int totalLevels;
+        public int levelIndex;
+
+        //As soon as levelImage add from inspector, thi
+        private void OnValidate()
+        {
+            if (levelImage != null)
+            {
+                styleBackgroundLevelImage = new StyleBackground(levelImage);
+            }
+        }
     }
 }
