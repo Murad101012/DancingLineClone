@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
 namespace Gameplay
@@ -17,6 +18,7 @@ namespace Gameplay
         [SerializeField] private Sprite levelImage;
         public AudioClip levelSound;
         [HideInInspector] public StyleBackground styleBackgroundLevelImage;
+        public AssetReference sceneLevel;
         
         //Required by MenuUiElementReference to disable/enable interactable of level change buttons
         public int totalLevels;

@@ -22,8 +22,7 @@ namespace Ui.Menu
         private UIDocument _uiDocument;
         private MenuUiElementReference _menuUiElementReference;
         private readonly StyleBackground _nullStyleBackground = StyleKeyword.Null;
-        
-        [SerializeField] private LevelLoadEventSo levelLoadEventSo;
+        public static event Action OnLoadLevelButtonClicked;
 
         private void OnEnable()
         {
@@ -61,7 +60,7 @@ namespace Ui.Menu
 
         private void Initialization()
         {
-            _menuUiElementReference.LevelLoadButtonReference.clicked += ClickedButton;
+            _menuUiElementReference.LevelLoadButtonReference.clicked += LoadLevelButton;
         }
         
         private void OnDisable()
@@ -69,14 +68,14 @@ namespace Ui.Menu
             LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
         }
         
-        private void ClickedButton()
+        private void LoadLevelButton()
         {
-            levelLoadEventSo.RaiseOnLevelNameLoad("LevelCreateTemplate");
+            OnLoadLevelButtonClicked?.Invoke();
         }
 
         private void OnDestroy()
         {
-            _menuUiElementReference.LevelLoadButtonReference.clicked -= ClickedButton;
+            _menuUiElementReference.LevelLoadButtonReference.clicked -= LoadLevelButton;
         }
 
         public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)

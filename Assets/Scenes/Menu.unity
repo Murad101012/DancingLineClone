@@ -230,7 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4206fd3cd2423dadabf3020e47422f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiController
-  levelLoadEventSo: {fileID: 11400000, guid: 096decb597e2bcd109659a012e03e34a, type: 2}
 --- !u!114 &1785521407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Core.LevelPreviewChangeSender
   levelPropertiesSo:
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
 --- !u!1 &1874162758
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,8 +588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb7614fcdfb4ab98f2cd8da800d1c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelLoader
-  sceneName: LevelCreateTemplate
-  levelLoadEventSo: {fileID: 11400000, guid: 096decb597e2bcd109659a012e03e34a, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

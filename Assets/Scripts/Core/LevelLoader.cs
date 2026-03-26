@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Gameplay;
 using Interfaces;
+using Ui.Core;
+using Ui.Menu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,28 +15,19 @@ namespace Core
     /// </summary>
     /// <remarks>If a level working properly by playing directly, but throw null errors
     /// when loading that same level with LevelLoader, please check <see cref="IReady"/></remarks>
-    public class LevelLoader : MonoBehaviour
+    public class LevelLoader : MonoBehaviour, ILevelPreviewChange
     {
         public static LevelLoader Instance;
-        [SerializeField] private string sceneName;
+        private string _sceneNameInPreview;
         public Action LevelLoaded;
         public Action LevelUnloaded;
         private List<IReady> _iReadyList = new();
         
-        [SerializeField] private LevelLoadEventSo levelLoadEventSo;
 
         private void OnEnable()
         {
-            if (levelLoadEventSo != null)
-            {
-                levelLoadEventSo.OnLevelNameLoad += LoadLevelAsync;
-            }
-            else
-            {
-                string updateNameOf = nameof(LevelLoadEventSo);
-                Debug.LogWarning($"{name}: {updateNameOf} isn't assigned, can't listen player's \"level load\" input." +
-                                 $"Loading a level not possible.");
-            }
+            LevelPreviewChangeSender.OnLevelPreviewChange += OnLevelPreviewChange;
+            MenuUiController.OnLoadLevelButtonClicked += LoadLevelAsync;
         }
 
         private void Awake()
@@ -48,14 +42,30 @@ namespace Core
 
         private void OnDisable()
         {
-            levelLoadEventSo.OnLevelNameLoad -= LoadLevelAsync;
+            LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
+            MenuUiController.OnLoadLevelButtonClicked -= LoadLevelAsync;
         }
 
 
-        private async void LoadLevelAsync(string sceneName)
+        private async void LoadLevelAsync()
         {
+            // Basic string check
+            if (string.IsNullOrEmpty(_sceneNameInPreview)) 
+            {
+                Debug.LogWarning($"{name}: No scene name provided in preview!");
+                return;
+            }
+
+            // Build Settings check
+            if (!Application.CanStreamedLevelBeLoaded(_sceneNameInPreview))
+            {
+                Debug.LogError($"{name}: Scene '{_sceneNameInPreview}' is not in Build Settings or doesn't exist!");
+                return;
+            }
+            
+            if (_sceneNameInPreview == "") return;
             // 1. Start the Unity Async Operation
-            AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+            AsyncOperation op = SceneManager.LoadSceneAsync(_sceneNameInPreview);
 
             // 2. Instead of 'yield return', we 'await'
             // We turn the Unity AsyncOperation into something awaitable
@@ -87,6 +97,11 @@ namespace Core
             
             //After call all Initialization scripts, list removed
             _iReadyList.Clear();
+        }
+
+        public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
+        {
+            _sceneNameInPreview = levelPropertiesSo.levelName;
         }
     }
 }

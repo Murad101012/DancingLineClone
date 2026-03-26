@@ -3,12 +3,12 @@
     <ui:VisualElement class="root-container">
         <ui:VisualElement name="level-properties" class="level-properties-container">
             <ui:VisualElement name="level-image" class="level-image-preview-properties level-image-preview-unlocked"/>
-            <ui:Label name="level-name" text="level name"/>
+            <ui:Label name="level-name" text="level name" class="level-name-preview"/>
         </ui:VisualElement>
         <ui:VisualElement name="level-swap-button-container" class="container-align-children-row">
-            <ui:Button name="previous-level">
+            <ui:Button name="previous-level" text="previous">
             </ui:Button>
-            <ui:Button name="next-level">
+            <ui:Button name="next-level" text="next">
             </ui:Button>
         </ui:VisualElement>
         <ui:VisualElement name="containerTestButton" class="container-levelLoadButton">
