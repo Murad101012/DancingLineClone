@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 2123360491}
   - component: {fileID: 2123360490}
   - component: {fileID: 2123360493}
+  - component: {fileID: 2123360494}
   m_Layer: 0
   m_Name: GeneralManagement
   m_TagString: Untagged
@@ -588,6 +589,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb7614fcdfb4ab98f2cd8da800d1c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelLoader
+--- !u!114 &2123360494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123360488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3797d27f1546d8a68fdf2c170a9e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.ReturnToMenuHandler
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -19,8 +19,8 @@ namespace Core
     {
         public static LevelLoader Instance;
         private string _sceneNameInPreview;
-        public Action LevelLoaded;
-        public Action LevelUnloaded;
+        public event Action LevelLoaded;
+        public event Action LevelUnloaded;
         private List<IReady> _iReadyList = new();
         
 
@@ -37,6 +37,10 @@ namespace Core
             if (Instance == null)
             {
                 Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
             }
         }
 
@@ -74,11 +78,18 @@ namespace Core
                 // This replaces 'yield return null'
                 await Task.Yield(); 
             }
-            
-            LevelLoaded?.Invoke();
+
+            if (_sceneNameInPreview != "Menu")
+            {
+                LevelLoaded?.Invoke();
+                AfterSceneLoad();
+            }
+            else
+            {
+                LevelUnloaded?.Invoke();
+            }
             
             Debug.Log("Load Complete!");
-            AfterSceneLoad();
         }
 
         public void RegisterIReady(IReady iReady)
@@ -102,6 +113,12 @@ namespace Core
         public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
         {
             _sceneNameInPreview = levelPropertiesSo.levelName;
+        }
+
+        public void ReturnToMenu()
+        {
+            _sceneNameInPreview = "Menu";
+            LoadLevelAsync();
         }
     }
 }

@@ -126,6 +126,7 @@ namespace Player.States
             _onGround = true;
             
             LevelRegistrySo.Instance.Unregister(this);
+            _dancingLineCloneInput.Player.Disable();
         }
 
         public void OnLevelRestart()
