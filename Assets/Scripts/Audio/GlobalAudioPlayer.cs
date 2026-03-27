@@ -16,7 +16,7 @@ namespace Audio
     {
         private AudioSource _audioSource;
         [SerializeField] public AudioClip _clip; //Remove SerializeField after fully implementation
-        private LevelLoader _levelLoader;
+        private SceneLoader _sceneLoader;
 
         private void OnEnable()
         {
@@ -27,10 +27,10 @@ namespace Audio
         {
             _audioSource = GetComponent<AudioSource>();
 
-            if (TryGetComponent(out _levelLoader))
+            if (TryGetComponent(out _sceneLoader))
             {
-                _levelLoader.LevelLoaded += OnLevelLoad;
-                _levelLoader.LevelUnloaded += OnLevelUnload;
+                _sceneLoader.LevelLoaded += OnSceneLoad;
+                _sceneLoader.LevelUnloaded += OnSceneUnload;
             }
             else
             {
@@ -47,20 +47,20 @@ namespace Audio
 
         private void OnDestroy()
         {
-            if (_levelLoader != null)
+            if (_sceneLoader != null)
             {
-                _levelLoader.LevelLoaded -= OnLevelLoad;
-                _levelLoader.LevelUnloaded -= OnLevelUnload;
+                _sceneLoader.LevelLoaded -= OnSceneLoad;
+                _sceneLoader.LevelUnloaded -= OnSceneUnload;
             }
         }
 
-        private void OnLevelLoad()
+        private void OnSceneLoad()
         {
             LevelRegistrySo.Instance?.Register(this);
             StopSound();
         }
 
-        private void OnLevelUnload()
+        private void OnSceneUnload()
         {
             LevelRegistrySo.Instance?.Unregister(this);
         }

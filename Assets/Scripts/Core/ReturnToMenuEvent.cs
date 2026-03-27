@@ -19,7 +19,7 @@ namespace Core
             _returnToMenuButton = GetComponent<Button>();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _returnToMenuButton.onClick.RemoveListener(ReturnToMenu);
         }

@@ -1,3 +1,5 @@
+using Core;
+
 namespace Interfaces
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace Interfaces
     /// For that, those codes are throwing null error or still aren't ready to warm-up, must
     /// move from Awake(), Start() to Initialization() function of IReady.
     /// With this, when scene completely loaded, Initialization() function
-    /// will be call by <see cref="Core.LevelLoader.AfterSceneLoad"/> to prevent race-condition
+    /// will be call by <see cref="SceneLoader.AfterSceneLoad"/> to prevent race-condition
     /// </summary>
     /// <remarks>Proboably will be replaced with DI</remarks>
     public interface IReady

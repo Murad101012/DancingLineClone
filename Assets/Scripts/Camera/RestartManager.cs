@@ -19,7 +19,7 @@ namespace Camera
         private void Awake()
         {
             LevelRegistrySo.Instance.Register(this);
-            LevelLoader.Instance?.RegisterIReady(this);
+            SceneLoader.Instance?.RegisterIReady(this);
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
 

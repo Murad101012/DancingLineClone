@@ -11,13 +11,13 @@ using UnityEngine.SceneManagement;
 namespace Core
 {
     /// <summary>
-    /// It's responsible for loading a Level.
+    /// It's responsible for loading a Scene.
     /// </summary>
     /// <remarks>If a level working properly by playing directly, but throw null errors
     /// when loading that same level with LevelLoader, please check <see cref="IReady"/></remarks>
-    public class LevelLoader : MonoBehaviour, ILevelPreviewChange
+    public class SceneLoader : MonoBehaviour, ILevelPreviewChange
     {
-        public static LevelLoader Instance;
+        public static SceneLoader Instance;
         private string _sceneNameInPreview;
         public event Action LevelLoaded;
         public event Action LevelUnloaded;

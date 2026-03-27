@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Core
 {
-    [RequireComponent(typeof(LevelLoader))]
+    [RequireComponent(typeof(SceneLoader))]
     public class ReturnToMenuHandler : MonoBehaviour
     {
-        private LevelLoader _levelLoader;
+        private SceneLoader _sceneLoader;
 
         private void OnEnable()
         {
@@ -15,7 +15,7 @@ namespace Core
 
         private void Awake()
         {
-            _levelLoader = GetComponent<LevelLoader>();
+            _sceneLoader = GetComponent<SceneLoader>();
         }
 
         private void OnDisable()
@@ -25,7 +25,7 @@ namespace Core
 
         private void OnReturnMenu()
         {
-            _levelLoader.ReturnToMenu();
+            _sceneLoader.ReturnToMenu();
         }
     }
 }
