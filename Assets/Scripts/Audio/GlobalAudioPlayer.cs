@@ -1,7 +1,9 @@
 using System;
 using Core;
 using DG.Tweening;
+using Gameplay;
 using Interfaces;
+using Ui.Core;
 using UnityEngine;
 
 namespace Audio
@@ -10,20 +12,25 @@ namespace Audio
     /// All sounds in the game going through this script
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
-    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
+    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead, ILevelPreviewChange
     {
         private AudioSource _audioSource;
         [SerializeField] public AudioClip _clip; //Remove SerializeField after fully implementation
-        private LevelLoader _levelLoader;
-        
+        private SceneLoader _sceneLoader;
+
+        private void OnEnable()
+        {
+            LevelPreviewChangeSender.OnLevelPreviewChange += OnLevelPreviewChange;
+        }
+
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
 
-            if (TryGetComponent(out _levelLoader))
+            if (TryGetComponent(out _sceneLoader))
             {
-                _levelLoader.LevelLoaded += RegisterToLevel;
-                _levelLoader.LevelUnloaded += UnregisterFromLevel;
+                _sceneLoader.LevelLoaded += OnSceneLoad;
+                _sceneLoader.LevelUnloaded += OnSceneUnload;
             }
             else
             {
@@ -32,25 +39,30 @@ namespace Audio
             
             InsertClip(_clip);
         }
-        
+
+        private void OnDisable()
+        {
+            LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
+        }
 
         private void OnDestroy()
         {
-            if (_levelLoader != null)
+            if (_sceneLoader != null)
             {
-                _levelLoader.LevelLoaded -= RegisterToLevel;
-                _levelLoader.LevelUnloaded -= UnregisterFromLevel;
+                _sceneLoader.LevelLoaded -= OnSceneLoad;
+                _sceneLoader.LevelUnloaded -= OnSceneUnload;
             }
         }
 
-        private void RegisterToLevel()
+        private void OnSceneLoad()
         {
-            if(LevelRegistrySo.Instance) LevelRegistrySo.Instance.Register(this);
+            LevelRegistrySo.Instance?.Register(this);
+            StopSound();
         }
 
-        private void UnregisterFromLevel()
+        private void OnSceneUnload()
         {
-            if(LevelRegistrySo.Instance) LevelRegistrySo.Instance.Unregister(this);
+            LevelRegistrySo.Instance?.Unregister(this);
         }
 
         private void InsertClip(AudioClip clip)
@@ -73,8 +85,7 @@ namespace Audio
             _audioSource.DOKill();
             
             if (!fading) _audioSource.Stop();
-            else _audioSource.DOFade(0, 5.0f).onComplete +=
-                () => _audioSource.Stop();
+            else _audioSource.DOFade(0, 5.0f).OnComplete(_audioSource.Stop);
         }
 
         public void OnLevelStart()
@@ -90,6 +101,13 @@ namespace Audio
         public void OnDead()
         {
             StopSound();
+        }
+
+        public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
+        {
+            if (levelPropertiesSo.levelSound == null) return;
+            InsertClip(levelPropertiesSo.levelSound);
+            PlaySound();
         }
     }
 }

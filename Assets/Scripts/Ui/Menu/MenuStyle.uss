@@ -1,0 +1,52 @@
+.root-container {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.container-levelLoadButton{
+    margin: 80px;
+}
+
+.container-levelLoadButton:hover .test-button{
+    translate: 0 -10px;
+    scale: 1.1;
+    transition-duration: .3s;
+}
+
+.test-button {
+    border-radius: 20px;
+    transition-duration: .5s;
+}
+
+.level-properties-container{
+    align-self: center;
+    width: 300px;
+    height: 400px;
+}
+
+.level-image-preview-properties{
+    -unity-background-scale-mode: scale-to-fit;
+    width: 100%;
+    height: 100%;
+}
+
+.level-image-preview-locked{
+    opacity: 0.9;
+    -unity-background-image-tint-color: grey;
+}
+
+.level-image-preview-unlocked{
+    opacity: 1;
+    -unity-background-image-tint-color: white;
+}
+
+.container-align-children-row{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.level-name-preview{
+    background-color: aqua;
+    align-self: center;
+}

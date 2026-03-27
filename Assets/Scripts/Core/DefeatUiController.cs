@@ -14,6 +14,7 @@ namespace Core
         [Header("UI References")]
         [SerializeField] private GameObject defeatScreen;
         [SerializeField] private Button checkPointButton;
+        [SerializeField] private Button backToMenuButton;
         /// <remarks>
         /// Duplicates from <see cref="CheckPointSnapshot._checkPointTriggered"/>
         /// </remarks>
@@ -27,6 +28,7 @@ namespace Core
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
             if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
+            
         }
 
         private void Awake()

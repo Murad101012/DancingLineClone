@@ -19,7 +19,7 @@ namespace Camera
         private void Awake()
         {
             LevelRegistrySo.Instance.Register(this);
-            LevelLoader.Instance?.RegisterIReady(this);
+            SceneLoader.Instance?.RegisterIReady(this);
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
 
@@ -49,21 +49,23 @@ namespace Camera
         {
             //Getting all CineMachine cameras under parent and loading to _cameras variable
             _cameras = cineMachineCamerasParent.GetComponentsInChildren<CinemachineCamera>(true);
-            if (_cameras.Length == 0 || _cameras == null)
-            {
-                Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
-                                 " with CineMachineCamera component,  disabling the Restart feature for Camera");
-                enabled = false;
-            }
+            if (_cameras.Length != 0) return;
+            Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
+                             " with CineMachineCamera component,  disabling the Restart feature for Camera");
+            enabled = false;
         }
 
         public void OnLevelStart()
         {
-            //Delaying the code, potentially brain hasn't assigned the virtualCamera yet.
+            /*Since ActiveVirtualCamera is not initialized yet In Awake() and Start(), executing this code cause always  return null exception
+              error, because CinemachineCamera isn't ready yet. So, instead it gets the camera that active as soon as player begin to
+              play the level*/          
             if (cameraAtBeginning == null)
             {
                 cameraAtBeginning = (CinemachineCamera)_cineMachineBrain.ActiveVirtualCamera;
-                Debug.LogWarning("RestartManager: Beginning Camera isn't set. Taking camera that active when player begin to play.");
+                Debug.LogWarning($"{name}: '{nameof(cameraAtBeginning)}' was not assigned in the Inspector. " +
+                                 $"Auto-assigned to '{cameraAtBeginning.name}'. " +
+                                 "(Tip: Assign this manually to avoid performance overhead of auto-detection.)");
             }
         }
 

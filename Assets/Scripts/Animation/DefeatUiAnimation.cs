@@ -43,6 +43,12 @@ namespace Animation
             _sequenceDefeatRoot.OnRewind(() => OnDefeatAnimationBackwardEnd?.Invoke());
         }
 
+        private void OnDestroy()
+        {
+            LevelRegistrySo.Instance.Unregister(this);
+            _sequenceDefeatRoot.Kill();
+        }
+
         public void OnDead()
         {
             DefeatScreenAnimate();
