@@ -1,52 +1,50 @@
-.root-container {
+/* 1. Main Screen Logic */
+.screen-root {
     flex-grow: 1;
     justify-content: center;
+    padding: 1.5%;
+    -unity-background-image-tint-color: darkgrey;
+    -unity-background-scale-mode: scale-and-crop;
 }
 
-.container-levelLoadButton{
-    margin: 80px;
-}
-
-.container-levelLoadButton:hover .test-button{
-    translate: 0 -10px;
-    scale: 1.1;
-    transition-duration: .3s;
-}
-
-.test-button {
-    border-radius: 20px;
-    transition-duration: .5s;
-}
-
-.level-properties-container{
-    align-self: center;
-    width: 300px;
-    height: 400px;
-}
-
-.level-image-preview-properties{
-    -unity-background-scale-mode: scale-to-fit;
-    width: 100%;
-    height: 100%;
-}
-
-.level-image-preview-locked{
-    opacity: 0.9;
-    -unity-background-image-tint-color: grey;
-}
-
-.level-image-preview-unlocked{
-    opacity: 1;
-    -unity-background-image-tint-color: white;
-}
-
-.container-align-children-row{
+/* 2. Layout Containers */
+.cont-carousel-viewport {
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 80%;
+}
+
+/* 3. Elements */
+.btn-level {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: white;
     justify-content: center;
     align-items: center;
 }
 
-.level-name-preview{
-    background-color: aqua;
+.btn-level-image {
+    height: 90%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.lbl-level-title {
     align-self: center;
+    height: auto;
+    font-size: 65px;
+    -unity-font-style: bold;
+    -unity-font-definition: url("project://database/Assets/TextMesh Pro/Fonts/LiberationSans.ttf");
+}
+
+/* 4. Utilities */
+.u-hide {
+    display: none;
+}
+
+.u-flex-spacer {
+    flex-grow: 1;
 }

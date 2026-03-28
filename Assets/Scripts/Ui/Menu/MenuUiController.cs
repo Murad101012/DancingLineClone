@@ -92,14 +92,18 @@ namespace Ui.Menu
             if (levelPropertiesSo.levelIndex == 0)
             {
                 _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(false);
+                _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(true);
             }
-            if (levelPropertiesSo.levelIndex == levelPropertiesSo.totalLevels - 1)
+            else if (levelPropertiesSo.levelIndex == levelPropertiesSo.totalLevels - 1)
             {
                 _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(false);
-                return;
+                _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(true);
             }
-            _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(true);
-            _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(true);
+            else
+            {
+                _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(true);
+                _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(true);
+            }
         }
     }
 }

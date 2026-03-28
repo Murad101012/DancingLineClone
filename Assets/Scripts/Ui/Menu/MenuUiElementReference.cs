@@ -20,7 +20,7 @@ namespace Ui.Menu
     {
         private VisualElement _root;
         
-        private readonly string _levelLoadButtonName = "levelLoadButton";
+        private readonly string _levelLoadButtonName = "Btn_LevelSelect";
         public Button LevelLoadButtonReference;
         
         private readonly string _levelPreviewImageName = "level-image";
