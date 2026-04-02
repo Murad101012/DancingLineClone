@@ -4,9 +4,20 @@
         <ui:Label name="Lbl_LevelTitle" text="LEVEL NAME" class="lbl-level-title"/>
         <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
         <ui:VisualElement name="Cont_Viewport" class="cont-carousel-viewport">
-            <ui:Button name="Btn_LevelSelect" class="btn-level">
-                <ui:VisualElement name="Img_level" picking-mode="Ignore" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/Piano/Image/preview.png?fileID=240456465&amp;guid=9e02e6ab9582cab31a7f3037b34a0353&amp;type=3#preview_0&quot;);"/>
-            </ui:Button>
+            <ui:VisualElement name="Cont_FilmLevel" class="cont-carousel-film-level-viewport">
+ <ui:Button name="LevelCreateTemplate" class="btn-level-image"  />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+ <ui:Button name="Piano" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+</ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Spc_Bottom" class="u-flex-spacer"/>
         <ui:VisualElement name="Cont_LevelSwap" class="u-hide container-align-children-row-center">

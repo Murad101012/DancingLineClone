@@ -10,10 +10,22 @@
 /* 2. Layout Containers */
 .cont-carousel-viewport {
     flex-direction: row;
-    justify-content: center;
     align-items: center;
     width: 100%;
     height: 80%;
+}
+
+.cont-carousel-film-level-viewport{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* 1. Force the container to grow with its children */
+    flex-grow: 1;
+    /* 2. Ensure it doesn't try to squeeze into the viewport */
+    min-width: 100%;
 }
 
 /* 3. Elements */
@@ -30,6 +42,7 @@
     height: 90%;
     aspect-ratio: 1;
     border-radius: 50%;
+    -unity-background-scale-mode: scale-and-crop;
 }
 
 .lbl-level-title {

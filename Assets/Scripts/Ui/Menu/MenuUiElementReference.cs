@@ -18,21 +18,19 @@ namespace Ui.Menu
     [RequireComponent(typeof(UIDocument))]
     public class MenuUiElementReference: MonoBehaviour
     {
-        private VisualElement _root;
+        public VisualElement Root;
+
+        private readonly string _filmLevelName = "Cont_FilmLevel";
+        public VisualElement FilmLevelReference;
         
-        private readonly string _levelLoadButtonName = "Btn_LevelSelect";
-        public Button LevelLoadButtonReference;
-        
-        private readonly string _levelPreviewImageName = "level-image";
-        public VisualElement LevelPreviewImageReference;
-        
-        private readonly string _levelLabelName = "level-name";
+        private readonly string _levelLabelName = "Lbl_LevelTitle";
         public Label LevelLabelNameReference;
         
-        private readonly string _levelChangeNextLevelButtonName = "next-level";
+        //Deprecated
+        private readonly string _levelChangeNextLevelButtonName = "Btn_NextLevel";
         public Button LevelChangeNextLevelButtonReference;
         
-        private readonly string _levelChangePreviousLevelButtonName = "previous-level";
+        private readonly string _levelChangePreviousLevelButtonName = "Btn_PrevLevel";
         public Button LevelChangePreviousLevelButtonReference;
         
         /// <summary>
@@ -47,7 +45,7 @@ namespace Ui.Menu
         private void Awake()
         {
             //After we get rootVisualElement, we begin to processing if all elements mentioned in here are available (not null)
-            _root = GetComponent<UIDocument>().rootVisualElement;
+            Root = GetComponent<UIDocument>().rootVisualElement;
             
             Initialization();
         }
@@ -56,22 +54,22 @@ namespace Ui.Menu
         private void Initialization()
         {
             //List all elements to get reference
-            LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
-            LevelPreviewImageReference = _root.Q<VisualElement>(_levelPreviewImageName);
-            LevelLabelNameReference = _root.Q<Label>(_levelLabelName);
-            LevelChangeNextLevelButtonReference = _root.Q<Button>(_levelChangeNextLevelButtonName);
-            LevelChangePreviousLevelButtonReference = _root.Q<Button>(_levelChangePreviousLevelButtonName);
+            //LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
+            LevelLabelNameReference = Root.Q<Label>(_levelLabelName);
+            LevelChangeNextLevelButtonReference = Root.Q<Button>(_levelChangeNextLevelButtonName);
+            LevelChangePreviousLevelButtonReference = Root.Q<Button>(_levelChangePreviousLevelButtonName);
+            FilmLevelReference = Root.Q<VisualElement>(_filmLevelName);
             
             
             //We're beginning with true, otherwise each time null check make checkResult to true even one of the Null check find problem,
             //it might be overridden  it 
             CheckResult = true;
             
-            Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
-            Validate(LevelPreviewImageReference, nameof(LevelPreviewImageReference));
+            //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
             Validate(LevelLabelNameReference, nameof(LevelLabelNameReference));
             Validate(LevelChangeNextLevelButtonReference, nameof(LevelChangeNextLevelButtonReference));
             Validate(LevelChangePreviousLevelButtonReference, nameof(LevelChangePreviousLevelButtonReference));
+            Validate(FilmLevelReference, nameof(FilmLevelReference));
             
             
             if (!CheckResult)

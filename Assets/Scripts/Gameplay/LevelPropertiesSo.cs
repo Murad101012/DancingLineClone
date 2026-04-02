@@ -15,7 +15,7 @@ namespace Gameplay
     {
         //TODO: Change to Addressable type loading
         public string levelName;
-        [SerializeField] private Sprite levelImage;
+        [SerializeField] public Sprite levelImage;
         public AudioClip levelSound;
         [HideInInspector] public StyleBackground styleBackgroundLevelImage;
         public AssetReference sceneLevel;
