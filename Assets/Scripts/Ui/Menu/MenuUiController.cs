@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Core;
 using Gameplay;
 using Interfaces;
-using Ui.Core;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -29,7 +28,7 @@ namespace Ui.Menu
         //Cache
         private readonly BackgroundSize _backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
         private readonly BackgroundPosition _backgroundPosition = new BackgroundPosition(BackgroundPositionKeyword.Center);
-        public static event Action OnLoadLevelButtonClicked;
+
         
         private void OnEnable()
         {
@@ -75,10 +74,7 @@ namespace Ui.Menu
             //_menuUiElementReference.LevelLoadButtonReference.clicked += LoadLevelButton;
         }
         
-        private void LoadLevelButton()
-        {
-            OnLoadLevelButtonClicked?.Invoke();
-        }
+        
 
         private void OnDisable()
         {

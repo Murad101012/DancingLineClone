@@ -1,4 +1,5 @@
 using System;
+using Core;
 using Gameplay;
 using Unity.Mathematics;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace Ui.Menu
         private float _smoothTime = 0.1f; // Very small for "snappy" but smooth
         
         private event Action OnSpaceBetweenLevelChange;
+        public static event Action OnLoadLevelButtonClicked;
         
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
 
@@ -47,6 +49,7 @@ namespace Ui.Menu
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
             _menuUiLevelController = GetComponent<MenuUiLevelController>();
+            
         }
         
         private void Start()
@@ -237,15 +240,18 @@ namespace Ui.Menu
               we assume player tried to click on a level, so we send load level signal*/
             if (!_hasMovedSignificantly)
             {
-                if (_targetWhenClicked is Button btn)
-                {
-                    Debug.Log($"Level Selected: {btn.name}");
-                }
+                LoadLevelButton();
+                Debug.Log($"Level Selected: {_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview].levelName}");
             }
             
             //Resetting values
             _holdingTheMouseOnWheel = false;
             _hasMovedSignificantly = false;
+        }
+        
+        private void LoadLevelButton()
+        {
+            OnLoadLevelButtonClicked?.Invoke();
         }
         
         private void Update()

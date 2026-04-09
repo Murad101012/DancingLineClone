@@ -295,12 +295,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelController
   levelPropertiesSo:
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   levelPropertiesLength: 0
@@ -611,6 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb7614fcdfb4ab98f2cd8da800d1c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelLoader
+  menuOnLevelInPreviewChange: {fileID: 11400000, guid: d38089205368cd48fba20ac7eaf56cde, type: 2}
 --- !u!114 &2123360494
 MonoBehaviour:
   m_ObjectHideFlags: 0

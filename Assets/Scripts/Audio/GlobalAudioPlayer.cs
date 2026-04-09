@@ -3,7 +3,6 @@ using Core;
 using DG.Tweening;
 using Gameplay;
 using Interfaces;
-using Ui.Core;
 using Ui.Menu;
 using UnityEngine;
 

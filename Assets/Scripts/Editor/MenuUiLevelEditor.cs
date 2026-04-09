@@ -89,15 +89,15 @@ public class MenuUiLevelEditor : UnityEditor.Editor
                 styleString = $"style=\"background-image: url('project://database/{assetPath}');\"";
             }
 
-            buttonsXml += $"<ui:Button name=\"Btn_Background\" class=\"btn-level\" >\n                    <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />\n                </ui:Button>";
+            buttonsXml += $"\n\n                <ui:VisualElement name=\"{level.levelName}\" class=\"btn-level\" >\n                    <ui:VisualElement name=\"Btn_Background\" class=\"btn-level-image\" {styleString} />\n                </ui:VisualElement>";
 
             //buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
         }
 
-        buttonsXml += "\n";
+        buttonsXml += "\n\n";
 
         File.WriteAllText(fullPathOfUiDocument, Regex.Replace(originalXml,
-            @"(?<=<ui:VisualElement name=""Cont_Carousel""[^>]*>).*?(?=</ui:VisualElement>)", buttonsXml,
+            @"(?<=<ui:VisualElement name=""Cont_Carousel""[^>]*>).*?(?=</ui:VisualElement >)", buttonsXml,
             RegexOptions.Singleline));
 
         AssetDatabase.Refresh();

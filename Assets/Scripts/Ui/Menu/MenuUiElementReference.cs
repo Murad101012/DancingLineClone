@@ -32,14 +32,7 @@ namespace Ui.Menu
         private readonly string _debugLabelName = "Lbl_DebugText";
         public Label DebugLabelNameReference;
         
-        public Button[] LevelButtonsReferences;
-        
-        //Deprecated
-        private readonly string _levelChangeNextLevelButtonName = "Btn_NextLevel";
-        public Button LevelChangeNextLevelButtonReference;
-        
-        private readonly string _levelChangePreviousLevelButtonName = "Btn_PrevLevel";
-        public Button LevelChangePreviousLevelButtonReference;
+        public VisualElement[] LevelButtonsReferences;
         
         /// <summary>
         /// Scripts those are using <see cref="MenuUiElementReference"/> must implement this event, to prevent null UI Element problems.
@@ -64,16 +57,14 @@ namespace Ui.Menu
             //List all elements to get reference
             //LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
             LevelLabelNameReference = Root.Q<Label>(_levelLabelName);
-            LevelChangeNextLevelButtonReference = Root.Q<Button>(_levelChangeNextLevelButtonName);
-            LevelChangePreviousLevelButtonReference = Root.Q<Button>(_levelChangePreviousLevelButtonName);
             CarouselReference = Root.Q<VisualElement>(_carouselName);
             DebugLabelNameReference = Root.Q<Label>(_debugLabelName);
             DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
             
-            LevelButtonsReferences = new Button[CarouselReference.childCount];
+            LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
-                LevelButtonsReferences[i] = CarouselReference[i] as Button; 
+                LevelButtonsReferences[i] = CarouselReference[i]; 
             }
             
             
@@ -83,8 +74,6 @@ namespace Ui.Menu
             
             //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
             Validate(LevelLabelNameReference, nameof(LevelLabelNameReference));
-            Validate(LevelChangeNextLevelButtonReference, nameof(LevelChangeNextLevelButtonReference));
-            Validate(LevelChangePreviousLevelButtonReference, nameof(LevelChangePreviousLevelButtonReference));
             Validate(CarouselReference, nameof(CarouselReference));
             Validate(DebugLabelNameReference, nameof(DebugLabelNameReference));
             Validate(DragZoneReference, nameof(DragZoneReference));

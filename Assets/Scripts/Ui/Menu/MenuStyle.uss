@@ -56,6 +56,13 @@
     -unity-font-style: bold;
     -unity-font-definition: url("project://database/Assets/TextMesh Pro/Fonts/LiberationSans.ttf");
 }
+.btn-level-disc-dot{
+    background-color: black;
+    height: 5%;
+    width: 5%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
 
 /* 4. Utilities */
 .u-hide {
