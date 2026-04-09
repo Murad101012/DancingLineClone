@@ -19,12 +19,20 @@ namespace Ui.Menu
     public class MenuUiElementReference: MonoBehaviour
     {
         public VisualElement Root;
+        
+        private readonly string _dragZoneName = "Cont_DragZone";
+        public VisualElement DragZoneReference;
 
-        private readonly string _filmLevelName = "Cont_FilmLevel";
-        public VisualElement FilmLevelReference;
+        private readonly string _carouselName = "Cont_Carousel";
+        public VisualElement CarouselReference;
         
         private readonly string _levelLabelName = "Lbl_LevelTitle";
         public Label LevelLabelNameReference;
+
+        private readonly string _debugLabelName = "Lbl_DebugText";
+        public Label DebugLabelNameReference;
+        
+        public Button[] LevelButtonsReferences;
         
         //Deprecated
         private readonly string _levelChangeNextLevelButtonName = "Btn_NextLevel";
@@ -58,7 +66,15 @@ namespace Ui.Menu
             LevelLabelNameReference = Root.Q<Label>(_levelLabelName);
             LevelChangeNextLevelButtonReference = Root.Q<Button>(_levelChangeNextLevelButtonName);
             LevelChangePreviousLevelButtonReference = Root.Q<Button>(_levelChangePreviousLevelButtonName);
-            FilmLevelReference = Root.Q<VisualElement>(_filmLevelName);
+            CarouselReference = Root.Q<VisualElement>(_carouselName);
+            DebugLabelNameReference = Root.Q<Label>(_debugLabelName);
+            DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
+            
+            LevelButtonsReferences = new Button[CarouselReference.childCount];
+            for (int i = 0; i < CarouselReference.childCount; i++)
+            {
+                LevelButtonsReferences[i] = CarouselReference[i] as Button; 
+            }
             
             
             //We're beginning with true, otherwise each time null check make checkResult to true even one of the Null check find problem,
@@ -69,7 +85,13 @@ namespace Ui.Menu
             Validate(LevelLabelNameReference, nameof(LevelLabelNameReference));
             Validate(LevelChangeNextLevelButtonReference, nameof(LevelChangeNextLevelButtonReference));
             Validate(LevelChangePreviousLevelButtonReference, nameof(LevelChangePreviousLevelButtonReference));
-            Validate(FilmLevelReference, nameof(FilmLevelReference));
+            Validate(CarouselReference, nameof(CarouselReference));
+            Validate(DebugLabelNameReference, nameof(DebugLabelNameReference));
+            Validate(DragZoneReference, nameof(DragZoneReference));
+            for (int i = 0; i < CarouselReference.childCount; i++)
+            {
+                Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
+            }
             
             
             if (!CheckResult)

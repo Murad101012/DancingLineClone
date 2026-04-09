@@ -15,6 +15,7 @@ public class MenuUiLevelEditor : UnityEditor.Editor
     {
         _menuUiLevelController = (MenuUiLevelController)target;
     }
+    
 
     public override void OnInspectorGUI()
     {
@@ -37,17 +38,17 @@ public class MenuUiLevelEditor : UnityEditor.Editor
         }
         GUI.enabled = true;
     }
-    
+
     private string GetUiDocumentAddress()
     {
         if (_menuUiLevelController == null)
         {
             return "0";
         }
-        
+
         _menuUiLevelController.TryGetComponent(out UIDocument uiDocument);
         string relativePath;
-        
+
         if (uiDocument != null)
         {
             // 1. Get the Unity Relative Path (e.g., "Assets/Menu.uxml")
@@ -60,7 +61,7 @@ public class MenuUiLevelEditor : UnityEditor.Editor
             // 3. Combine them to get the "Surgical" path for the SSD
             return Path.Combine(projectRoot, relativePath);
         }
-        
+
         Debug.LogWarning($"{nameof(MenuUiLevelController)}: I couldn't find UIDocument under my parent");
         return "0";
     }
@@ -71,7 +72,7 @@ public class MenuUiLevelEditor : UnityEditor.Editor
 
         string fullPathOfUiDocument = GetUiDocumentAddress();
         if (fullPathOfUiDocument == "0") return;
-        
+
         string originalXml = File.ReadAllText(fullPathOfUiDocument);
 
         string buttonsXml = "";
@@ -88,16 +89,17 @@ public class MenuUiLevelEditor : UnityEditor.Editor
                 styleString = $"style=\"background-image: url('project://database/{assetPath}');\"";
             }
 
-            buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
+            buttonsXml += $"<ui:Button name=\"Btn_Background\" class=\"btn-level\" >\n                    <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />\n                </ui:Button>";
+
+            //buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
         }
 
         buttonsXml += "\n";
-            
+
         File.WriteAllText(fullPathOfUiDocument, Regex.Replace(originalXml,
-            @"(?<=<ui:VisualElement name=""Cont_FilmLevel""[^>]*>).*?(?=</ui:VisualElement>)", buttonsXml,
+            @"(?<=<ui:VisualElement name=""Cont_Carousel""[^>]*>).*?(?=</ui:VisualElement>)", buttonsXml,
             RegexOptions.Singleline));
-        
-        
+
         AssetDatabase.Refresh();
     }
 }

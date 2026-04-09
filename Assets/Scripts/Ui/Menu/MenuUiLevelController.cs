@@ -1,3 +1,4 @@
+using System;
 using Gameplay;
 using UnityEngine;
 
@@ -10,5 +11,11 @@ namespace Ui.Menu
     public class MenuUiLevelController : MonoBehaviour
     {
         public LevelPropertiesSo[] levelPropertiesSo;
+        public int levelPropertiesLength;
+
+        private void Awake()
+        {
+            levelPropertiesLength = levelPropertiesSo.Length;
+        }
     }
 }
