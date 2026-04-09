@@ -15,7 +15,6 @@ namespace Ui.Menu
         private MenuUiElementReference _menuUiElementReference;
         private MenuUiLevelController _menuUiLevelController;
 
-        private int _levelButtonTotalSpaceWidth;
         private int _levelIndexInPreview;
         private Vector2 _areaWidthOfLevelIndexInPreview;
         
@@ -26,11 +25,7 @@ namespace Ui.Menu
         private float _currentScrollX;
         private float _distanceBetweenTargetAndCurrentScrollX;
         private VisualElement _targetWhenClicked;
-        float _scrollBaseOnEvtForEachButtonX;
-        private float _evtDeltaPositionDecreaseWhenStopTouching;
-        private float _sizeOfWheelXMin;
-        private float _sizeOfWheelXMax;
-        private int _spaceBetweenLevelButtons; //Currently Hard-coded
+        private int _spaceBetweenLevelButtons;
         
         private Vector2 _startPos;
         private bool _hasMovedSignificantly;
@@ -40,8 +35,7 @@ namespace Ui.Menu
         
         private event Action OnSpaceBetweenLevelChange;
         
-        //TODO: If listener over 3, change to ScriptableObject based Event where static is no more
-        public static event Action<LevelPropertiesSo> OnLevelInPreviewChange;
+        [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
 
         private void OnEnable()
         {
@@ -57,6 +51,15 @@ namespace Ui.Menu
         
         private void Start()
         {
+            if (menuOnLevelInPreviewChangeSo == null)
+            {
+                Debug.LogWarning($"{name}: {nameof(menuOnLevelInPreviewChangeSo)} is null. Sending level preview change not possible");
+            }
+            else
+            {
+                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[0]);
+            }
+            
             if (!_menuUiElementReference.CheckFinished)
             {
                 string updateTextOfClass = nameof(MenuUiElementReference);
@@ -147,7 +150,6 @@ namespace Ui.Menu
                 if (_menuUiLevelController.levelPropertiesLength - 1 >= _levelIndexInPreview + 1)
                 {
                     _levelIndexInPreview++;
-                    OnLevelInPreviewChange?.Invoke(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview]);
                 }
             }
 
@@ -156,7 +158,6 @@ namespace Ui.Menu
                 if (_levelIndexInPreview > 0)
                 {
                     _levelIndexInPreview--;
-                    OnLevelInPreviewChange?.Invoke(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview]);
                 }
             }
 
@@ -195,7 +196,6 @@ namespace Ui.Menu
 
         private void ClickingTheWheel(PointerDownEvent evt)
         {
-            Debug.Log("Clicked");
             _targetWhenClicked = evt.target as VisualElement;
             _holdingTheMouseOnWheel = true;
             _startPos = evt.position; 
@@ -267,6 +267,7 @@ namespace Ui.Menu
                 /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
                   is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* and etc.)*/
                 _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
+                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview]);
             }
             
             UpdateWheelTranslatePosition();

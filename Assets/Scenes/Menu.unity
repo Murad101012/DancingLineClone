@@ -231,6 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4206fd3cd2423dadabf3020e47422f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiController
+  menuOnLevelInPreviewChangeSo: {fileID: 11400000, guid: d38089205368cd48fba20ac7eaf56cde, type: 2}
 --- !u!114 &1785521407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,18 +295,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelController
   levelPropertiesSo:
-  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
-  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   levelPropertiesLength: 0
 --- !u!114 &1785521412
 MonoBehaviour:
@@ -319,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39247625045544bfb243d9570a57645f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelCarousel
+  menuOnLevelInPreviewChangeSo: {fileID: 11400000, guid: d38089205368cd48fba20ac7eaf56cde, type: 2}
 --- !u!1 &1874162758
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5f67830b04cc599eed8870720a2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Audio.GlobalAudioPlayer
-  _clip: {fileID: 0}
+  menuOnLevelInPreviewChangeSo: {fileID: 11400000, guid: d38089205368cd48fba20ac7eaf56cde, type: 2}
 --- !u!82 &2123360491
 AudioSource:
   m_ObjectHideFlags: 0
