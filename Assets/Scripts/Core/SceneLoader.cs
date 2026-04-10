@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gameplay;
 using Interfaces;
-using Ui.Core;
 using Ui.Menu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,10 +14,12 @@ namespace Core
     /// </summary>
     /// <remarks>If a level working properly by playing directly, but throw null errors
     /// when loading that same level with LevelLoader, please check <see cref="IReady"/></remarks>
-    public class SceneLoader : MonoBehaviour, ILevelPreviewChange
+    public class SceneLoader : MonoBehaviour
     {
+        //TODO: Replace Instance with Zenject
         public static SceneLoader Instance;
         private string _sceneNameInPreview;
+        [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChange;
         public event Action LevelLoaded;
         public event Action LevelUnloaded;
         private List<IReady> _iReadyList = new();
@@ -26,8 +27,8 @@ namespace Core
 
         private void OnEnable()
         {
-            LevelPreviewChangeSender.OnLevelPreviewChange += OnLevelPreviewChange;
-            MenuUiController.OnLoadLevelButtonClicked += LoadLevelAsync;
+            MenuUiLevelCarousel.OnLoadLevelButtonClicked += LoadLevelAsync;
+            menuOnLevelInPreviewChange.LevelPreviewChangeEvent += OnLevelPreviewChange;
         }
 
         private void Awake()
@@ -46,8 +47,8 @@ namespace Core
 
         private void OnDisable()
         {
-            LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
-            MenuUiController.OnLoadLevelButtonClicked -= LoadLevelAsync;
+            MenuUiLevelCarousel.OnLoadLevelButtonClicked -= LoadLevelAsync;
+            menuOnLevelInPreviewChange.LevelPreviewChangeEvent -= OnLevelPreviewChange;
         }
 
 
@@ -56,14 +57,14 @@ namespace Core
             // Basic string check
             if (string.IsNullOrEmpty(_sceneNameInPreview)) 
             {
-                Debug.LogWarning($"{name}: No scene name provided in preview!");
+                Debug.LogWarning($"{name}: No scene name provided in preview");
                 return;
             }
 
             // Build Settings check
             if (!Application.CanStreamedLevelBeLoaded(_sceneNameInPreview))
             {
-                Debug.LogError($"{name}: Scene '{_sceneNameInPreview}' is not in Build Settings or doesn't exist!");
+                Debug.LogError($"{name}: Scene '{_sceneNameInPreview}' is not in Build Settings or doesn't exist");
                 return;
             }
             
@@ -88,8 +89,6 @@ namespace Core
             {
                 LevelUnloaded?.Invoke();
             }
-            
-            Debug.Log("Load Complete!");
         }
 
         public void RegisterIReady(IReady iReady)
@@ -110,9 +109,9 @@ namespace Core
             _iReadyList.Clear();
         }
 
-        public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
+        private void OnLevelPreviewChange()
         {
-            _sceneNameInPreview = levelPropertiesSo.levelName;
+            _sceneNameInPreview = menuOnLevelInPreviewChange.levelInPreview.levelName;
         }
 
         public void ReturnToMenu()

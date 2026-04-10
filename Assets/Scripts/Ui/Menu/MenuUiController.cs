@@ -1,8 +1,3 @@
-using System;
-using Core;
-using Gameplay;
-using Interfaces;
-using Ui.Core;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,16 +12,24 @@ namespace Ui.Menu
     /// names if their name changed</remarks>
     [RequireComponent(typeof(MenuUiElementReference))]
     [RequireComponent(typeof(UIDocument))]
-    public class MenuUiController : MonoBehaviour, ILevelPreviewChange
+    public class MenuUiController : MonoBehaviour
     {
         private UIDocument _uiDocument;
         private MenuUiElementReference _menuUiElementReference;
-        private readonly StyleBackground _nullStyleBackground = StyleKeyword.Null;
-        public static event Action OnLoadLevelButtonClicked;
-
+        [SerializeField] MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
+        
+        //Cache Scale and Crop
+        private readonly BackgroundSize _backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
+        private readonly BackgroundPosition _backgroundPosition = new BackgroundPosition(BackgroundPositionKeyword.Center);
+        
         private void OnEnable()
         {
-            LevelPreviewChangeSender.OnLevelPreviewChange += OnLevelPreviewChange;
+            if (menuOnLevelInPreviewChangeSo == null)
+            {
+                Debug.LogWarning($"{name}: {nameof(menuOnLevelInPreviewChangeSo)} is null. Chancing name and background not possible");
+                return;
+            }
+            menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
         }
 
         private void Awake()
@@ -54,52 +57,32 @@ namespace Ui.Menu
                 enabled = false;
                 return;
             }
-            
-            Initialization();
         }
 
-        private void Initialization()
-        {
-            _menuUiElementReference.LevelLoadButtonReference.clicked += LoadLevelButton;
-        }
-        
         private void OnDisable()
         {
-            LevelPreviewChangeSender.OnLevelPreviewChange -= OnLevelPreviewChange;
-        }
-        
-        private void LoadLevelButton()
-        {
-            OnLoadLevelButtonClicked?.Invoke();
+            menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
         }
 
-        private void OnDestroy()
-        {
-            _menuUiElementReference.LevelLoadButtonReference.clicked -= LoadLevelButton;
-        }
-
-        public void OnLevelPreviewChange(LevelPropertiesSo levelPropertiesSo)
+        private void OnLevelPreviewChange()
         {
             //Chancing name
-            _menuUiElementReference.LevelLabelNameReference.text = levelPropertiesSo.levelName;
+            _menuUiElementReference.LevelLabelNameReference.text =
+                menuOnLevelInPreviewChangeSo.levelInPreview.levelName;
             
-            //Chancing image
-            _menuUiElementReference.LevelPreviewImageReference.style.backgroundImage = 
-                levelPropertiesSo.styleBackgroundLevelImage != null
-                    ? levelPropertiesSo.styleBackgroundLevelImage : _nullStyleBackground;
+            //Chancing background-image
+            _menuUiElementReference.Root.style.backgroundImage =
+                menuOnLevelInPreviewChangeSo.levelInPreview.styleBackgroundLevelImage;
             
-            //Disabling/enabling the buttons interactable if player first/last or between levels
-            if (levelPropertiesSo.levelIndex == 0)
-            {
-                _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(false);
-            }
-            if (levelPropertiesSo.levelIndex == levelPropertiesSo.totalLevels - 1)
-            {
-                _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(false);
-                return;
-            }
-            _menuUiElementReference.LevelChangePreviousLevelButtonReference.SetEnabled(true);
-            _menuUiElementReference.LevelChangeNextLevelButtonReference.SetEnabled(true);
+            //Since setting this in root class container ignored when we set background-image as style, we need to implement in C# manually
+            /*By Gemini: Modern replacement for -unity-background-scale-mode: scale-and-crop */
+            // 1. Force 'Cover' (Scale and Crop) via C#
+            _menuUiElementReference.Root.style.backgroundSize = _backgroundSize;
+
+            // 2. Force 'Center' alignment
+            _menuUiElementReference.Root.style.backgroundPositionX = _backgroundPosition;
+            _menuUiElementReference.Root.style.backgroundPositionY = _backgroundPosition;
+
         }
     }
 }

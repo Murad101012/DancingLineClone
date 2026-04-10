@@ -15,14 +15,10 @@ namespace Gameplay
     {
         //TODO: Change to Addressable type loading
         public string levelName;
-        [SerializeField] private Sprite levelImage;
+        [SerializeField] public Sprite levelImage;
         public AudioClip levelSound;
         [HideInInspector] public StyleBackground styleBackgroundLevelImage;
         public AssetReference sceneLevel;
-        
-        //Required by MenuUiElementReference to disable/enable interactable of level change buttons
-        public int totalLevels;
-        public int levelIndex;
 
         //As soon as levelImage add from inspector, thi
         private void OnValidate()

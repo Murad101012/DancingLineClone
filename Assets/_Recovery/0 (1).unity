@@ -211,6 +211,8 @@ GameObject:
   - component: {fileID: 1785521407}
   - component: {fileID: 1785521406}
   - component: {fileID: 1785521410}
+  - component: {fileID: 1785521412}
+  - component: {fileID: 1785521411}
   m_Layer: 0
   m_Name: MenuUi
   m_TagString: Untagged
@@ -295,6 +297,37 @@ MonoBehaviour:
   levelPropertiesSo:
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+--- !u!114 &1785521411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785521405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dda00d3acaa4f11867f7bf07a38a5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelController
+  levelPropertiesSo:
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+--- !u!114 &1785521412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785521405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39247625045544bfb243d9570a57645f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelCarousel
 --- !u!1 &1874162758
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +409,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

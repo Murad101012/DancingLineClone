@@ -210,6 +210,8 @@ GameObject:
   - component: {fileID: 1785521408}
   - component: {fileID: 1785521407}
   - component: {fileID: 1785521406}
+  - component: {fileID: 1785521410}
+  - component: {fileID: 1785521411}
   m_Layer: 0
   m_Name: MenuUi
   m_TagString: Untagged
@@ -229,7 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4206fd3cd2423dadabf3020e47422f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiController
-  levelLoadEventSo: {fileID: 11400000, guid: 096decb597e2bcd109659a012e03e34a, type: 2}
 --- !u!114 &1785521407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +281,46 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1785521410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785521405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1080c42e8d3244ffb356771d41821700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ui.Core.LevelPreviewChangeSender
+  levelPropertiesSo:
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+--- !u!114 &1785521411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785521405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dda00d3acaa4f11867f7bf07a38a5e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ui.Menu.MenuUiLevelController
+  levelPropertiesSo:
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
 --- !u!1 &1874162758
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +402,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -429,6 +470,7 @@ GameObject:
   - component: {fileID: 2123360491}
   - component: {fileID: 2123360490}
   - component: {fileID: 2123360493}
+  - component: {fileID: 2123360494}
   m_Layer: 0
   m_Name: GeneralManagement
   m_TagString: Untagged
@@ -448,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc5f67830b04cc599eed8870720a2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Audio.GlobalAudioPlayer
-  _clip: {fileID: 8300000, guid: 6633b6738e186c708a6c1c4ac16fc0e1, type: 3}
+  _clip: {fileID: 0}
 --- !u!82 &2123360491
 AudioSource:
   m_ObjectHideFlags: 0
@@ -573,8 +615,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb7614fcdfb4ab98f2cd8da800d1c29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelLoader
-  sceneName: LevelCreateTemplate
-  levelLoadEventSo: {fileID: 11400000, guid: 096decb597e2bcd109659a012e03e34a, type: 2}
+--- !u!114 &2123360494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123360488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f3797d27f1546d8a68fdf2c170a9e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.ReturnToMenuHandler
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

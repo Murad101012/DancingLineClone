@@ -1,18 +1,46 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/Ui/Menu/MenuStyle.uss?fileID=7433441132597879392&amp;guid=7fc032f73f7f76c7da3d46b9137e4bff&amp;type=3#MenuStyle"/>
-    <ui:VisualElement class="root-container">
-        <ui:VisualElement name="level-properties" class="level-properties-container">
-            <ui:VisualElement name="level-image" class="level-image-preview-properties level-image-preview-unlocked"/>
-            <ui:Label name="level-name" text="level name" class="level-name-preview"/>
+    <ui:VisualElement name="Screen_Menu" class="screen-root">
+        <ui:Label name="Lbl_DebugText" text="DEBUG" style="position: absolute; right: 0; top: 0; font-size: 70px; -unity-font-style: bold; display: none;"/>
+        <ui:Label name="Lbl_LevelTitle" text="LEVEL NAME" class="lbl-level-title"/>
+        <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
+        <ui:VisualElement name="Cont_DragZone" class="cont-carousel-viewport">
+            <ui:VisualElement name="Cont_Carousel" class="cont-carousel-film-level-viewport">
+
+                <ui:VisualElement name="Piano" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Neon Rose" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Piano" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Neon Rose" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Piano" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Neon Rose" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Piano" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                </ui:VisualElement>
+
+                <ui:VisualElement name="Neon Rose" class="btn-level" >
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                </ui:VisualElement>
+
+                </ui:VisualElement >
         </ui:VisualElement>
-        <ui:VisualElement name="level-swap-button-container" class="container-align-children-row">
-            <ui:Button name="previous-level" text="previous">
-            </ui:Button>
-            <ui:Button name="next-level" text="next">
-            </ui:Button>
-        </ui:VisualElement>
-        <ui:VisualElement name="containerTestButton" class="container-levelLoadButton">
-            <ui:Button name="levelLoadButton" text="Click me" class="test-button"/>
-        </ui:VisualElement>
+        <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
     </ui:VisualElement>
 </ui:UXML>

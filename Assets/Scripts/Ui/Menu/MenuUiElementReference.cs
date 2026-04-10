@@ -18,22 +18,21 @@ namespace Ui.Menu
     [RequireComponent(typeof(UIDocument))]
     public class MenuUiElementReference: MonoBehaviour
     {
-        private VisualElement _root;
+        public VisualElement Root;
         
-        private readonly string _levelLoadButtonName = "levelLoadButton";
-        public Button LevelLoadButtonReference;
+        private readonly string _dragZoneName = "Cont_DragZone";
+        public VisualElement DragZoneReference;
+
+        private readonly string _carouselName = "Cont_Carousel";
+        public VisualElement CarouselReference;
         
-        private readonly string _levelPreviewImageName = "level-image";
-        public VisualElement LevelPreviewImageReference;
-        
-        private readonly string _levelLabelName = "level-name";
+        private readonly string _levelLabelName = "Lbl_LevelTitle";
         public Label LevelLabelNameReference;
+
+        private readonly string _debugLabelName = "Lbl_DebugText";
+        public Label DebugLabelNameReference;
         
-        private readonly string _levelChangeNextLevelButtonName = "next-level";
-        public Button LevelChangeNextLevelButtonReference;
-        
-        private readonly string _levelChangePreviousLevelButtonName = "previous-level";
-        public Button LevelChangePreviousLevelButtonReference;
+        public VisualElement[] LevelButtonsReferences;
         
         /// <summary>
         /// Scripts those are using <see cref="MenuUiElementReference"/> must implement this event, to prevent null UI Element problems.
@@ -47,31 +46,40 @@ namespace Ui.Menu
         private void Awake()
         {
             //After we get rootVisualElement, we begin to processing if all elements mentioned in here are available (not null)
-            _root = GetComponent<UIDocument>().rootVisualElement;
+            Root = GetComponent<UIDocument>().rootVisualElement;
             
             Initialization();
         }
         
-        //TODO check this with Unit Testing if all buttons come correctly from UIToolkit
         private void Initialization()
         {
             //List all elements to get reference
-            LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
-            LevelPreviewImageReference = _root.Q<VisualElement>(_levelPreviewImageName);
-            LevelLabelNameReference = _root.Q<Label>(_levelLabelName);
-            LevelChangeNextLevelButtonReference = _root.Q<Button>(_levelChangeNextLevelButtonName);
-            LevelChangePreviousLevelButtonReference = _root.Q<Button>(_levelChangePreviousLevelButtonName);
+            //LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
+            LevelLabelNameReference = Root.Q<Label>(_levelLabelName);
+            CarouselReference = Root.Q<VisualElement>(_carouselName);
+            DebugLabelNameReference = Root.Q<Label>(_debugLabelName);
+            DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
+            
+            LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
+            for (int i = 0; i < CarouselReference.childCount; i++)
+            {
+                LevelButtonsReferences[i] = CarouselReference[i]; 
+            }
             
             
             //We're beginning with true, otherwise each time null check make checkResult to true even one of the Null check find problem,
             //it might be overridden  it 
             CheckResult = true;
             
-            Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
-            Validate(LevelPreviewImageReference, nameof(LevelPreviewImageReference));
+            //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
             Validate(LevelLabelNameReference, nameof(LevelLabelNameReference));
-            Validate(LevelChangeNextLevelButtonReference, nameof(LevelChangeNextLevelButtonReference));
-            Validate(LevelChangePreviousLevelButtonReference, nameof(LevelChangePreviousLevelButtonReference));
+            Validate(CarouselReference, nameof(CarouselReference));
+            Validate(DebugLabelNameReference, nameof(DebugLabelNameReference));
+            Validate(DragZoneReference, nameof(DragZoneReference));
+            for (int i = 0; i < CarouselReference.childCount; i++)
+            {
+                Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
+            }
             
             
             if (!CheckResult)
