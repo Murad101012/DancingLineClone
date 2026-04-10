@@ -51,7 +51,6 @@ namespace Ui.Menu
             Initialization();
         }
         
-        //TODO check this with Unit Testing if all buttons come correctly from UIToolkit
         private void Initialization()
         {
             //List all elements to get reference

@@ -39,7 +39,8 @@
                     <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
                 </ui:VisualElement>
 
-</ui:VisualElement >
+                </ui:VisualElement >
         </ui:VisualElement>
+        <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
     </ui:VisualElement>
 </ui:UXML>

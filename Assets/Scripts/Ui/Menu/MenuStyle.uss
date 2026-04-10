@@ -31,7 +31,7 @@
 .btn-level {
     position: absolute;
     align-content: center;
-    height: 90%;
+    height: 80%;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: white;

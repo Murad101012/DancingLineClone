@@ -112,7 +112,6 @@ namespace Core
         private void OnLevelPreviewChange()
         {
             _sceneNameInPreview = menuOnLevelInPreviewChange.levelInPreview.levelName;
-            Debug.Log(_sceneNameInPreview);
         }
 
         public void ReturnToMenu()

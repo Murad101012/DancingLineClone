@@ -1,10 +1,3 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Core;
-using Gameplay;
-using Interfaces;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -25,10 +18,9 @@ namespace Ui.Menu
         private MenuUiElementReference _menuUiElementReference;
         [SerializeField] MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         
-        //Cache
+        //Cache Scale and Crop
         private readonly BackgroundSize _backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
         private readonly BackgroundPosition _backgroundPosition = new BackgroundPosition(BackgroundPositionKeyword.Center);
-
         
         private void OnEnable()
         {
@@ -65,16 +57,7 @@ namespace Ui.Menu
                 enabled = false;
                 return;
             }
-            
-            Initialization();
         }
-
-        private void Initialization()
-        {
-            //_menuUiElementReference.LevelLoadButtonReference.clicked += LoadLevelButton;
-        }
-        
-        
 
         private void OnDisable()
         {
@@ -99,6 +82,7 @@ namespace Ui.Menu
             // 2. Force 'Center' alignment
             _menuUiElementReference.Root.style.backgroundPositionX = _backgroundPosition;
             _menuUiElementReference.Root.style.backgroundPositionY = _backgroundPosition;
+
         }
     }
 }
