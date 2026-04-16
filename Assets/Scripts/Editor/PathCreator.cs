@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Editor
 {
-    public class PathCreator : EditorWindow, ILevelState
+    public class PathCreator : EditorWindow, ILevelState, ILevelRegistryUser
     {
         private Vector2 _scrollPos;
         private PathCreatorSO _pathCreatorSo;
@@ -16,6 +16,8 @@ namespace Editor
         private Color _originalColor;
         private Transform _playerTransform;
         private float _pathWidth = 1.0f;
+        private LevelRegistrySo _levelRegistrySo;
+        
         private void OnEnable()
         {
             _originalColor = GUI.backgroundColor;
@@ -35,7 +37,7 @@ namespace Editor
             if (state == PlayModeStateChange.EnteredPlayMode && _onRecord)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                LevelRegistrySo.Instance.Register(this);
+                _levelRegistrySo.Register(this);
             }
         }
 
@@ -349,7 +351,12 @@ namespace Editor
 
         public void OnLevelStop()
         {
-            //It will be empty
+            _levelRegistrySo.Unregister(this);
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

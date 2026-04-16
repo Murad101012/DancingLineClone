@@ -14,6 +14,8 @@ namespace Player.States
     public class PlayerMoveState : IPlayerState
     {
         private readonly PlayerCoreLogic _playerCoreLogic;
+        private LevelRegistrySo _levelRegistrySo;
+
         private Transform _movementTransform;
         private bool _switchOrder;
         private DirectionController _directionController;
@@ -25,10 +27,13 @@ namespace Player.States
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onGround"/></remarks>
         private bool _onGround = true;
         
-        public PlayerMoveState(PlayerCoreLogic playerCoreLogic) => _playerCoreLogic = playerCoreLogic;
+        public PlayerMoveState(PlayerCoreLogic playerCoreLogic, LevelRegistrySo registry) 
+        {
+            _playerCoreLogic = playerCoreLogic;
+            _levelRegistrySo = registry;
+        }
         
         public static event Action PlayerPressed;
-
         
         public void StateBegin()
         {
@@ -45,7 +50,7 @@ namespace Player.States
             _dancingLineCloneInput.Player.Enable();
             _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
             
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
         }
         
         public void StateTick()
@@ -125,7 +130,7 @@ namespace Player.States
             call to use again*/
             _onGround = true;
             
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
             _dancingLineCloneInput.Player.Disable();
         }
 

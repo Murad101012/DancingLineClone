@@ -10,15 +10,16 @@ namespace Animation
     /// Animations for Victory.prefab
     /// </summary>
     [RequireComponent(typeof(VictoryUiController))]
-    public class VictoryUiAnimation : MonoBehaviour, IVictory, IOnRestart
+    public class VictoryUiAnimation : MonoBehaviour, IVictory, IOnRestart, ILevelRegistryUser
     {
         [SerializeField] private GameObject victoryRoot;
         private Sequence _sequenceVictoryRoot;
         public event Action OnVictoryAnimationBackwardEnd;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             
             /*Scale victoryRoot to Vector3.zero for ease animation where from 0 to 1.
              Since using .From() tween causing show victoryUI scale 1 (Meaning it's being late
@@ -51,6 +52,16 @@ namespace Animation
         public void OnLevelRestart()
         {
             VictoryScreenAnimate(false);
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
+        }
+
+        private void OnDestroy()
+        {
+            _levelRegistrySo.Unregister(this);
         }
     }
 }

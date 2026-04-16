@@ -9,16 +9,17 @@ namespace Camera
     /// It will reset all cameras priority to zero except the CineMachine Camera at the beginning of the level
     /// </summary>
     [RequireComponent(typeof(CinemachineBrain))]
-    public class RestartManager : MonoBehaviour, IOnRestart, ILevelState, IReady
+    public class RestartManager : MonoBehaviour, IOnRestart, ILevelState, IReady, ILevelRegistryUser
     {
         private CinemachineBrain _cineMachineBrain;
         private CinemachineCamera[] _cameras;
         [SerializeField] private Transform cineMachineCamerasParent;
         [SerializeField] private CinemachineCamera cameraAtBeginning;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             SceneLoader.Instance?.RegisterIReady(this);
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
@@ -30,7 +31,7 @@ namespace Camera
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         public void OnLevelRestart()
@@ -70,5 +71,10 @@ namespace Camera
         }
 
         public void OnLevelStop() {/*It will be empty*/}
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
+        }
     }
 }

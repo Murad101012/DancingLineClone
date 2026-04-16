@@ -18,6 +18,7 @@ namespace Audio
         private AudioClip _clip;
         private SceneLoader _sceneLoader;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
+        [SerializeField] private LevelRegistrySo levelRegistrySo;
 
         private void OnEnable()
         {
@@ -62,13 +63,13 @@ namespace Audio
 
         private void OnSceneLoad()
         {
-            LevelRegistrySo.Instance?.Register(this);
+            levelRegistrySo.Register(this);
             StopSound();
         }
 
         private void OnSceneUnload()
         {
-            LevelRegistrySo.Instance?.Unregister(this);
+            levelRegistrySo.Unregister(this);
         }
 
         private void InsertClip(AudioClip clip)

@@ -11,7 +11,7 @@ namespace Player
     /// <see cref="PlayerMoveState"/> or <see cref="PlayerDeadState"/>
     /// </summary>
     [RequireComponent(typeof(PlayerCoreLogic))]
-    public class StateMachine : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory
+    public class StateMachine : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory, ILevelRegistryUser
     {
         private IPlayerState _currentState;
         private PlayerCoreLogic _playerCoreLogic;
@@ -20,14 +20,18 @@ namespace Player
         private IPlayerState _idleState;
         private IPlayerState _moveState;
 
+        //It's public for states
+        public LevelRegistrySo levelRegistrySo;
+
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            levelRegistrySo.Register(this);
 
             _playerCoreLogic = GetComponent<PlayerCoreLogic>();
+            
             //Initializing Caches
             _idleState = new PlayerIdleState(_playerCoreLogic);
-            _moveState = new PlayerMoveState(_playerCoreLogic);
+            _moveState = new PlayerMoveState(_playerCoreLogic, levelRegistrySo);
             
             //Setting player state default to PlayerMoveState
             ChangeStateIdle();
@@ -40,7 +44,7 @@ namespace Player
         
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            levelRegistrySo.Unregister(this);
             // This ensures the static event is unsubscribed
             _currentState?.StateEnd();
         }
@@ -91,5 +95,10 @@ namespace Player
         }
 
         public void OnLevelStop() {/*EMPTY*/}
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            this.levelRegistrySo = levelRegistrySo;
+        }
     }
 }

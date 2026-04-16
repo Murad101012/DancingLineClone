@@ -11,11 +11,12 @@ namespace Camera
     /// will switch to the last CineMachine Camera component at CheckPoint cause by <see cref="Gameplay.CheckpointTrigger"/>
     /// </summary>
     [RequireComponent(typeof(CinemachineBrain))]
-    public class CheckPointManager : MonoBehaviour, IOnCheckPoint, IOnRestart
+    public class CheckPointManager : MonoBehaviour, IOnCheckPoint, IOnRestart, ILevelRegistryUser
     {
         private CinemachineBrain _cineMachineBrain;
         private CinemachineCamera _cameraAtCheckPoint;
         private bool _playerCheckPointHappen;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void OnEnable()
         {
@@ -24,7 +25,7 @@ namespace Camera
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             _cineMachineBrain = GetComponent<CinemachineBrain>();
         }
 
@@ -35,7 +36,7 @@ namespace Camera
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         private void OnCheckPointUpdated()
@@ -65,6 +66,11 @@ namespace Camera
         {
             _cameraAtCheckPoint = null;
             _playerCheckPointHappen = false;
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

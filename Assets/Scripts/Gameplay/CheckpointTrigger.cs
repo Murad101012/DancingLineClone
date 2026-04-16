@@ -8,18 +8,19 @@ namespace Gameplay
     /// <remarks>
     /// For use this class, you must use CheckPoint.prefab and add prefab on level where checkpoint must be happen
     /// </remarks>
-    public class CheckpointTrigger : MonoBehaviour, IOnRestart
+    public class CheckpointTrigger : MonoBehaviour, IOnRestart, ILevelRegistryUser
     {
         private bool _triggered;
+        private LevelRegistrySo _levelRegistrySo;
         
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
         }
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         //Checkpoint check happen when player trigger CheckPoint.prefab
@@ -37,6 +38,11 @@ namespace Gameplay
         public void OnLevelRestart()
         {
             _triggered = false;
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

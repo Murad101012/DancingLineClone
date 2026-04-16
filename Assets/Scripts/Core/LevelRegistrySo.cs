@@ -16,9 +16,6 @@ namespace Core
     [CreateAssetMenu(menuName = "ScriptableObjects/LevelRegistry")]
     public class LevelRegistrySo : ScriptableObject
     {
-        //TODO: Change this to Dependency Injection instead
-        public static LevelRegistrySo Instance { get; private set; }
-        
         private List<ILevelState> _levelStates = new();
         private List<IOnCheckPoint> _onCheckPoints = new();
         private List<IOnRestart> _onRestarts = new();
@@ -27,21 +24,9 @@ namespace Core
         
         private void OnEnable()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
             _levelStates.Clear();
             _onCheckPoints.Clear();
             _onRestarts.Clear();
-        }
-
-        private void OnDisable()
-        {
-            if (Instance == this)
-            {
-                Instance = null;
-            }
         }
 
         //TODO: Add Safe check to be sure not a same script register/unregister itself more than once
