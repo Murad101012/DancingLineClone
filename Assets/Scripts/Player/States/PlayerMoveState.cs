@@ -11,7 +11,7 @@ namespace Player.States
     /// while the player is in the active 'Moving' state.
     /// </summary>
     /// <remarks> It's belong to </remarks>
-    public class PlayerMoveState : IPlayerState
+    public class PlayerMoveState : IPlayerState, ILevelRegistryUser
     {
         private readonly PlayerCoreLogic _playerCoreLogic;
         private Transform _movementTransform;
@@ -28,7 +28,7 @@ namespace Player.States
         public PlayerMoveState(PlayerCoreLogic playerCoreLogic) => _playerCoreLogic = playerCoreLogic;
         
         public static event Action PlayerPressed;
-
+        private LevelRegistrySo _levelRegistrySo;
         
         public void StateBegin()
         {
@@ -45,7 +45,7 @@ namespace Player.States
             _dancingLineCloneInput.Player.Enable();
             _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
             
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
         }
         
         public void StateTick()
@@ -125,13 +125,18 @@ namespace Player.States
             call to use again*/
             _onGround = true;
             
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
             _dancingLineCloneInput.Player.Disable();
         }
 
         public void OnLevelRestart()
         {
             _switchOrder = false;
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

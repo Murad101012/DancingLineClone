@@ -12,7 +12,7 @@ namespace Player
     /// </summary>
     /// <remarks>Must add as component to the Player.prefab</remarks>
     [RequireComponent(typeof(StateMachine))]
-    public class Line : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory
+    public class Line : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory, ILevelRegistryUser
     {
         //CloneCube section for line effect
         [Header("Pool Settings")]
@@ -30,6 +30,7 @@ namespace Player
         private PositionRotationChangeCheckPointRestart _positionRotationChangeCheckPointRestart;
 
         private bool _playerOnGround = true;
+        private LevelRegistrySo _levelRegistrySo;
 
         private Coroutine _cloneCubesCoroutine;
 
@@ -52,13 +53,18 @@ namespace Player
             }
             Debug.LogWarning("Line: PositionRotationChangeCheckPointRestart not found. CloneCubes can be misaligned at CheckPoint and Restart.");
         }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
+        }
 
         private void Awake()
         {
             //Creating a new GameObject to add CloneCubes under it
             _parentCubeClone = new GameObject("CloneCubesParent").transform;
             
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             _propBlock = new MaterialPropertyBlock();
             
             _waitForSecondsCloneCube = new WaitForSeconds(updateInterval);
@@ -77,7 +83,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         private void InitializeCloneCubes()

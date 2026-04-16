@@ -6,16 +6,17 @@ using UnityEngine.UI;
 
 namespace Core
 {
-    public class VictoryUiController : MonoBehaviour, IVictory, IOnRestart
+    public class VictoryUiController : MonoBehaviour, IVictory, IOnRestart, ILevelRegistryUser
     {
         [Header("UI References")]
         [SerializeField] private GameObject victoryScreen;
         [SerializeField] private Button restartButton;
         private VictoryUiAnimation _victoryUiAnimation;
+        private LevelRegistrySo _levelRegistrySo;
         
         private void OnEnable()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             
             //It's require for smooth VictoryScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _victoryUiAnimation);
@@ -24,7 +25,7 @@ namespace Core
 
         private void OnDisable()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
             if(_victoryUiAnimation != null) _victoryUiAnimation.OnVictoryAnimationBackwardEnd -= Reset;
         }
 
@@ -50,6 +51,11 @@ namespace Core
                 Debug.LogWarning($"{name}: VictoryUiController: _victoryUiAnimation is null, " +
                                  $"bypassing animation");
             }
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

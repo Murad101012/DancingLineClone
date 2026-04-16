@@ -9,17 +9,18 @@ namespace Player
     /// It's responsible to change player's position and rotation at CheckPoint and Restart
     /// </summary>
     /// <remarks>Without <see cref="CheckPointSnapshot"/>, this script became useless</remarks>
-    public class PositionRotationChangeCheckPointRestart : MonoBehaviour, IOnCheckPoint, IOnRestart
+    public class PositionRotationChangeCheckPointRestart : MonoBehaviour, IOnCheckPoint, IOnRestart, ILevelRegistryUser
     {
         private CheckPointSnapshot _checkPointSnapshot;
         private RestartSnapshot _restartSnapshot;
         
         public event Action OnPlayerCheckPointComplete;
         public event Action OnPlayerRestartComplete;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             
             if (!TryGetComponent(out _checkPointSnapshot))
             {
@@ -38,7 +39,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         public void OnLevelCheckPoint()
@@ -55,6 +56,11 @@ namespace Player
             transform.position = _restartSnapshot.FirstLevelBeginPosition;
             transform.rotation = _restartSnapshot.FirstLevelBeginRotation;
             OnPlayerRestartComplete?.Invoke();
+        }
+
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

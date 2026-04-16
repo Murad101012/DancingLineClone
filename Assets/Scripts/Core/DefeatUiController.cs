@@ -9,7 +9,7 @@ namespace Core
     /// <summary>
     /// Responsible for managing life cycle of Defeat.prefab's gameobjects
     /// </summary>
-    public class DefeatUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead
+    public class DefeatUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead, ILevelRegistryUser
     {
         [Header("UI References")]
         [SerializeField] private GameObject defeatScreen;
@@ -20,6 +20,7 @@ namespace Core
         /// </remarks>
         private bool _checkPointTriggered;
         private DefeatUiAnimation _defeatUiAnimation;
+        private LevelRegistrySo _levelRegistrySo;
         
         private void OnEnable()
         {
@@ -33,7 +34,7 @@ namespace Core
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
         }
         
         private void OnDisable()
@@ -44,7 +45,7 @@ namespace Core
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         private void RefreshCheckPointButtonState() 
@@ -84,6 +85,11 @@ namespace Core
                 Debug.LogWarning($"{name}: DefeatUiController: _defeatUiAnimation is null, " +
                                  $"bypassing animation");
             }
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

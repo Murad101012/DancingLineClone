@@ -12,12 +12,13 @@ namespace Audio
     /// All sounds in the game going through this script
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
-    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
+    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead, ILevelRegistryUser
     {
         private AudioSource _audioSource;
         private AudioClip _clip;
         private SceneLoader _sceneLoader;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void OnEnable()
         {
@@ -62,13 +63,13 @@ namespace Audio
 
         private void OnSceneLoad()
         {
-            LevelRegistrySo.Instance?.Register(this);
+            _levelRegistrySo.Register(this);
             StopSound();
         }
 
         private void OnSceneUnload()
         {
-            LevelRegistrySo.Instance?.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         private void InsertClip(AudioClip clip)
@@ -115,6 +116,11 @@ namespace Audio
             if (menuOnLevelInPreviewChangeSo.levelInPreview.levelSound == null) return;
             InsertClip(menuOnLevelInPreviewChangeSo.levelInPreview.levelSound);
             PlaySound(true);
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

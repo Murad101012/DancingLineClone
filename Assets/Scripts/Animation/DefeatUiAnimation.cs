@@ -12,7 +12,7 @@ namespace Animation
     /// Animations for Defeat.prefab
     /// </summary>
     [RequireComponent(typeof(DefeatUiController))]
-    public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead
+    public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead, ILevelRegistryUser
     {
         [SerializeField] private GameObject defeatRoot;
         [SerializeField] private Button button;
@@ -21,10 +21,11 @@ namespace Animation
         private Sequence _sequenceDefeatRoot;
         
         public event Action OnDefeatAnimationBackwardEnd;
+        private LevelRegistrySo _levelRegistrySo;
         
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             
             /*Scale defeatRoot to Vector3.zero for ease animation where from 0 to 1.
              Since using .From() tween causing show defeatUI scale 1 (Meaning it's being late
@@ -45,7 +46,7 @@ namespace Animation
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
             _sequenceDefeatRoot.Kill();
         }
 
@@ -69,6 +70,11 @@ namespace Animation
         public void OnLevelCheckPoint()
         {
             DefeatScreenAnimate(false);
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

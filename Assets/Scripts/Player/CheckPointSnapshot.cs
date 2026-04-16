@@ -10,7 +10,7 @@ namespace Player
     /// It behaves as read-only class
     /// </summary>
     //TODO: Do better naming since it's only change player transform not whole game's CheckPoint parameters
-    public class CheckPointSnapshot : MonoBehaviour, ICheckPointReceiver, IOnRestart
+    public class CheckPointSnapshot : MonoBehaviour, ICheckPointReceiver, IOnRestart, ILevelRegistryUser
     {
         
         public Vector3 CheckpointPosition { get; private set; }
@@ -21,10 +21,11 @@ namespace Player
         
         private bool _checkPointTriggered;
         public static event Action OnCheckpointUpdated;
+        private LevelRegistrySo _levelRegistrySo;
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
 
             if (!TryGetComponent(out _directionController))
             {
@@ -34,7 +35,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         /// <summary>
@@ -69,6 +70,11 @@ namespace Player
             CheckpointRotation = Quaternion.identity;
             CheckPointDirections = Array.Empty<DirectionController.Directions>();
             _checkPointTriggered = false;
+        }
+        
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

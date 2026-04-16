@@ -12,7 +12,7 @@ namespace Player
     /// <remarks>
     /// For get the latest directions, <see cref="PlayerCoreLogic"/> script must take current directions from <see cref="CurrentDirections"/>
     /// </remarks>
-    public class DirectionController : MonoBehaviour, IDirectionSwitchable, IOnCheckPoint
+    public class DirectionController : MonoBehaviour, IDirectionSwitchable, IOnCheckPoint, ILevelRegistryUser
     {
         public enum Directions
         {
@@ -27,6 +27,7 @@ namespace Player
         private Dictionary<Directions, Quaternion> _directionDictionary = new(4);
         
         private CheckPointSnapshot _checkPointSnapshot;
+        private LevelRegistrySo _levelRegistrySo;
         
         private void PassStageChangePlayer()
         {
@@ -38,7 +39,7 @@ namespace Player
 
         private void Awake()
         {
-            LevelRegistrySo.Instance.Register(this);
+            _levelRegistrySo.Register(this);
             FirstInitialize();
             if (!TryGetComponent(out _checkPointSnapshot))
             {
@@ -48,7 +49,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            LevelRegistrySo.Instance.Unregister(this);
+            _levelRegistrySo.Unregister(this);
         }
 
         private void FirstInitialize()
@@ -78,6 +79,11 @@ namespace Player
             {
                 ChangeDirection(_checkPointSnapshot.CheckPointDirections);
             }
+        }
+
+        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        {
+            _levelRegistrySo = levelRegistrySo;
         }
     }
 }
