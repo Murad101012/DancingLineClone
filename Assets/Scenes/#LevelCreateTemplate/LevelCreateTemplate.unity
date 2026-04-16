@@ -525,6 +525,7 @@ GameObject:
   m_Component:
   - component: {fileID: 453676925}
   - component: {fileID: 453676926}
+  - component: {fileID: 453676927}
   m_Layer: 0
   m_Name: ManagerScripts
   m_TagString: Untagged
@@ -560,9 +561,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568b8eeea82041d693889477552a20e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelStateManager
-  levelRegistrySo: {fileID: 11400000, guid: e17844956e4e7867e9dc8e5568fc042c, type: 2}
+  levelRegistrySo: {fileID: 0}
   levelPropertiesSo: {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   levelBeginButton: {fileID: 264532530}
+--- !u!114 &453676927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 453676923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2e94ae9af549caabf477d8884f8fdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.SceneILevelRegistryUserBootstrapper
+  levelRegistrySo: {fileID: 11400000, guid: a26c434f9a98c8fe0964dedfc46dad88, type: 2}
+  useNewLevelRegistrySo: 0
+  gameObjectUsesLevelRegistryUser:
+  - {fileID: 7884135418307458383}
+  - {fileID: 7884135418307458382}
+  - {fileID: 5307840780835029869}
+  - {fileID: 8947401762483419209}
+  - {fileID: 2577121934518752017}
+  - {fileID: 2577121934518752016}
+  - {fileID: 2577121934518752015}
+  - {fileID: 2577121934518752014}
+  - {fileID: 453676926}
+  - {fileID: 5307840780835029868}
+  - {fileID: 8947401762483419208}
+  - {fileID: 2577121934518752013}
 --- !u!1001 &721076865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2090,6 +2118,61 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+--- !u!114 &2577121934518752013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1010790667330864193, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+  m_PrefabInstance: {fileID: 2577121934518752012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c7423210aa4ede8e959b33487feb80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.MoveState
+--- !u!114 &2577121934518752014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2043520347538178414, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+  m_PrefabInstance: {fileID: 2577121934518752012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 412716a8130b471a837b020eaf2b8896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.CheckpointSender
+--- !u!114 &2577121934518752015 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1879414546421939390, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+  m_PrefabInstance: {fileID: 2577121934518752012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc7c8b30d094fecb963e1a0085ebd1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.StateMachine
+--- !u!114 &2577121934518752016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2583417093962047239, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+  m_PrefabInstance: {fileID: 2577121934518752012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67243b37d2974d58b617ce22d387f271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Line
+--- !u!114 &2577121934518752017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7949861280973069816, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+  m_PrefabInstance: {fileID: 2577121934518752012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498d4307201b4eb4938f45394cb694b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PositionRotationChangeCheckPoint
 --- !u!1001 &5307840780835029867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2275,6 +2358,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
+--- !u!114 &5307840780835029868 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2838457644595657811, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
+  m_PrefabInstance: {fileID: 5307840780835029867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4160870f5ee420cb5aae6f7c4f4494d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animation.DefeatUiAnimation
+--- !u!114 &5307840780835029869 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 65638155447461988, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
+  m_PrefabInstance: {fileID: 5307840780835029867}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef539a44b79c42afaeecc022ac101106, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatUiController
 --- !u!1001 &7884135418307458381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2408,6 +2513,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
+--- !u!114 &7884135418307458382 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4137457558602844423, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
+  m_PrefabInstance: {fileID: 7884135418307458381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df32fc23434c40b4a16ab86f7955d925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Core.VictoryUiController
+--- !u!114 &7884135418307458383 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2317906812595980978, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
+  m_PrefabInstance: {fileID: 7884135418307458381}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59d8e3c17854a698829073d14565e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Animation.VictoryUiAnimation
 --- !u!1001 &8947401762483419207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2477,6 +2604,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
+--- !u!114 &8947401762483419208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3976013002432543556, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
+  m_PrefabInstance: {fileID: 8947401762483419207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b110acd4c8e4d0fa970a42761b39884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Camera.RestartManager
+--- !u!114 &8947401762483419209 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4234012617164913029, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
+  m_PrefabInstance: {fileID: 8947401762483419207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef05adadc0bc4232a5217f936187cf51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Camera.CheckPointManager
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

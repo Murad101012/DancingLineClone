@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eec1a6eb557e407b98b707daa27fcdee, type: 3}
-  m_Name: ILevelEntitySO
+  m_Name: GlobalLevelRegistrySo
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelRegistrySo

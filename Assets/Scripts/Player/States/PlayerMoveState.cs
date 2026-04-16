@@ -11,9 +11,11 @@ namespace Player.States
     /// while the player is in the active 'Moving' state.
     /// </summary>
     /// <remarks> It's belong to </remarks>
-    public class PlayerMoveState : IPlayerState, ILevelRegistryUser
+    public class PlayerMoveState : IPlayerState
     {
         private readonly PlayerCoreLogic _playerCoreLogic;
+        private LevelRegistrySo _levelRegistrySo;
+
         private Transform _movementTransform;
         private bool _switchOrder;
         private DirectionController _directionController;
@@ -25,10 +27,13 @@ namespace Player.States
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onGround"/></remarks>
         private bool _onGround = true;
         
-        public PlayerMoveState(PlayerCoreLogic playerCoreLogic) => _playerCoreLogic = playerCoreLogic;
+        public PlayerMoveState(PlayerCoreLogic playerCoreLogic, LevelRegistrySo registry) 
+        {
+            _playerCoreLogic = playerCoreLogic;
+            _levelRegistrySo = registry;
+        }
         
         public static event Action PlayerPressed;
-        private LevelRegistrySo _levelRegistrySo;
         
         public void StateBegin()
         {
@@ -132,11 +137,6 @@ namespace Player.States
         public void OnLevelRestart()
         {
             _switchOrder = false;
-        }
-        
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
-        {
-            _levelRegistrySo = levelRegistrySo;
         }
     }
 }
