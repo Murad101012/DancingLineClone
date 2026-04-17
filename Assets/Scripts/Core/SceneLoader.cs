@@ -22,7 +22,7 @@ namespace Core
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChange;
         public event Action LevelLoaded;
         public event Action LevelUnloaded;
-        private List<IReady> _iReadyList = new();
+        [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
         
 
         private void OnEnable()
@@ -83,7 +83,7 @@ namespace Core
             if (_sceneNameInPreview != "Menu")
             {
                 LevelLoaded?.Invoke();
-                AfterSceneLoad();
+                AfterSceneCompletelyLoad();
             }
             else
             {
@@ -91,22 +91,9 @@ namespace Core
             }
         }
 
-        public void RegisterIReady(IReady iReady)
+        private void AfterSceneCompletelyLoad()
         {
-            _iReadyList.Add(iReady);
-        }
-
-        private void AfterSceneLoad()
-        {
-            /*It will call all the Initialization scripts those are
-            using IReady to waiting scene fully loaded*/
-            for (int i = 0; i < _iReadyList.Count; i++)
-            {
-                _iReadyList[i].Initialization();
-            }
-            
-            //After call all Initialization scripts, list removed
-            _iReadyList.Clear();
+            sceneFullyLoadedEvent.InvokeOnSceneFullyLoaded();
         }
 
         private void OnLevelPreviewChange()
