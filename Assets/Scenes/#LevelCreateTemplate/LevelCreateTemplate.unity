@@ -2548,6 +2548,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1471919228}
     - target: {fileID: 3976013002432543556, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
+      propertyPath: sceneFullyLoadedEventSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 15bec76d7560c63179723d3d4addfb6f, type: 2}
+    - target: {fileID: 3976013002432543556, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
       propertyPath: cineMachineCamerasParent
       value: 
       objectReference: {fileID: 1939948236}
