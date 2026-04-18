@@ -566,7 +566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8435545237609453775
 RectTransform:
   m_ObjectHideFlags: 0
@@ -907,7 +907,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1284709185141432108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2132740485639827833}
+        m_TargetAssemblyTypeName: Core.VictoryLogic, Assembly-CSharp
+        m_MethodName: RestartButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8795568481348732991
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4677829986709129059}
   m_Layer: 0
-  m_Name: VictoryUIRoot
+  m_Name: VictoryUiRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -996,7 +1008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1004,7 +1016,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1012,15 +1024,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1052,11 +1064,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -1012.6507
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -551.82983
+      value: -66
       objectReference: {fileID: 0}
     - target: {fileID: 5033150182503105970, guid: d6e1d8044e867edf7b22802aa0d5ec4b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
