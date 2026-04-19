@@ -574,20 +574,20 @@ MonoBehaviour:
   levelRegistrySo: {fileID: 11400000, guid: a26c434f9a98c8fe0964dedfc46dad88, type: 2}
   useNewLevelRegistrySo: 0
   gameObjectUsesLevelRegistryUser:
+  - {fileID: 2577121934518752013}
+  - {fileID: 453676926}
+  - {fileID: 4135856632245598308}
   - {fileID: 7884135418307458383}
-  - {fileID: 7884135418307458382}
-  - {fileID: 5307840780835029869}
+  - {fileID: 2577121934518752014}
   - {fileID: 8947401762483419209}
   - {fileID: 2577121934518752017}
+  - {fileID: 8947401762483419208}
+  - {fileID: 5307840780835029869}
+  - {fileID: 5307840780835029868}
   - {fileID: 2577121934518752016}
   - {fileID: 2577121934518752015}
-  - {fileID: 2577121934518752014}
-  - {fileID: 453676926}
-  - {fileID: 5307840780835029868}
-  - {fileID: 8947401762483419208}
-  - {fileID: 2577121934518752013}
+  - {fileID: 7884135418307458382}
   - {fileID: 4135856632245598306}
-  - {fileID: 4135856632245598308}
 --- !u!1001 &721076865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1185,6 +1185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!1 &1333564442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5986466691218700576, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
+  m_PrefabInstance: {fileID: 4135856632245598305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1374067550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,6 +2192,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Idle
       objectReference: {fileID: 0}
+    - target: {fileID: 4117209532313106477, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5986466691218700576, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973784690403750705, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
+      propertyPath: idleCanvas
+      value: 
+      objectReference: {fileID: 1333564442}
     - target: {fileID: 6973784690403750705, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
       propertyPath: backToMenuButton
       value: 
@@ -2336,10 +2353,6 @@ PrefabInstance:
       value: Defeat
       objectReference: {fileID: 0}
     - target: {fileID: 5156781863290924870, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 453676926}
-    - target: {fileID: 8309971990873949502, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 453676926}

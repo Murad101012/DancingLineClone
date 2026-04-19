@@ -2,76 +2,173 @@ using System;
 using Core;
 using DG.Tweening;
 using Interfaces;
-using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Animation
 {
     /// <summary>
-    /// Animations for Defeat.prefab
+    /// Animations for Defeat.prefab using DOTween
     /// </summary>
     [RequireComponent(typeof(DefeatUiController))]
     public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead, ILevelRegistryUser
     {
+        [SerializeField] private RectTransform backgroundRect;
+        [SerializeField] private CanvasGroup defeatCanvasGroup;
+        [SerializeField] private CanvasGroup elementsCanvasGroup;
+        [SerializeField] private Image backgroundImage;
         [SerializeField] private GameObject defeatRoot;
         [SerializeField] private Button button;
+        private bool _animationWorking;
         
-        //Sequences
-        private Sequence _sequenceDefeatRoot;
+        //Getting beginning values to reset back
+        private Vector2 _backgroundRectBeginningOffsetMinValues;
+        private Vector2 _backgroundRectBeginningOffsetMaxValues;
+        private Color _backgroundImageBeginningColor;
+
+        private Sequence _defeatSequence;
+        private readonly float _defeatBackgroundImageEndPosition = 200f;
+        private readonly float _defeatBackgroundImageBeginningPosition = 1000f;
+        private readonly float _defeatAnimationDuration = 0.5f;
+        private Vector2 _defeatBackgroundImagePositionCurrent;
         
-        public event Action OnDefeatAnimationBackwardEnd;
+        //Stage 1 
+        private Sequence _restartBeginSequence;
+        private readonly float _restartBeginBackgroundImageBottomEndPosition = -500f;
+        private readonly float _restartBeginBackgroundImageBottomBeginningPosition = 200;
+
+        private Sequence _restartEndSequence;
+        //Top - Stage 2 (Removing the black screen after restart fully done)
+        private readonly float _restartEndBackgroundImageTopEndPosition = -1500;
+        private readonly float _restartEndBackgroundImageTopBeginningPosition = 400;
+        
+        private readonly float _restartAnimationDuration = 0.7f;
+        private Vector3 _restartBackgroundImagePositionCurrent;
+        private Color _restartBackgroundImageEndColor = new (1, 1, 1, 1);
+        private Color _restartBackgroundImageBeginningColor = new (1, 1, 1, 0.86274f);
+        
         private LevelRegistrySo _levelRegistrySo;
+
+        public static event Action RestartBeginAnimationEnd;
+        public event Action RestartEndAnimationEnd;
         
+
         private void Awake()
         {
+            _backgroundRectBeginningOffsetMinValues = backgroundRect.offsetMin;
+            _backgroundRectBeginningOffsetMaxValues = backgroundRect.offsetMax;
+            _backgroundImageBeginningColor = backgroundImage.color;
+            
             _levelRegistrySo.Register(this);
+            InitializeSequence();
+        }
+
+        private void InitializeSequence()
+        {
+            // Create the sequence and ensure it doesn't destroy itself so we can play it backwards
+            _defeatSequence = DOTween.Sequence();
+            _restartBeginSequence = DOTween.Sequence();
+            _restartEndSequence = DOTween.Sequence();
+
+            _defeatSequence.AppendCallback(() => backgroundRect.gameObject.SetActive(true));
+                
+            _defeatSequence.Join(DOTween.To(
+                () => backgroundRect.offsetMin.y,
+                y =>
+                {
+                    _defeatBackgroundImagePositionCurrent.x = backgroundRect.offsetMin.x;
+                    _defeatBackgroundImagePositionCurrent.y = y;
+                    backgroundRect.offsetMin = _defeatBackgroundImagePositionCurrent;
+                },
+                _defeatBackgroundImageEndPosition, 
+                _defeatAnimationDuration
+            ).From(_defeatBackgroundImageBeginningPosition, false).SetEase(Ease.OutBack));
+
+
+            _defeatSequence.Join(defeatCanvasGroup.DOFade(1f, _defeatAnimationDuration).From(0f, false));
+
+            _defeatSequence.SetAutoKill(false);
+            _defeatSequence.Pause();
             
-            /*Scale defeatRoot to Vector3.zero for ease animation where from 0 to 1.
-             Since using .From() tween causing show defeatUI scale 1 (Meaning it's being late
-             to set up), LocalScale used instead*/
-            defeatRoot.transform.localScale = Vector3.zero;
             
-            /*As soon as player dead, defeat screen shown with this animation
-             It also uses when hiding defeat screen by playing reverse*/
-            _sequenceDefeatRoot = DOTween.Sequence();
-            _sequenceDefeatRoot.Append(defeatRoot.transform.
-                DOScale(Vector3.one, 0.5f).
-                SetEase(Ease.OutBack, 2.3f));
-            _sequenceDefeatRoot.Pause();
-            _sequenceDefeatRoot.SetAutoKill(false);
+            _restartBeginSequence.Join(DOTween.To(() => backgroundRect.offsetMin.y, y =>
+            {
+                _restartBackgroundImagePositionCurrent.x = backgroundRect.offsetMin.x;
+                _restartBackgroundImagePositionCurrent.y = y;
+                backgroundRect.offsetMin = _restartBackgroundImagePositionCurrent;
+            }, _restartBeginBackgroundImageBottomEndPosition, _restartAnimationDuration)
+                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => RestartBeginAnimationEnd?.Invoke()));
             
-            _sequenceDefeatRoot.OnRewind(() => OnDefeatAnimationBackwardEnd?.Invoke());
+            _restartBeginSequence.Join(backgroundImage.DOColor(_restartBackgroundImageEndColor, _restartAnimationDuration).From(_restartBackgroundImageBeginningColor, false));
+            _restartBeginSequence.Join(elementsCanvasGroup.DOFade(0f, _restartAnimationDuration).From(1f, false));
+
+            
+            _restartBeginSequence.SetAutoKill(false);
+            _restartBeginSequence.Pause();
+
+            _restartEndSequence.AppendInterval(.5f);
+            _restartEndSequence.Append(DOTween.To(() => backgroundRect.offsetMax.y,
+                y =>
+                {
+                    _restartBackgroundImagePositionCurrent.x = backgroundRect.offsetMax.x;
+                    _restartBackgroundImagePositionCurrent.y = y;
+                    backgroundRect.offsetMax = _restartBackgroundImagePositionCurrent;
+                }, _restartEndBackgroundImageTopEndPosition, _restartAnimationDuration).From(_restartEndBackgroundImageTopBeginningPosition, false).
+                SetEase(Ease.InBack));
+
+            _restartEndSequence.Append(backgroundImage.DOColor(Color.clear, _restartAnimationDuration).From(_restartBackgroundImageEndColor, false).OnComplete (() =>
+            {
+                RestartEndAnimationEnd?.Invoke();
+                ResetAnimationValues();
+            }));
+
+            _restartEndSequence.SetAutoKill(false);
+            _restartEndSequence.Pause();
+        }
+
+        private void ResetAnimationValues()
+        {
+            backgroundRect.offsetMin = _backgroundRectBeginningOffsetMinValues;
+            backgroundRect.offsetMax = _backgroundRectBeginningOffsetMaxValues;
+            backgroundImage.color = _backgroundImageBeginningColor;
+            backgroundImage.gameObject.SetActive(false);
+            elementsCanvasGroup.alpha = 1;
+            _animationWorking = false;
+        }
+
+        public void OnDead()
+        {
+            _defeatSequence.Restart();
+        }
+
+        public void OnLevelRestart()
+        {
+            _restartEndSequence.Restart();
+        }
+
+        public void OnLevelCheckPoint()
+        {
+            _defeatSequence.Restart();
         }
 
         private void OnDestroy()
         {
             _levelRegistrySo.Unregister(this);
-            _sequenceDefeatRoot.Kill();
+            // Clean up the tween memory
+            _defeatSequence?.Kill();
+            _restartEndSequence?.Kill();
+            _restartBeginSequence?.Kill();
         }
 
-        public void OnDead()
+        public void PlayRestartBeginAnimation()
         {
-            DefeatScreenAnimate();
-        }
-        
-        //It can be uses for both "Showing" and "Hiding" the defeat screen
-        private void DefeatScreenAnimate(bool playForward = true)
-        {
-            if (playForward) _sequenceDefeatRoot.PlayForward();
-            else _sequenceDefeatRoot.PlayBackwards();
+            if (!_animationWorking)
+            {
+                _restartBeginSequence.Restart();
+                _animationWorking = true;
+            }
         }
 
-        public void OnLevelRestart()
-        {
-            DefeatScreenAnimate(false);
-        }
-
-        public void OnLevelCheckPoint()
-        {
-            DefeatScreenAnimate(false);
-        }
-        
         public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
         {
             _levelRegistrySo = levelRegistrySo;
