@@ -28,7 +28,7 @@ namespace Core
 
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
-            if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd += Reset;
+            if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd += Reset;
             
         }
 
@@ -40,7 +40,7 @@ namespace Core
         private void OnDisable()
         {
             CheckPointSnapshot.OnCheckpointUpdated -= RefreshCheckPointButtonState;
-            if(_defeatUiAnimation != null) _defeatUiAnimation.OnDefeatAnimationBackwardEnd -= Reset;
+            if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd -= Reset;
         }
 
         private void OnDestroy()
@@ -90,6 +90,11 @@ namespace Core
         public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
         {
             _levelRegistrySo = levelRegistrySo;
+        }
+
+        public void OnLevelRestartButton()
+        {
+            _defeatUiAnimation.PlayRestartBeginAnimation();
         }
     }
 }

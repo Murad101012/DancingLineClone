@@ -11,6 +11,7 @@ namespace Animation
         private LevelRegistrySo _levelRegistrySo;
         [SerializeField] private CanvasGroup canvasGroup;
         private Sequence _canvasGroupOpacitySequence;
+        public event Action OnCanvasAnimationEnd;
 
         private void Awake()
         {
@@ -18,7 +19,8 @@ namespace Animation
             
             _canvasGroupOpacitySequence = DOTween.Sequence();
             
-            _canvasGroupOpacitySequence.Append(canvasGroup.DOFade(0, 0.5f).From(1f));
+            _canvasGroupOpacitySequence.Append(canvasGroup.DOFade(0, 0.5f).From(1f).
+                OnComplete(() => OnCanvasAnimationEnd?.Invoke()));
             _canvasGroupOpacitySequence.SetAutoKill(false);
             _canvasGroupOpacitySequence.Pause();
         }

@@ -39,9 +39,12 @@ namespace Camera
         public void OnLevelRestart()
         {
             //Resetting all CineMachine Camera component's priority value to 0
-            for (int i = 0; i < _cameras.Length; i++)
+            if (_cameras != null)
             {
-                _cameras[i].Priority = 0;
+                for (int i = 0; i < _cameras.Length; i++)
+                {
+                    _cameras[i].Priority = 0;
+                }
             }
             
             //Making most priortiest the CineMachine Camera that at the beginning of the level

@@ -1,4 +1,5 @@
 using System;
+using Animation;
 using Gameplay;
 using Interfaces;
 using Player;
@@ -22,6 +23,7 @@ namespace Core
             PlayerCoreLogic.Dead += PlayerDead;
             VictoryTrigger.OnVictoryTriggered += SetTheVictory;
             VictoryLogic.OnRestartButtonPressed += RestartTheLevel;
+            DefeatUiAnimation.RestartBeginAnimationEnd += RestartTheLevel;
         }
 
         private void Awake()
@@ -34,6 +36,7 @@ namespace Core
             PlayerCoreLogic.Dead -= PlayerDead;
             VictoryTrigger.OnVictoryTriggered -= SetTheVictory;
             VictoryLogic.OnRestartButtonPressed -= RestartTheLevel;
+            DefeatUiAnimation.RestartBeginAnimationEnd -= RestartTheLevel;
         }
 
         private void OnDestroy()
