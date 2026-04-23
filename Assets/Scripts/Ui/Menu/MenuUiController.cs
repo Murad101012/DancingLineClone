@@ -67,7 +67,7 @@ namespace Ui.Menu
         private void OnLevelPreviewChange()
         {
             //Chancing name
-            _menuUiElementReference.LevelLabelNameReference.text =
+            _menuUiElementReference.LevelLabelReference.text =
                 menuOnLevelInPreviewChangeSo.levelInPreview.levelName;
             
             //Chancing background-image

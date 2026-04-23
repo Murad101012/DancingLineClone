@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 namespace Ui.Menu
 {
     /// <summary>
-    /// Provides references to UIToolkit VisualElements.
+    /// Get references from Menu UI Document and cache them for provide others
     /// </summary>
     /// <remarks>
     /// Centralizes string-based UI queries to prevent typos. 
@@ -13,8 +13,8 @@ namespace Ui.Menu
     /// at <see cref="Initialization"/>. For each referencing it <c>MUST BE</c> adding <see cref="Validate"/>,
     /// otherwise type-checking will be skips for that element.
     /// </remarks>
-    /// <example>If <c><![CDATA[<ui:Button name="levelLoadButton"/>]]></c> 
-    /// then <see cref="_levelLoadButtonName"/> = "levelLoadButton";</example>
+    /// <example>If in UXML file it's written as <c><![CDATA[<ui:Button name="Cont_DragZone"/>]]></c> 
+    /// then <see cref="_dragZoneName"/> = "Cont_DragZone";</example>
     [RequireComponent(typeof(UIDocument))]
     public class MenuUiElementReference: MonoBehaviour
     {
@@ -27,10 +27,13 @@ namespace Ui.Menu
         public VisualElement CarouselReference;
         
         private readonly string _levelLabelName = "Lbl_LevelTitle";
-        public Label LevelLabelNameReference;
+        public Label LevelLabelReference;
 
         private readonly string _debugLabelName = "Lbl_DebugText";
-        public Label DebugLabelNameReference;
+        public Label DebugLabelReference;
+
+        private readonly string _blackLayerName = "Black_Layer";
+        public VisualElement BlackLayerReference;
         
         public VisualElement[] LevelButtonsReferences;
         
@@ -55,11 +58,11 @@ namespace Ui.Menu
         {
             //List all elements to get reference
             //LevelLoadButtonReference = _root.Q<Button>(_levelLoadButtonName);
-            LevelLabelNameReference = Root.Q<Label>(_levelLabelName);
+            LevelLabelReference = Root.Q<Label>(_levelLabelName);
             CarouselReference = Root.Q<VisualElement>(_carouselName);
-            DebugLabelNameReference = Root.Q<Label>(_debugLabelName);
+            DebugLabelReference = Root.Q<Label>(_debugLabelName);
             DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
-            
+            BlackLayerReference = Root.Q<VisualElement>(_blackLayerName);
             LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
@@ -72,10 +75,11 @@ namespace Ui.Menu
             CheckResult = true;
             
             //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
-            Validate(LevelLabelNameReference, nameof(LevelLabelNameReference));
+            Validate(LevelLabelReference, nameof(LevelLabelReference));
             Validate(CarouselReference, nameof(CarouselReference));
-            Validate(DebugLabelNameReference, nameof(DebugLabelNameReference));
+            Validate(DebugLabelReference, nameof(DebugLabelReference));
             Validate(DragZoneReference, nameof(DragZoneReference));
+            Validate(BlackLayerReference, nameof(BlackLayerReference));
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
                 Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
