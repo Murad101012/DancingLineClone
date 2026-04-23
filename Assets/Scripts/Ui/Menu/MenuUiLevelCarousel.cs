@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,6 +18,8 @@ namespace Ui.Menu
     {
         private MenuUiElementReference _menuUiElementReference;
         private MenuUiLevelController _menuUiLevelController;
+
+        private bool _levelLoading;
 
         private int _levelIndexInPreview;
         private Vector2 _areaWidthOfLevelIndexInPreview;
@@ -48,6 +51,11 @@ namespace Ui.Menu
         private Angle _currentRotatingButtonAngle;
         private Rotate _currentRotatingButtonRotate;
         private StyleRotate _currentRotatingButtonStyleRotate;
+
+        //DOTween Sequence
+        private Sequence _sequenceLevelLoad;
+        private Vector2 _endScale;
+        private StyleFloat _opacityFloat;
         
         private event Action OnSpaceBetweenLevelChange;
         public static event Action OnLoadLevelButtonClicked;
@@ -64,6 +72,55 @@ namespace Ui.Menu
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
             _menuUiLevelController = GetComponent<MenuUiLevelController>();
+
+            _sequenceLevelLoad = DOTween.Sequence();
+            _sequenceLevelLoad.Append(DOTween.To(
+                () => _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale.value.value.x,
+                xy =>
+                {
+                    //Setting values
+                    _scaleValueForLevelButton.x = xy;
+                    _scaleValueForLevelButton.y = xy;
+                    _scaleUIForLevelButton = _scaleValueForLevelButton;
+                    _styleScaleForLevelButton = _scaleUIForLevelButton;
+                    
+                    //Applying
+                    _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale = _styleScaleForLevelButton;
+                }, 
+                2f, 
+                1f).
+                SetEase(Ease.OutCirc));
+            
+            _sequenceLevelLoad.Append(DOTween.To(
+                    () => _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale.value.value.x,
+                    xy =>
+                    {
+                        //Setting values
+                        _scaleValueForLevelButton.x = xy;
+                        _scaleValueForLevelButton.y = xy;
+                        _scaleUIForLevelButton = _scaleValueForLevelButton;
+                        _styleScaleForLevelButton = _scaleUIForLevelButton;
+                    
+                        //Applying
+                        _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale = _styleScaleForLevelButton;
+                    }, 
+                    2.5f, 
+                    1f).
+                SetEase(Ease.InSine));
+
+            _sequenceLevelLoad.Join(DOTween.To(
+                () => _menuUiElementReference.BlackLayerReference.style.opacity.value,
+                x =>
+                {
+                    _opacityFloat.value = x;
+                    _menuUiElementReference.BlackLayerReference.style.opacity = _opacityFloat;
+                },
+                1, 
+                0.8f
+                ).SetEase(Ease.InQuad));
+            
+            _sequenceLevelLoad.AppendInterval(.5f).OnComplete(() => OnLoadLevelButtonClicked?.Invoke());
+            _sequenceLevelLoad.Pause();
         }
         
         private void Start()
@@ -259,7 +316,9 @@ namespace Ui.Menu
 
         private void LoadLevelButton()
         {
-            OnLoadLevelButtonClicked?.Invoke();
+            if (_levelLoading) return;
+            _sequenceLevelLoad.Restart();
+            _levelLoading = true;
         }
         
         //Modify Scales of current level preview in focus and neighbor levels scale
@@ -317,36 +376,39 @@ namespace Ui.Menu
         
         private void Update()
         {
-            _distanceBetweenTargetAndCurrentScrollX = math.abs(_currentScrollX - _targetScrollX);
-            
-            /*We change _currentScrollX if distance between _currentScrollX and _targetScrollX meaningfully far apart to worth using
-              the Mathf.SmoothDamp*/
-            if (_distanceBetweenTargetAndCurrentScrollX > 2f)
+            if (!_levelLoading)
             {
-                _currentScrollX = Mathf.SmoothDamp(_currentScrollX, _targetScrollX, ref _scrollVelocity, SmoothTime);
-            }
-            
-            /*If player drag fast the wheel and left to click on, the wheel go with velocity until it "stops" (_distanceBetweenTargetAndCurrentScrollX > 0.1f).
-              With next statement, we're rechange the _targetScrollX that make the _levelIndexInPreview center.
-              We check !_holdingTheMouseOnWheel since _distanceBetweenTargetAndCurrentScrollX > 0.1f can also be happens when player
-              holding the wheel but didn't move its cursor despite it's still holding the wheel*/
-            else if(!_holdingTheMouseOnWheel)
-            {
-                /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
-                  is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* and etc.)*/
-                _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
+                _distanceBetweenTargetAndCurrentScrollX = math.abs(_currentScrollX - _targetScrollX);
                 
-                //If player isn't moving the carousel and Update() now executing to focus the carousel to the selected level preview, we invoke the event
-                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
-            }
+                /*We change _currentScrollX if distance between _currentScrollX and _targetScrollX meaningfully far apart to worth using
+                the Mathf.SmoothDamp*/
+                if (_distanceBetweenTargetAndCurrentScrollX > 2f)
+                {
+                    _currentScrollX = Mathf.SmoothDamp(_currentScrollX, _targetScrollX, ref _scrollVelocity, SmoothTime);
+                }
+                
+                /*If player drag fast the wheel and left to click on, the wheel go with velocity until it "stops" (_distanceBetweenTargetAndCurrentScrollX > 0.1f).
+                With next statement, we're rechange the _targetScrollX that make the _levelIndexInPreview center.
+                We check !_holdingTheMouseOnWheel since _distanceBetweenTargetAndCurrentScrollX > 0.1f can also be happens when player
+                holding the wheel but didn't move its cursor despite it's still holding the wheel*/
+                else if(!_holdingTheMouseOnWheel)
+                {
+                    /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
+                      is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* and etc.)*/
+                    _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
+                
+                    //If player isn't moving the carousel and Update() now executing to focus the carousel to the selected level preview, we invoke the event
+                    menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
+                }
+                
+                UpdateWheelTranslatePosition();
             
-            UpdateWheelTranslatePosition();
+                LevelIconScale();
             
-            LevelIconScale();
-            
-            if (_distanceBetweenTargetAndCurrentScrollX > 2f)
-            {
-                LevelInPreviewChanger();
+                if (_distanceBetweenTargetAndCurrentScrollX > 2f)
+                {
+                    LevelInPreviewChanger();
+                }
             }
 
             LevelIconRotate();

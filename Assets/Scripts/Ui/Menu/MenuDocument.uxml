@@ -6,41 +6,33 @@
         <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
         <ui:VisualElement name="Cont_DragZone" class="cont-carousel-viewport">
             <ui:VisualElement name="Cont_Carousel" class="cont-carousel-film-level-viewport">
-
-                <ui:VisualElement name="Piano" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                <ui:VisualElement name="LevelCreateTemplate" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/Piano/Image/preview.png?fileID=240456465&amp;guid=9e02e6ab9582cab31a7f3037b34a0353&amp;type=3#preview_0&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Neon Rose" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                <ui:VisualElement name="Neon Rose" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/NeonRose/Image/OIP.png?fileID=21300000&amp;guid=7c858dcd6f4055be98d233da4def3c9d&amp;type=3#OIP&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Piano" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                <ui:VisualElement name="Piano" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/Piano/Image/preview.png?fileID=240456465&amp;guid=9e02e6ab9582cab31a7f3037b34a0353&amp;type=3#preview_0&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Neon Rose" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                <ui:VisualElement name="Neon Rose" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/NeonRose/Image/OIP.png?fileID=21300000&amp;guid=7c858dcd6f4055be98d233da4def3c9d&amp;type=3#OIP&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Piano" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                <ui:VisualElement name="Piano" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/Piano/Image/preview.png?fileID=240456465&amp;guid=9e02e6ab9582cab31a7f3037b34a0353&amp;type=3#preview_0&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Neon Rose" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                <ui:VisualElement name="Neon Rose" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/NeonRose/Image/OIP.png?fileID=21300000&amp;guid=7c858dcd6f4055be98d233da4def3c9d&amp;type=3#OIP&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Piano" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/Piano/Image/preview.png');" />
+                <ui:VisualElement name="Piano" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/Piano/Image/preview.png?fileID=240456465&amp;guid=9e02e6ab9582cab31a7f3037b34a0353&amp;type=3#preview_0&quot;);"/>
                 </ui:VisualElement>
-
-                <ui:VisualElement name="Neon Rose" class="btn-level" >
-                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url('project://database/Assets/Scenes/NeonRose/Image/OIP.png');" />
+                <ui:VisualElement name="Neon Rose" class="btn-level">
+                    <ui:VisualElement name="Btn_Background" class="btn-level-image" style="background-image: url(&quot;project://database/Assets/Scenes/NeonRose/Image/OIP.png?fileID=21300000&amp;guid=7c858dcd6f4055be98d233da4def3c9d&amp;type=3#OIP&quot;);"/>
                 </ui:VisualElement>
-
-                </ui:VisualElement >
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
+        <ui:VisualElement name="Black_Layer" picking-mode="Ignore" style="position: absolute; width: 100%; height: 100%; background-color: black; opacity: 0;"/>
     </ui:VisualElement>
 </ui:UXML>

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelCreateTemplate
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.LevelProperties
   levelName: LevelCreateTemplate
-  levelImage: {fileID: 0}
+  levelImage: {fileID: 240456465, guid: 9e02e6ab9582cab31a7f3037b34a0353, type: 3}
   levelSound: {fileID: 8300000, guid: dac91b809052da393a02855af2aa1e40, type: 3}
   styleBackgroundLevelImage:
     m_Value:
@@ -28,5 +28,3 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
-  totalLevels: 0
-  levelIndex: 0

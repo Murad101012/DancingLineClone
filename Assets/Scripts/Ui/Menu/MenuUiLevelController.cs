@@ -11,7 +11,7 @@ namespace Ui.Menu
     public class MenuUiLevelController : MonoBehaviour
     {
         public LevelPropertiesSo[] levelPropertiesSo;
-        public int levelPropertiesLength;
+        [HideInInspector] public int levelPropertiesLength;
 
         private void Awake()
         {
