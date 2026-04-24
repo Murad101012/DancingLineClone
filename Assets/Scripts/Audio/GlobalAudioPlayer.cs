@@ -19,6 +19,7 @@ namespace Audio
         private SceneLoader _sceneLoader;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         [SerializeField] private LevelRegistrySo levelRegistrySo;
+        [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
 
         private void OnEnable()
         {
@@ -28,21 +29,14 @@ namespace Audio
                 return;
             }
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
+            sceneFullyLoadedEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
         }
 
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
-
-            if (TryGetComponent(out _sceneLoader))
-            {
-                _sceneLoader.LevelLoaded += OnSceneLoad;
-                _sceneLoader.LevelUnloaded += OnSceneUnload;
-            }
-            else
-            {
-                Debug.LogWarning("GlobalAudioPlayer: LevelLoader not found, can't register");
-            }
+            
+            levelRegistrySo.Register(this);
             
             InsertClip(_clip);
         }
@@ -50,28 +44,20 @@ namespace Audio
         private void OnDisable()
         {
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
+            sceneFullyLoadedEvent.OnSceneBeginToLoad -= OnSceneBeginToLoad;
         }
 
         private void OnDestroy()
         {
-            if (_sceneLoader != null)
-            {
-                _sceneLoader.LevelLoaded -= OnSceneLoad;
-                _sceneLoader.LevelUnloaded -= OnSceneUnload;
-            }
-        }
-
-        private void OnSceneLoad()
-        {
-            levelRegistrySo.Register(this);
-            StopSound();
-        }
-
-        private void OnSceneUnload()
-        {
             levelRegistrySo.Unregister(this);
         }
 
+        private void OnSceneBeginToLoad()
+        {
+            StopSound();
+        }
+        
+        
         private void InsertClip(AudioClip clip)
         {
             _clip = clip;
