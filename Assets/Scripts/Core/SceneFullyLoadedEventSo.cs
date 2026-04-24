@@ -19,6 +19,12 @@ namespace Core
     public class SceneFullyLoadedEventSo : ScriptableObject
     {
         public event Action OnSceneFullyLoaded;
+        public event Action OnSceneBeginToLoad;
+
+        public void InvokeOnSceneBeginToLoad()
+        {
+            OnSceneBeginToLoad?.Invoke();
+        }
 
         public void InvokeOnSceneFullyLoaded()
         {

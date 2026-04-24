@@ -20,8 +20,7 @@ namespace Core
         private SceneTransformationUiController _sceneTransformationUiController;
         private string _sceneNameInPreview;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChange;
-        public event Action LevelLoaded;
-        public event Action LevelUnloaded;
+
         [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
         
 
@@ -74,7 +73,8 @@ namespace Core
                 Debug.LogError($"{name}: Scene '{_sceneNameInPreview}' is not in Build Settings or doesn't exist");
                 return;
             }
-            
+
+            SceneBeginToLoadEventInvoke();
             AsyncOperation op = SceneManager.LoadSceneAsync(_sceneNameInPreview);
             op.allowSceneActivation = false;
             
@@ -96,18 +96,15 @@ namespace Core
             //If scene also fully initialized/load/ready, we're removing the loading screen with animation
             if (_sceneTransformationUiController != null) _sceneTransformationUiController.LoadScreenAnimation(false);
 
-            if (_sceneNameInPreview != "Menu")
-            {
-                LevelLoaded?.Invoke();
-                AfterSceneCompletelyLoad();
-            }
-            else
-            {
-                LevelUnloaded?.Invoke();
-            }
+            AfterSceneCompletelyLoadEventInvoke();
         }
 
-        private void AfterSceneCompletelyLoad()
+        private void SceneBeginToLoadEventInvoke()
+        {
+            sceneFullyLoadedEvent.InvokeOnSceneBeginToLoad();
+        }
+
+        private void AfterSceneCompletelyLoadEventInvoke()
         {
             sceneFullyLoadedEvent.InvokeOnSceneFullyLoaded();
         }
