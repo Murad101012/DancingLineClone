@@ -31,9 +31,6 @@ namespace Ui.Menu
 
         private readonly string _debugLabelName = "Lbl_DebugText";
         public Label DebugLabelReference;
-
-        private readonly string _blackLayerName = "Black_Layer";
-        public VisualElement BlackLayerReference;
         
         public VisualElement[] LevelButtonsReferences;
         
@@ -62,7 +59,6 @@ namespace Ui.Menu
             CarouselReference = Root.Q<VisualElement>(_carouselName);
             DebugLabelReference = Root.Q<Label>(_debugLabelName);
             DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
-            BlackLayerReference = Root.Q<VisualElement>(_blackLayerName);
             LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
@@ -79,7 +75,6 @@ namespace Ui.Menu
             Validate(CarouselReference, nameof(CarouselReference));
             Validate(DebugLabelReference, nameof(DebugLabelReference));
             Validate(DragZoneReference, nameof(DragZoneReference));
-            Validate(BlackLayerReference, nameof(BlackLayerReference));
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
                 Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
