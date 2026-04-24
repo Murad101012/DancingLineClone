@@ -88,8 +88,8 @@ namespace Ui.Menu
                     _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale = _styleScaleForLevelButton;
                 }, 
                 2f, 
-                1f).
-                SetEase(Ease.OutCirc));
+                0.6f).
+                SetEase(Ease.OutCirc).OnComplete(() => OnLoadLevelButtonClicked?.Invoke()));
             
             _sequenceLevelLoad.Append(DOTween.To(
                     () => _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale.value.value.x,
@@ -107,19 +107,7 @@ namespace Ui.Menu
                     2.5f, 
                     1f).
                 SetEase(Ease.InSine));
-
-            _sequenceLevelLoad.Join(DOTween.To(
-                () => _menuUiElementReference.BlackLayerReference.style.opacity.value,
-                x =>
-                {
-                    _opacityFloat.value = x;
-                    _menuUiElementReference.BlackLayerReference.style.opacity = _opacityFloat;
-                },
-                1, 
-                0.8f
-                ).SetEase(Ease.InQuad));
             
-            _sequenceLevelLoad.AppendInterval(.5f).OnComplete(() => OnLoadLevelButtonClicked?.Invoke());
             _sequenceLevelLoad.Pause();
         }
         

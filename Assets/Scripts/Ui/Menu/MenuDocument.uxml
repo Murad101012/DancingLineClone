@@ -33,6 +33,5 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Spc_Top" class="u-flex-spacer"/>
-        <ui:VisualElement name="Black_Layer" picking-mode="Ignore" style="position: absolute; width: 100%; height: 100%; background-color: black; opacity: 0;"/>
     </ui:VisualElement>
 </ui:UXML>

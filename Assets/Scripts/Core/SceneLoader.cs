@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Gameplay;
 using Interfaces;
 using Ui.Menu;
+using Ui.SceneTransformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,8 +17,7 @@ namespace Core
     /// when loading that same level with LevelLoader, please check <see cref="IReady"/></remarks>
     public class SceneLoader : MonoBehaviour
     {
-        //TODO: Replace Instance with Zenject
-        public static SceneLoader Instance;
+        private SceneTransformationUiController _sceneTransformationUiController;
         private string _sceneNameInPreview;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChange;
         public event Action LevelLoaded;
@@ -34,15 +34,12 @@ namespace Core
         private void Awake()
         {
             DontDestroyOnLoad(this);
+            TryGetComponent(out _sceneTransformationUiController);
+        }
 
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        private void Start()
+        {
+            ReturnToMenu();
         }
 
         private void OnDisable()
@@ -54,6 +51,16 @@ namespace Core
 
         private async void LoadLevelAsync()
         {
+            if (_sceneTransformationUiController == null)
+            {
+                Debug.LogWarning($"{name}: variable '{_sceneTransformationUiController}' is null. " +
+                                 "Skipping blacking out the screen animation for Scene Load");
+            }
+            else
+            {
+                _sceneTransformationUiController.LoadScreenAnimation();
+            }
+            
             // Basic string check
             if (string.IsNullOrEmpty(_sceneNameInPreview)) 
             {
@@ -68,17 +75,26 @@ namespace Core
                 return;
             }
             
-            if (_sceneNameInPreview == "") return;
-            // 1. Start the Unity Async Operation
             AsyncOperation op = SceneManager.LoadSceneAsync(_sceneNameInPreview);
-
-            // 2. Instead of 'yield return', we 'await'
-            // We turn the Unity AsyncOperation into something awaitable
-            while (!op.isDone)
+            op.allowSceneActivation = false;
+            
+            //We're waiting until loadScreenAnimationFullyLoaded = true
+            while (!_sceneTransformationUiController.loadScreenAnimationFullyLoaded)
             {
-                // This replaces 'yield return null'
                 await Task.Yield(); 
             }
+
+            //When player only see loading screen, we're then allowing scene to load
+            op.allowSceneActivation = true;
+
+            //We check if level fully load
+            while (!op.isDone)
+            {
+                await Task.Yield();
+            }
+            
+            //If scene also fully initialized/load/ready, we're removing the loading screen with animation
+            if (_sceneTransformationUiController != null) _sceneTransformationUiController.LoadScreenAnimation(false);
 
             if (_sceneNameInPreview != "Menu")
             {
