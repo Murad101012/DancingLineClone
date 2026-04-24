@@ -32,6 +32,9 @@ namespace Ui.Menu
         private readonly string _debugLabelName = "Lbl_DebugText";
         public Label DebugLabelReference;
         
+        private readonly string _blackScreenName = "Black_Screen";
+        public VisualElement BlackScreenReference;
+        
         public VisualElement[] LevelButtonsReferences;
         
         /// <summary>
@@ -59,6 +62,7 @@ namespace Ui.Menu
             CarouselReference = Root.Q<VisualElement>(_carouselName);
             DebugLabelReference = Root.Q<Label>(_debugLabelName);
             DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
+            BlackScreenReference = Root.Q<VisualElement>(_blackScreenName);
             LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
@@ -71,13 +75,14 @@ namespace Ui.Menu
             CheckResult = true;
             
             //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
-            Validate(LevelLabelReference, nameof(LevelLabelReference));
-            Validate(CarouselReference, nameof(CarouselReference));
-            Validate(DebugLabelReference, nameof(DebugLabelReference));
-            Validate(DragZoneReference, nameof(DragZoneReference));
+            Validate(LevelLabelReference);
+            Validate(CarouselReference);
+            Validate(DebugLabelReference);
+            Validate(DragZoneReference);
+            Validate(BlackScreenReference);
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
-                Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
+                Validate(LevelButtonsReferences[i]); 
             }
             
             
@@ -104,10 +109,10 @@ namespace Ui.Menu
         /// </example>
         /// </remarks>
 
-        private void Validate(VisualElement visualElement, string nameOfVisualElement)
+        private void Validate(VisualElement visualElement)
         {
             if (visualElement != null) return;
-            Debug.LogWarning($"{name}: {nameOfVisualElement} is null");
+            Debug.LogWarning($"{name}: {nameof(visualElement)} is null");
             CheckResult = false;
         }
     }

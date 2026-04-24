@@ -274,6 +274,11 @@ namespace Ui.Menu
             if (!_hasMovedSignificantly && math.abs(_startPos.x - evt.position.x) + math.abs(_startPos.y - evt.position.y) > 10f)
             {
                 _hasMovedSignificantly = true;
+                if (!menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview)
+                {
+                    menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = true; 
+                    menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
+                }
             }
 
             if (_hasMovedSignificantly)
@@ -370,7 +375,7 @@ namespace Ui.Menu
                 
                 /*We change _currentScrollX if distance between _currentScrollX and _targetScrollX meaningfully far apart to worth using
                 the Mathf.SmoothDamp*/
-                if (_distanceBetweenTargetAndCurrentScrollX > 2f)
+                if (_distanceBetweenTargetAndCurrentScrollX > 0.5f)
                 {
                     _currentScrollX = Mathf.SmoothDamp(_currentScrollX, _targetScrollX, ref _scrollVelocity, SmoothTime);
                 }
@@ -393,9 +398,17 @@ namespace Ui.Menu
             
                 LevelIconScale();
             
-                if (_distanceBetweenTargetAndCurrentScrollX > 2f)
+                if (_distanceBetweenTargetAndCurrentScrollX > 0.5f)
                 {
                     LevelInPreviewChanger();
+                }
+                else if (!_holdingTheMouseOnWheel)
+                {
+                    if (menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview)
+                    {
+                        menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = false; 
+                        menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
+                    }
                 }
             }
 
