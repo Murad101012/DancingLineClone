@@ -22,6 +22,13 @@ MonoBehaviour:
       m_RenderTexture: {fileID: 0}
       m_VectorImage: {fileID: 0}
     m_Keyword: 0
+  styleBackgroundBlurredLevelImage:
+    m_Value:
+      m_Texture: {fileID: 0}
+      m_Sprite: {fileID: 0}
+      m_RenderTexture: {fileID: 0}
+      m_VectorImage: {fileID: 0}
+    m_Keyword: 0
   sceneLevel:
     m_AssetGUID: 
     m_SubObjectName: 

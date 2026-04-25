@@ -40,17 +40,6 @@ namespace Ui.Menu
         private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
-            
-            _backgroundImageBlackFadeAnimation = DOTween.Sequence();
-            _backgroundImageBlackFadeAnimation.Append(DOTween.To(
-                () => _menuUiElementReference.BlackScreenReference.style.opacity.value,
-                x => _menuUiElementReference.BlackScreenReference.style.opacity = x, 
-                1, 
-                0.2f)
-            );
-
-            _backgroundImageBlackFadeAnimation.SetAutoKill(false);
-            _backgroundImageBlackFadeAnimation.Pause();
         }
 
         private void BlackScreenAnimation(bool forward = true)
@@ -79,6 +68,17 @@ namespace Ui.Menu
                 enabled = false;
                 return;
             }
+            
+            _backgroundImageBlackFadeAnimation = DOTween.Sequence();
+            _backgroundImageBlackFadeAnimation.Append(DOTween.To(
+                    () => _menuUiElementReference.BlackScreenReference.style.opacity.value,
+                    x => _menuUiElementReference.BlackScreenReference.style.opacity = x, 
+                    1, 
+                    0.2f).From(0.7f)
+            );
+
+            _backgroundImageBlackFadeAnimation.SetAutoKill(false);
+            _backgroundImageBlackFadeAnimation.Pause();
         }
 
         private void OnDisable()
@@ -95,7 +95,7 @@ namespace Ui.Menu
             
             //Chancing background-image
             _menuUiElementReference.Root.style.backgroundImage =
-                menuOnLevelInPreviewChangeSo.levelInPreview.styleBackgroundLevelImage;
+                menuOnLevelInPreviewChangeSo.levelInPreview.styleBackgroundBlurredLevelImage;
             
             //Since setting this in root class container ignored when we set background-image as style, we need to implement in C# manually
             /*By Gemini: Modern replacement for -unity-background-scale-mode: scale-and-crop */
