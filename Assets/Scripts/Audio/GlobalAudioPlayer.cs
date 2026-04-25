@@ -109,7 +109,7 @@ namespace Audio
         {
             if (menuOnLevelInPreviewChangeSo.levelInPreview.levelSound == null) return;
             InsertClip(menuOnLevelInPreviewChangeSo.levelInPreview.levelSound);
-            PlaySound(true);
+            if(!menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview) PlaySound(true);
         }
     }
 }

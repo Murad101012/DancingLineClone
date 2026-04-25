@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.LevelProperties
   levelName: LevelCreateTemplate
   levelImage: {fileID: 240456465, guid: 9e02e6ab9582cab31a7f3037b34a0353, type: 3}
-  levelSound: {fileID: 8300000, guid: dac91b809052da393a02855af2aa1e40, type: 3}
+  levelSound: {fileID: 8300000, guid: 6633b6738e186c708a6c1c4ac16fc0e1, type: 3}
   styleBackgroundLevelImage:
     m_Value:
       m_Texture: {fileID: 0}

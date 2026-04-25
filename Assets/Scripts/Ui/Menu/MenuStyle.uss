@@ -64,6 +64,17 @@
     border-radius: 50%;
 }
 
+#unity-dragger{
+    border-color: transparent;
+    border-width: 0;
+    margin: 0;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    top: -20%;
+}
+
 /* 4. Utilities */
 .u-hide {
     display: none;

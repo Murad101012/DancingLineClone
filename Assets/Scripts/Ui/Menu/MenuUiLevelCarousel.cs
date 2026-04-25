@@ -25,12 +25,14 @@ namespace Ui.Menu
         private Vector2 _areaWidthOfLevelIndexInPreview;
         
         private bool _holdingTheMouseOnWheel;
+        private bool _holdingTheMouseOnSlider;
         private Translate _wheelTranslateOnCursor;
         private Translate _buttonTranslateOnCursor;
         private float _targetScrollX;
         private float _currentScrollX;
         private float _distanceBetweenTargetAndCurrentScrollX;
         private int _spaceBetweenLevelButtons;
+        private int _lengthFromFirstLevelToLastLevelByPixels;
         
         private Vector2 _startPos;
         private bool _hasMovedSignificantly;
@@ -56,6 +58,10 @@ namespace Ui.Menu
         private Sequence _sequenceLevelLoad;
         private Vector2 _endScale;
         private StyleFloat _opacityFloat;
+        //#####
+        private Sequence _sequenceDraggerScale;
+        private Scale _scaleDragger;
+        private Vector3 _vectorDragger;
         
         private event Action OnSpaceBetweenLevelChange;
         public static event Action OnLoadLevelButtonClicked;
@@ -66,6 +72,7 @@ namespace Ui.Menu
         {
             OnSpaceBetweenLevelChange += ApplySpaceToBetweenOfLevelButtons;
             OnSpaceBetweenLevelChange += UpdateAreaWidthForCurrentButtonInPreview;
+            OnSpaceBetweenLevelChange += LengthOfViewport;
         }
 
         private void Awake()
@@ -109,6 +116,19 @@ namespace Ui.Menu
                 SetEase(Ease.InSine));
             
             _sequenceLevelLoad.Pause();
+            
+            _sequenceDraggerScale = DOTween.Sequence();
+            _sequenceDraggerScale.Append(DOTween.To(() => _menuUiElementReference.UnityDraggerReference.style.scale.value.value.x,
+                xy =>
+                {
+                    _vectorDragger.x = xy;
+                    _vectorDragger.y = xy;
+                    _vectorDragger.z = 1;
+                    _scaleDragger = _vectorDragger;
+                    _menuUiElementReference.UnityDraggerReference.style.scale = _scaleDragger;
+                }, 1.5f, 0.15f));
+            _sequenceDraggerScale.SetAutoKill(false);
+            _sequenceDraggerScale.Pause();
         }
         
         private void Start()
@@ -164,13 +184,29 @@ namespace Ui.Menu
                 _buttonTranslateOnCursor.x = i * _spaceBetweenLevelButtons;
                 _menuUiElementReference.LevelButtonsReferences[i].style.translate = _buttonTranslateOnCursor;
             }
-
+            
+            //We register DragContainer to find out, if player clicked on the slider (not specifically to the dragger), 
+            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerDownEvent>(evt =>
+                {
+                    _sequenceDraggerScale.PlayForward();
+                    _holdingTheMouseOnSlider = true;
+                    menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = true; 
+                    menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
+                }, TrickleDown.TrickleDown
+            );
+            
+            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerUpEvent>(evt =>
+            {
+                _sequenceDraggerScale.PlayBackwards();
+                _holdingTheMouseOnSlider = false;
+            }, TrickleDown.TrickleDown);
         }
 
         private void OnDisable()
         {
             OnSpaceBetweenLevelChange -= ApplySpaceToBetweenOfLevelButtons;
             OnSpaceBetweenLevelChange -= UpdateAreaWidthForCurrentButtonInPreview;
+            OnSpaceBetweenLevelChange -= LengthOfViewport;
         }
 
         //Use for make persistant the space between level buttons that match to half of the Root container (Which it's..
@@ -253,7 +289,15 @@ namespace Ui.Menu
             }
         }
         
-
+        private void LengthOfViewport()
+        {
+            _lengthFromFirstLevelToLastLevelByPixels =
+                _menuUiElementReference.LevelButtonsReferences.Length * _spaceBetweenLevelButtons;
+            _lengthFromFirstLevelToLastLevelByPixels -= _spaceBetweenLevelButtons;
+            
+            //_menuUiElementReference.SliderCarouselReference.
+        }
+        
         private void ClickingTheWheel(PointerDownEvent evt)
         {
             _holdingTheMouseOnWheel = true;
@@ -342,20 +386,17 @@ namespace Ui.Menu
         //Change level's rotate based on current level in preview
         private void LevelIconRotate()
         {
-            if (!_holdingTheMouseOnWheel)
-            {
-                //Adding increment
-                _currentAngle += 1f * Time.deltaTime;
+            //Adding increment
+            _currentAngle += 1f * Time.deltaTime;
 
-                //Caching values
-                _currentRotatingButtonAngle.value = _currentAngle;
-                _currentRotatingButtonAngle.unit = AngleUnit.Degree;
-                _currentRotatingButtonRotate = _currentRotatingButtonAngle;
-                _currentRotatingButtonStyleRotate = _currentRotatingButtonRotate;
+            //Caching values
+            _currentRotatingButtonAngle.value = _currentAngle;
+            _currentRotatingButtonAngle.unit = AngleUnit.Degree;
+            _currentRotatingButtonRotate = _currentRotatingButtonAngle;
+            _currentRotatingButtonStyleRotate = _currentRotatingButtonRotate;
                 
-                //Applying increment to the button that in preview
-                _currentRotatingButtonStyle.rotate = _currentRotatingButtonStyleRotate;
-            }
+            //Applying increment to the button that in preview
+            _currentRotatingButtonStyle.rotate = _currentRotatingButtonStyleRotate;
         }
 
         private void OnLevelPreviewChange()
@@ -377,7 +418,14 @@ namespace Ui.Menu
                 the Mathf.SmoothDamp*/
                 if (_distanceBetweenTargetAndCurrentScrollX > 0.5f)
                 {
-                    _currentScrollX = Mathf.SmoothDamp(_currentScrollX, _targetScrollX, ref _scrollVelocity, SmoothTime);
+                    /*If player not holding the slider, but distance between _currentScrollX and _targetScrollX quite far,
+                     it means, last time player change between level preview with Wheel/Carousel. So, we add delay animation to add smoothness*/
+                    if (!_holdingTheMouseOnSlider)
+                        _currentScrollX = Mathf.SmoothDamp(_currentScrollX, _targetScrollX, ref _scrollVelocity,
+                            SmoothTime);
+                    /*If player change level between in preview with slider, we want to make Wheel/Carousel move change as soon as possible
+                     to reach the speed of player chancing the slider*/
+                    else _currentScrollX = _targetScrollX;
                 }
                 
                 /*If player drag fast the wheel and left to click on, the wheel go with velocity until it "stops" (_distanceBetweenTargetAndCurrentScrollX > 0.1f).
@@ -387,7 +435,7 @@ namespace Ui.Menu
                 else if(!_holdingTheMouseOnWheel)
                 {
                     /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
-                      is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* and etc.)*/
+                      is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* etc.)*/
                     _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
                 
                     //If player isn't moving the carousel and Update() now executing to focus the carousel to the selected level preview, we invoke the event
@@ -401,18 +449,28 @@ namespace Ui.Menu
                 if (_distanceBetweenTargetAndCurrentScrollX > 0.5f)
                 {
                     LevelInPreviewChanger();
+                    if(!_holdingTheMouseOnSlider) _menuUiElementReference.SliderCarouselReference.value = _currentScrollX / _lengthFromFirstLevelToLastLevelByPixels;
                 }
-                else if (!_holdingTheMouseOnWheel)
+                /*If player do not hold Wheel/Slider, means player not using any tool that help to change between level preview.
+                 So, we make playerCurrentlyChangeLevelPreview as false, that player don't change between level previews*/
+                else if (!_holdingTheMouseOnWheel && !_holdingTheMouseOnSlider)
                 {
                     if (menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview)
                     {
                         menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = false; 
                         menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
                     }
+
+                    LevelIconRotate();
+                }
+
+                //If player change between level previews with slider, we calculate targetScrollX (translate of Carousel/Wheel) by this formula
+                if (_holdingTheMouseOnSlider)
+                {
+                    _targetScrollX = _menuUiElementReference.SliderCarouselReference.value *
+                                     _lengthFromFirstLevelToLastLevelByPixels;
                 }
             }
-
-            LevelIconRotate();
         }
         
 
