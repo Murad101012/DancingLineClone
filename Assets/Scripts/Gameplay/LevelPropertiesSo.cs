@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
@@ -16,21 +17,77 @@ namespace Gameplay
         //TODO: Change to Addressable type loading
         public string levelName;
         [SerializeField] public Sprite levelImage;
+        public Texture2D bakedBlurredTexture;
+        private int _idLevelImage;
         public AudioClip levelSound;
-        [HideInInspector] public StyleBackground styleBackgroundLevelImage;
-        [HideInInspector] public StyleBackground styleBackgroundBlurredLevelImage;
+        public StyleBackground styleBackgroundLevelImage;
+        public StyleBackground styleBackgroundBlurredLevelImage;
         public AssetReference sceneLevel;
 
         //As soon as levelImage add from inspector, thi
         private void OnValidate()
         {
-            if (levelImage != null)
+            if (levelImage != null && levelImage.GetHashCode() != _idLevelImage)
+            {
+                _idLevelImage = levelImage.GetHashCode();
+            }
+
+            if (styleBackgroundLevelImage != null || styleBackgroundBlurredLevelImage != null)
             {
                 styleBackgroundLevelImage = new StyleBackground(levelImage);
-
-                styleBackgroundBlurredLevelImage = new StyleBackground(BakeBlur(levelImage, 2, 2));
+                styleBackgroundBlurredLevelImage = new StyleBackground(bakedBlurredTexture);
             }
         }
+        
+        /// <summary>
+        /// This script written by GEMINI AI
+        /// </summary>
+#if UNITY_EDITOR
+        [ContextMenu("Bake Blur and Assign")]
+        public void BakeAndSaveBlur()
+        {
+            if (levelImage == null) return;
+
+            // 1. Generate the texture
+            Texture2D blurred = BakeBlur(levelImage, 2, 2);
+
+            // 2. Determine paths
+            string soPath = UnityEditor.AssetDatabase.GetAssetPath(this);
+            string directory = System.IO.Path.GetDirectoryName(soPath);
+            string fileName = this.name + "_Blurred.png";
+            string targetPath = System.IO.Path.Combine(directory, fileName);
+            // Convert system path to Unity project path for AssetDatabase
+            string unityPath = targetPath.Replace(System.IO.Path.DirectorySeparatorChar, '/');
+
+            // 3. Save to Disk
+            byte[] bytes = blurred.EncodeToPNG();
+            System.IO.File.WriteAllBytes(targetPath, bytes);
+            
+            // 4. Refresh and Import
+            UnityEditor.AssetDatabase.ImportAsset(unityPath);
+
+            // 5. Setup Import Settings (Crucial for UI quality)
+            UnityEditor.TextureImporter importer = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEditor.TextureImporter>(unityPath);
+            if (importer != null)
+            {
+                importer.textureType = UnityEditor.TextureImporterType.Default;
+                importer.sRGBTexture = true; // Ensure colors look correct
+                importer.alphaSource = UnityEditor.TextureImporterAlphaSource.None;
+                importer.SaveAndReimport();
+            }
+
+            // 6. AUTOMATIC ASSIGNMENT
+            // Load the newly created asset and assign it to the slot
+            bakedBlurredTexture = UnityEditor.AssetDatabase.LoadAssetAtPath<Texture2D>(unityPath);
+            
+            // 7. Mark the ScriptableObject as "Dirty" so Unity knows to save the new reference
+            UnityEditor.EditorUtility.SetDirty(this);
+            UnityEditor.AssetDatabase.SaveAssets();
+
+            Debug.Log($"Billed Baked & Assigned: {unityPath}");
+            DestroyImmediate(blurred);
+        }
+#endif
         
         /// <summary>
         /// This script written by GEMINI AI

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.LevelProperties
   levelName: LevelCreateTemplate
   levelImage: {fileID: 240456465, guid: 9e02e6ab9582cab31a7f3037b34a0353, type: 3}
+  bakedBlurredTexture: {fileID: 2800000, guid: b5a7eb229c281936cb113bbd3e5e4994, type: 3}
   levelSound: {fileID: 8300000, guid: 6633b6738e186c708a6c1c4ac16fc0e1, type: 3}
   styleBackgroundLevelImage:
     m_Value:
