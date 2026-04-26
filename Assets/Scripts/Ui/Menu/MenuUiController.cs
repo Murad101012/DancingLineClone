@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,6 +22,8 @@ namespace Ui.Menu
         //Cache Scale and Crop
         private readonly BackgroundSize _backgroundSize = new BackgroundSize(BackgroundSizeType.Cover);
         private readonly BackgroundPosition _backgroundPosition = new BackgroundPosition(BackgroundPositionKeyword.Center);
+
+        private Sequence _backgroundImageBlackFadeAnimation;
         
         private void OnEnable()
         {
@@ -30,11 +33,19 @@ namespace Ui.Menu
                 return;
             }
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
+            
+            menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent += BlackScreenAnimation;
         }
 
         private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
+        }
+
+        private void BlackScreenAnimation(bool forward = true)
+        {
+            if (forward) _backgroundImageBlackFadeAnimation.Restart();
+            else _backgroundImageBlackFadeAnimation.PlayBackwards();
         }
         
         private void Start()
@@ -57,11 +68,23 @@ namespace Ui.Menu
                 enabled = false;
                 return;
             }
+            
+            _backgroundImageBlackFadeAnimation = DOTween.Sequence();
+            _backgroundImageBlackFadeAnimation.Append(DOTween.To(
+                    () => _menuUiElementReference.BlackScreenReference.style.opacity.value,
+                    x => _menuUiElementReference.BlackScreenReference.style.opacity = x, 
+                    1, 
+                    0.2f).From(0.7f)
+            );
+
+            _backgroundImageBlackFadeAnimation.SetAutoKill(false);
+            _backgroundImageBlackFadeAnimation.Pause();
         }
 
         private void OnDisable()
         {
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
+            menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent -= BlackScreenAnimation;
         }
 
         private void OnLevelPreviewChange()
@@ -72,7 +95,7 @@ namespace Ui.Menu
             
             //Chancing background-image
             _menuUiElementReference.Root.style.backgroundImage =
-                menuOnLevelInPreviewChangeSo.levelInPreview.styleBackgroundLevelImage;
+                menuOnLevelInPreviewChangeSo.levelInPreview.styleBackgroundBlurredLevelImage;
             
             //Since setting this in root class container ignored when we set background-image as style, we need to implement in C# manually
             /*By Gemini: Modern replacement for -unity-background-scale-mode: scale-and-crop */

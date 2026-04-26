@@ -32,6 +32,21 @@ namespace Ui.Menu
         private readonly string _debugLabelName = "Lbl_DebugText";
         public Label DebugLabelReference;
         
+        private readonly string _blackScreenName = "Black_Screen";
+        public VisualElement BlackScreenReference;
+        
+        private readonly string _sliderCarouselName = "Slider_Carousel";
+        public Slider SliderCarouselReference;
+        
+        private readonly string _unityDraggerName = "unity-dragger";
+        public VisualElement UnityDraggerReference;
+        
+        private readonly string _unityDragContainerName = "unity-drag-container";
+        public VisualElement UnityDragContainerReference;
+        
+        private readonly string _unityTrackerName = "unity-tracker";
+        public VisualElement UnityTrackerReference;
+        
         public VisualElement[] LevelButtonsReferences;
         
         /// <summary>
@@ -59,6 +74,11 @@ namespace Ui.Menu
             CarouselReference = Root.Q<VisualElement>(_carouselName);
             DebugLabelReference = Root.Q<Label>(_debugLabelName);
             DragZoneReference = Root.Q<VisualElement>(_dragZoneName);
+            BlackScreenReference = Root.Q<VisualElement>(_blackScreenName);
+            SliderCarouselReference = Root.Q<Slider>(_sliderCarouselName);
+            UnityDraggerReference = Root.Q<VisualElement>(_unityDraggerName);
+            UnityDragContainerReference = Root.Q<VisualElement>(_unityDragContainerName);
+            UnityTrackerReference = Root.Q<VisualElement>(_unityTrackerName);
             LevelButtonsReferences = new VisualElement[CarouselReference.childCount];
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
@@ -71,13 +91,18 @@ namespace Ui.Menu
             CheckResult = true;
             
             //Validate(LevelLoadButtonReference, nameof(LevelLoadButtonReference));
-            Validate(LevelLabelReference, nameof(LevelLabelReference));
-            Validate(CarouselReference, nameof(CarouselReference));
-            Validate(DebugLabelReference, nameof(DebugLabelReference));
-            Validate(DragZoneReference, nameof(DragZoneReference));
+            Validate(LevelLabelReference);
+            Validate(CarouselReference);
+            Validate(DebugLabelReference);
+            Validate(DragZoneReference);
+            Validate(BlackScreenReference);
+            Validate(SliderCarouselReference);
+            Validate(UnityDraggerReference);
+            Validate(UnityTrackerReference);
+            Validate(UnityDragContainerReference);
             for (int i = 0; i < CarouselReference.childCount; i++)
             {
-                Validate(LevelButtonsReferences[i], nameof(LevelButtonsReferences)); 
+                Validate(LevelButtonsReferences[i]); 
             }
             
             
@@ -94,7 +119,6 @@ namespace Ui.Menu
         /// Checks if a VisualElement is null and updates the global <see cref="CheckResult"/>.
         /// </summary>
         /// <param name="visualElement">The element to check.</param>
-        /// <param name="nameOfVisualElement">The name to display in the warning log.</param>
         /// <remarks>
         /// <para>If the element is null, a <c>Debug.LogWarning</c> is issued and <see cref="CheckResult"/> is set to false.</para>
         /// <example>
@@ -104,10 +128,10 @@ namespace Ui.Menu
         /// </example>
         /// </remarks>
 
-        private void Validate(VisualElement visualElement, string nameOfVisualElement)
+        private void Validate(VisualElement visualElement)
         {
             if (visualElement != null) return;
-            Debug.LogWarning($"{name}: {nameOfVisualElement} is null");
+            Debug.LogWarning($"{name}: {nameof(visualElement)} is null");
             CheckResult = false;
         }
     }

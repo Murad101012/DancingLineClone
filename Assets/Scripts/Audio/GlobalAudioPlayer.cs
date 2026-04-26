@@ -30,6 +30,13 @@ namespace Audio
             }
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
             sceneFullyLoadedEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
+            menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent += MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
+        }
+
+        private void MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent(bool obj)
+        {
+            if (obj) StopSound(true, 0.5f);
+            else PlaySound();
         }
 
         private void Awake()
@@ -45,6 +52,7 @@ namespace Audio
         {
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
             sceneFullyLoadedEvent.OnSceneBeginToLoad -= OnSceneBeginToLoad;
+            menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent -= MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
         }
 
         private void OnDestroy()
@@ -74,12 +82,12 @@ namespace Audio
         }
         
 
-        private void StopSound(bool fading = true)
+        private void StopSound(bool fading = true, float duration = 3f)
         {
             _audioSource.DOKill();
             
             if (!fading) _audioSource.Stop();
-            else _audioSource.DOFade(0, 5.0f).OnComplete(_audioSource.Stop);
+            else _audioSource.DOFade(0, duration).OnComplete(_audioSource.Stop);
         }
 
         public void OnLevelStart()
@@ -101,7 +109,7 @@ namespace Audio
         {
             if (menuOnLevelInPreviewChangeSo.levelInPreview.levelSound == null) return;
             InsertClip(menuOnLevelInPreviewChangeSo.levelInPreview.levelSound);
-            PlaySound(true);
+            if(!menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview) PlaySound(true);
         }
     }
 }
