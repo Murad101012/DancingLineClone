@@ -172,7 +172,7 @@ namespace Ui.Menu
                     //Applying
                     _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale = _styleScaleForLevelButton;
                 }, 
-                2f, 
+                1.75f, 
                 0.6f).
                 SetEase(Ease.OutCirc).OnComplete(() => OnLoadLevelButtonClicked?.Invoke()));
             
@@ -189,7 +189,7 @@ namespace Ui.Menu
                         //Applying
                         _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale = _styleScaleForLevelButton;
                     }, 
-                    2.5f, 
+                    2.15f, 
                     1f).
                 SetEase(Ease.InSine));
             
@@ -273,6 +273,8 @@ namespace Ui.Menu
                     _levelIndexInPreview--;
                 }
             }
+            
+            menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
 
             //At the end we calculate new button area for the new button preview player change
             UpdateAreaWidthForCurrentButtonInPreview();
@@ -511,9 +513,6 @@ namespace Ui.Menu
                     /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
                       is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* etc.)*/
                     _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
-                
-                    //If player isn't moving the carousel and Update() now executing to focus the carousel to the selected level preview, we invoke the event
-                    menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
                 }
                 
                 UpdateWheelTranslatePosition();
