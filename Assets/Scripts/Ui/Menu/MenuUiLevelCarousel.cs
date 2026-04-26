@@ -62,6 +62,9 @@ namespace Ui.Menu
         private Sequence _sequenceDraggerScale;
         private Scale _scaleDragger;
         private Vector3 _vectorDragger;
+        //#####
+        private Sequence _sequenceSliderOpacity;
+        private StyleFloat _opacitySliderFloat;
         
         private event Action OnSpaceBetweenLevelChange;
         public static event Action OnLoadLevelButtonClicked;
@@ -79,7 +82,82 @@ namespace Ui.Menu
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
             _menuUiLevelController = GetComponent<MenuUiLevelController>();
+        }
+        
+        private void Start()
+        {
+            if (menuOnLevelInPreviewChangeSo == null)
+            {
+                Debug.LogWarning($"{name}: {nameof(menuOnLevelInPreviewChangeSo)} is null. Sending level preview change not possible");
+            }
+            else
+            {
+                menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
+                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[0], 0, true);
+            }
+            
+            if (!_menuUiElementReference.CheckFinished)
+            {
+                Debug.LogWarning($"{name}: checkFinished is false, can't get reference to UI elements. So, " +
+                                 $"disabling the {name}. (Tip: check if race-condition happen (Meaning if {name} begin" +
+                                 $" first before {nameof(MenuUiElementReference)} finish it's Initialization(). " +
+                                  "If problem is race-condition then proceed to use IReady interface if it suits to current situation.)");
+                enabled = false;
+                return;
+            }
 
+            if (!_menuUiElementReference.CheckResult)
+            {
+                Debug.LogWarning($"{name}: checkResult is false, can't get reference to UI elements. So, disabling the {name}.");
+                enabled = false;
+                return;
+            }
+            
+            InitializationLogic();
+            InitializationAnimation();
+        }
+
+        private void InitializationLogic()
+        {
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerDownEvent>(ClickingTheWheel, TrickleDown.TrickleDown);
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerUpEvent>(LeftTheWheelToHold);
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerMoveEvent>(MovingTheWheel);
+
+            _menuUiElementReference.Root.RegisterCallback<GeometryChangedEvent>(UpdateSpaceBetweenMouseOnWindowWidthChange);
+            
+            //Chancing buttons position to absolute to be sure they begin from 0,0 and only change their position purely from C#
+            StyleEnum<Position> absolutePositionLevelButtons = new StyleEnum<Position>(Position.Absolute); 
+            for (int i = 0; _menuUiElementReference.LevelButtonsReferences.Length > i; i++)
+            {
+                _menuUiElementReference.LevelButtonsReferences[i].style.position = absolutePositionLevelButtons;
+            }
+
+            for (int i = 0; _menuUiElementReference.LevelButtonsReferences.Length > i; i++)
+            {
+                _buttonTranslateOnCursor = _menuUiElementReference.LevelButtonsReferences[i].style.translate.value;
+                _buttonTranslateOnCursor.x = i * _spaceBetweenLevelButtons;
+                _menuUiElementReference.LevelButtonsReferences[i].style.translate = _buttonTranslateOnCursor;
+            }
+            
+            //We register DragContainer to find out, if player clicked on the slider (not specifically to the dragger), 
+            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerDownEvent>(evt =>
+                {
+                    _sequenceDraggerScale.PlayForward();
+                    _holdingTheMouseOnSlider = true;
+                    menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = true; 
+                    menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
+                }, TrickleDown.TrickleDown
+            );
+            
+            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerUpEvent>(evt =>
+            {
+                _sequenceDraggerScale.PlayBackwards();
+                _holdingTheMouseOnSlider = false;
+            }, TrickleDown.TrickleDown);
+        }
+        
+        private void InitializationAnimation()
+        {
             _sequenceLevelLoad = DOTween.Sequence();
             _sequenceLevelLoad.Append(DOTween.To(
                 () => _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale.value.value.x,
@@ -129,77 +207,15 @@ namespace Ui.Menu
                 }, 1.5f, 0.15f));
             _sequenceDraggerScale.SetAutoKill(false);
             _sequenceDraggerScale.Pause();
-        }
-        
-        private void Start()
-        {
-            if (menuOnLevelInPreviewChangeSo == null)
-            {
-                Debug.LogWarning($"{name}: {nameof(menuOnLevelInPreviewChangeSo)} is null. Sending level preview change not possible");
-            }
-            else
-            {
-                menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
-                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[0], 0, true);
-            }
-            
-            if (!_menuUiElementReference.CheckFinished)
-            {
-                Debug.LogWarning($"{name}: checkFinished is false, can't get reference to UI elements. So, " +
-                                 $"disabling the {name}. (Tip: check if race-condition happen (Meaning if {name} begin" +
-                                 $" first before {nameof(MenuUiElementReference)} finish it's Initialization(). " +
-                                  "If problem is race-condition then proceed to use IReady interface if it suits to current situation.)");
-                enabled = false;
-                return;
-            }
 
-            if (!_menuUiElementReference.CheckResult)
-            {
-                Debug.LogWarning($"{name}: checkResult is false, can't get reference to UI elements. So, disabling the {name}.");
-                enabled = false;
-                return;
-            }
-            
-            Initialization();
-        }
-
-        private void Initialization()
-        {
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerDownEvent>(ClickingTheWheel, TrickleDown.TrickleDown);
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerUpEvent>(LeftTheWheelToHold);
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerMoveEvent>(MovingTheWheel);
-
-            _menuUiElementReference.Root.RegisterCallback<GeometryChangedEvent>(UpdateSpaceBetweenMouseOnWindowWidthChange);
-            
-            //Chancing buttons position to absolute to be sure they begin from 0,0 and only change their position purely from C#
-            StyleEnum<Position> absolutePositionLevelButtons = new StyleEnum<Position>(Position.Absolute); 
-            for (int i = 0; _menuUiElementReference.LevelButtonsReferences.Length > i; i++)
-            {
-                _menuUiElementReference.LevelButtonsReferences[i].style.position = absolutePositionLevelButtons;
-            }
-
-            for (int i = 0; _menuUiElementReference.LevelButtonsReferences.Length > i; i++)
-            {
-                _buttonTranslateOnCursor = _menuUiElementReference.LevelButtonsReferences[i].style.translate.value;
-                _buttonTranslateOnCursor.x = i * _spaceBetweenLevelButtons;
-                _menuUiElementReference.LevelButtonsReferences[i].style.translate = _buttonTranslateOnCursor;
-            }
-            
-            //We register DragContainer to find out, if player clicked on the slider (not specifically to the dragger), 
-            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerDownEvent>(evt =>
+            _sequenceSliderOpacity = DOTween.Sequence();
+            _sequenceSliderOpacity.Append(DOTween.To(()=> 1f,
+                x =>
                 {
-                    _sequenceDraggerScale.PlayForward();
-                    _holdingTheMouseOnSlider = true;
-                    menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview = true; 
-                    menuOnLevelInPreviewChangeSo.OnBeginLevelPreviewChange();
-                }, TrickleDown.TrickleDown
-            );
-            
-            _menuUiElementReference.UnityDragContainerReference.RegisterCallback<PointerUpEvent>(evt =>
-            {
-                _sequenceDraggerScale.PlayBackwards();
-                _holdingTheMouseOnSlider = false;
-            }, TrickleDown.TrickleDown);
+                    _menuUiElementReference.SliderCarouselReference.style.opacity = x;
+                }, 0f, 0.2f));
+            _sequenceSliderOpacity.SetAutoKill(false);
+            _sequenceSliderOpacity.Pause();
         }
 
         private void OnDisable()
@@ -355,7 +371,65 @@ namespace Ui.Menu
         {
             if (_levelLoading) return;
             _sequenceLevelLoad.Restart();
+            _sequenceSliderOpacity.Restart();
             _levelLoading = true;
+            MoveNeighborLevelPreviewsOutsideOfScreen();
+        }
+
+        private void MoveNeighborLevelPreviewsOutsideOfScreen()
+        {
+            
+            float beginningXLevelTranslateLeft = 0;
+            float beginningXLevelTranslateRight = 0;
+
+            //In first loop we get the beginning of translate.x value of neighbor levels at focus
+            for (int i = -1; i <= 1; i++)
+            {
+                /*if _levelIndexInPreview is 0, meaning there is not level at the left (previous),
+                we check the reverse where _levelIndexInPreview not the last level so it's not cause
+                array overflow when checking the next (right) level*/
+                if ((_levelIndexInPreview == 0 && i == -1) ||
+                    (_levelIndexInPreview == _menuUiLevelController.levelPropertiesLength - 1 && i == 1) ||
+                    i == 0)
+                    continue;
+                
+                if (i == -1)
+                {
+                    beginningXLevelTranslateLeft = _menuUiElementReference
+                        .LevelButtonsReferences[_levelIndexInPreview + i].style
+                        .translate.value.x.value;
+                }
+                else
+                {
+                    beginningXLevelTranslateRight = _menuUiElementReference
+                        .LevelButtonsReferences[_levelIndexInPreview + i].style
+                        .translate.value.x.value;
+                }
+            }
+
+            //At second loop
+            DOTween.To(
+                () => 0,
+                x =>
+                {
+                    for (int i = -1; i <= 1; i++)
+                    {
+                        /*if _levelIndexInPreview is 0, meaning there is not level at the left (previous),
+                        we check the reverse where _levelIndexInPreview not the last level so it's not cause
+                        array overflow when checking the next (right) level*/
+                        if ((_levelIndexInPreview == 0 && i == -1) || 
+                            (_levelIndexInPreview == _menuUiLevelController.levelPropertiesLength - 1 && i == 1) ||
+                            i == 0)
+                            continue;
+                        
+                        _buttonTranslateOnCursor.x = i == -1 ? beginningXLevelTranslateLeft - x : beginningXLevelTranslateRight + x;
+
+                        _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview + i].style.translate =
+                            _buttonTranslateOnCursor;
+                    }
+
+                }, _spaceBetweenLevelButtons,1f
+            );
         }
         
         //Modify Scales of current level preview in focus and neighbor levels scale
