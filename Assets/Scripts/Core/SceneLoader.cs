@@ -20,7 +20,7 @@ namespace Core
         private SceneTransformationUiController _sceneTransformationUiController;
         private string _sceneNameInPreview;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChange;
-
+        [SerializeField] private CurrentlyLoadedSceneSo _currentlyLoadedSceneSo;
         [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
         
 
@@ -92,6 +92,8 @@ namespace Core
             {
                 await Task.Yield();
             }
+
+            _currentlyLoadedSceneSo.loadedScene = menuOnLevelInPreviewChange.levelInPreview;
             
             //If scene also fully initialized/load/ready, we're removing the loading screen with animation
             if (_sceneTransformationUiController != null) _sceneTransformationUiController.LoadScreenAnimation(false);

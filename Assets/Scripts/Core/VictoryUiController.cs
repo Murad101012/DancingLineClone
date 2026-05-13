@@ -18,15 +18,14 @@ namespace Core
         {
             _levelRegistrySo.Register(this);
             
-            //It's require for smooth VictoryScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _victoryUiAnimation);
-            if(_victoryUiAnimation != null) _victoryUiAnimation.OnVictoryAnimationBackwardEnd += Reset;
+            if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd += Reset;
         }
 
         private void OnDisable()
         {
             _levelRegistrySo.Unregister(this);
-            if(_victoryUiAnimation != null) _victoryUiAnimation.OnVictoryAnimationBackwardEnd -= Reset;
+            if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd -= Reset;
         }
 
         public void OnVictory()
@@ -51,6 +50,11 @@ namespace Core
                 Debug.LogWarning($"{name}: VictoryUiController: _victoryUiAnimation is null, " +
                                  $"bypassing animation");
             }
+        }
+        
+        public void OnLevelRestartButton()
+        {
+            _victoryUiAnimation.PlayRestartBeginAnimation();
         }
         
         public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)

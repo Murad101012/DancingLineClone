@@ -22,8 +22,8 @@ namespace Core
         {
             PlayerCoreLogic.Dead += PlayerDead;
             VictoryTrigger.OnVictoryTriggered += SetTheVictory;
-            VictoryLogic.OnRestartButtonPressed += RestartTheLevel;
-            DefeatUiAnimation.RestartBeginAnimationEnd += RestartTheLevel;
+            DefeatUiAnimation.RestartBeginAnimationEnd += RestartOrCheckpointTheLevel;
+            VictoryUiAnimation.RestartBeginAnimationEnd += RestartTheLevel;
         }
 
         private void Awake()
@@ -35,8 +35,8 @@ namespace Core
         {
             PlayerCoreLogic.Dead -= PlayerDead;
             VictoryTrigger.OnVictoryTriggered -= SetTheVictory;
-            VictoryLogic.OnRestartButtonPressed -= RestartTheLevel;
-            DefeatUiAnimation.RestartBeginAnimationEnd -= RestartTheLevel;
+            DefeatUiAnimation.RestartBeginAnimationEnd -= RestartOrCheckpointTheLevel;
+            VictoryUiAnimation.RestartBeginAnimationEnd -= RestartTheLevel;
         }
 
         private void OnDestroy()
@@ -55,7 +55,13 @@ namespace Core
             _levelRegistrySo.TriggerStopILevelState();
         }
 
-        public void RestartTheLevel()
+        private void RestartOrCheckpointTheLevel(bool isRestart)
+        {
+            if(isRestart) RestartTheLevel();
+            else _levelRegistrySo.TriggerOnCheckPoint();
+        }
+
+        private void RestartTheLevel()
         {
             _levelRegistrySo.TriggerOnRestart();
         }

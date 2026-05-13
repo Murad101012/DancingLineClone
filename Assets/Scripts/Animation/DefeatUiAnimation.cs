@@ -20,6 +20,7 @@ namespace Animation
         [SerializeField] private GameObject defeatRoot;
         [SerializeField] private Button button;
         private bool _animationWorking;
+        private bool _isPlayerRestart;
         
         //Getting beginning values to reset back
         private Vector2 _backgroundRectBeginningOffsetMinValues;
@@ -49,7 +50,7 @@ namespace Animation
         
         private LevelRegistrySo _levelRegistrySo;
 
-        public static event Action RestartBeginAnimationEnd;
+        public static event Action<bool> RestartBeginAnimationEnd;
         public event Action RestartEndAnimationEnd;
         
 
@@ -97,7 +98,7 @@ namespace Animation
                 _restartBackgroundImagePositionCurrent.y = y;
                 backgroundRect.offsetMin = _restartBackgroundImagePositionCurrent;
             }, _restartBeginBackgroundImageBottomEndPosition, _restartAnimationDuration)
-                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => RestartBeginAnimationEnd?.Invoke()));
+                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => RestartBeginAnimationEnd?.Invoke(_isPlayerRestart)));
             
             _restartBeginSequence.Join(backgroundImage.DOColor(_restartBackgroundImageEndColor, _restartAnimationDuration).From(_restartBackgroundImageBeginningColor, false));
             _restartBeginSequence.Join(elementsCanvasGroup.DOFade(0f, _restartAnimationDuration).From(1f, false));
@@ -148,7 +149,7 @@ namespace Animation
 
         public void OnLevelCheckPoint()
         {
-            _defeatSequence.Restart();
+            _restartEndSequence.Restart();
         }
 
         private void OnDestroy()
@@ -160,12 +161,13 @@ namespace Animation
             _restartBeginSequence?.Kill();
         }
 
-        public void PlayRestartBeginAnimation()
+        public void PlayRestartBeginAnimation(bool isRestart)
         {
             if (!_animationWorking)
             {
                 _restartBeginSequence.Restart();
                 _animationWorking = true;
+                _isPlayerRestart = isRestart;
             }
         }
 

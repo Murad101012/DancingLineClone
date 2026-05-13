@@ -1,6 +1,7 @@
 using Animation;
 using Interfaces;
 using Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,12 +16,17 @@ namespace Core
         [SerializeField] private GameObject defeatScreen;
         [SerializeField] private Button checkPointButton;
         [SerializeField] private Button backToMenuButton;
+        [SerializeField] private TextMeshProUGUI levelNameText;
+        [SerializeField] private TextMeshProUGUI levelProgressText;
         /// <remarks>
         /// Duplicates from <see cref="CheckPointSnapshot._checkPointTriggered"/>
         /// </remarks>
         private bool _checkPointTriggered;
         private DefeatUiAnimation _defeatUiAnimation;
         private LevelRegistrySo _levelRegistrySo;
+        
+        [Header("")]
+        [SerializeField] private CurrentlyLoadedSceneSo currentlyLoadedSceneSo;
         
         private void OnEnable()
         {
@@ -29,11 +35,12 @@ namespace Core
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
             if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd += Reset;
-            
         }
 
         private void Awake()
         {
+            levelNameText.text = currentlyLoadedSceneSo.loadedScene.levelName;
+            
             _levelRegistrySo.Register(this);
         }
         
@@ -94,7 +101,17 @@ namespace Core
 
         public void OnLevelRestartButton()
         {
-            _defeatUiAnimation.PlayRestartBeginAnimation();
+            _defeatUiAnimation.PlayRestartBeginAnimation(true);
+        }
+
+        public void OnLevelCheckPointButton()
+        {
+            _defeatUiAnimation.PlayRestartBeginAnimation(false);
+        }
+
+        public void ChangeLevelProgressText(float progress)
+        {
+            levelProgressText.text = $"Progress: {progress:F0}%";
         }
     }
 }
