@@ -11,7 +11,7 @@ namespace Core
     /// </summary>
     public class IdleUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelRegistryUser, ILevelState
     {
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         [SerializeField] private GameObject idleCanvas;
         [SerializeField] private Button backToMenuButton;
         private IdleUiAnimation _idleUiAnimation;
@@ -19,7 +19,7 @@ namespace Core
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             TryGetComponent(out _idleUiAnimation);
         }
 
@@ -38,7 +38,7 @@ namespace Core
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
         
         private void DisableIdleCanvas()
@@ -66,9 +66,9 @@ namespace Core
             idleCanvas.SetActive(true);
         }
 
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
 
         public void OnLevelStart()

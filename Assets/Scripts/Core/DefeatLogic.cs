@@ -12,18 +12,18 @@ namespace Core
        private DefeatUiController _defeatUiController;
        [SerializeField] private ProgressInCurrentLoadedLevel progressInCurrentLoadedLevel;
        
-       private LevelRegistrySo _levelRegistrySo;
+       private ILevelRegistry _levelRegistry;
 
        private void Awake()
        {
-           _levelRegistrySo.Register(this);
+           _levelRegistry.Register(this);
            
            TryGetComponent(out _defeatUiController);
        }
 
        private void OnDestroy()
        {
-           _levelRegistrySo.Unregister(this);
+           _levelRegistry.Unregister(this);
        }
 
        public void OnDead()
@@ -39,9 +39,9 @@ namespace Core
            }
        }
 
-       public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+       public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
        {
-           _levelRegistrySo = levelRegistrySo;
+           _levelRegistry = levelRegistry;
        }
     }
 }

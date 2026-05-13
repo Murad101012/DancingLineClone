@@ -23,7 +23,7 @@ namespace Core
         /// </remarks>
         private bool _checkPointTriggered;
         private DefeatUiAnimation _defeatUiAnimation;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         
         [Header("")]
         [SerializeField] private CurrentlyLoadedSceneSo currentlyLoadedSceneSo;
@@ -41,7 +41,7 @@ namespace Core
         {
             levelNameText.text = currentlyLoadedSceneSo.loadedScene.levelName;
             
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
         }
         
         private void OnDisable()
@@ -52,7 +52,7 @@ namespace Core
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         private void RefreshCheckPointButtonState() 
@@ -94,9 +94,9 @@ namespace Core
             }
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
 
         public void OnLevelRestartButton()

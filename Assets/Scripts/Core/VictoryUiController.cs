@@ -15,11 +15,11 @@ namespace Core
         [SerializeField] private GameObject victoryScreen;
         [SerializeField] private Button restartButton;
         private VictoryUiAnimation _victoryUiAnimation;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         
         private void OnEnable()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             
             TryGetComponent(out _victoryUiAnimation);
             if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd += Reset;
@@ -27,7 +27,7 @@ namespace Core
 
         private void OnDisable()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
             if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd -= Reset;
         }
 
@@ -60,9 +60,9 @@ namespace Core
             _victoryUiAnimation.PlayRestartBeginAnimation();
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Core;
 using Interfaces;
 using UnityEngine;
 
@@ -14,20 +12,13 @@ namespace Player
     /// </remarks>
     public class DirectionController : MonoBehaviour, IDirectionSwitchable, IOnCheckPoint, ILevelRegistryUser
     {
-        public enum Directions
-        {
-            Forward,
-            Backward,
-            Left,
-            Right,
-        }
         
-        public Directions[] CurrentDirections { get; private set; } = new Directions[2];
+        public IMovementEnums.Directions[] CurrentDirections { get; private set; } = new IMovementEnums.Directions[2];
         public Quaternion[] CurrentDirectionsAsQuaternions { get; private set; } = new Quaternion[2];
-        private Dictionary<Directions, Quaternion> _directionDictionary = new(4);
+        private Dictionary<IMovementEnums.Directions, Quaternion> _directionDictionary = new(4);
         
         private CheckPointSnapshot _checkPointSnapshot;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         
         private void PassStageChangePlayer()
         {
@@ -39,7 +30,7 @@ namespace Player
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             FirstInitialize();
             if (!TryGetComponent(out _checkPointSnapshot))
             {
@@ -49,22 +40,22 @@ namespace Player
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         private void FirstInitialize()
         {
             // Define the rotation based on state
-            _directionDictionary.Add(Directions.Forward, Quaternion.identity);
-            _directionDictionary.Add(Directions.Backward, Quaternion.Euler(0, 180, 0));
-            _directionDictionary.Add(Directions.Left, Quaternion.Euler(0, -90, 0));
-            _directionDictionary.Add(Directions.Right, Quaternion.Euler(0, 90, 0));
+            _directionDictionary.Add(IMovementEnums.Directions.Forward, Quaternion.identity);
+            _directionDictionary.Add(IMovementEnums.Directions.Backward, Quaternion.Euler(0, 180, 0));
+            _directionDictionary.Add(IMovementEnums.Directions.Left, Quaternion.Euler(0, -90, 0));
+            _directionDictionary.Add(IMovementEnums.Directions.Right, Quaternion.Euler(0, 90, 0));
         }
         
         /// <summary>
         /// Current directions are change here by <see cref="CurrentDirectionChangerTrigger.OnTriggerEnter"/> firing
         /// </summary>
-        public void ChangeDirection(Directions[] newStates)
+        public void ChangeDirection(IMovementEnums.Directions[] newStates)
         {
             CurrentDirections[0] = newStates[0];
             CurrentDirections[1] = newStates[1];
@@ -81,9 +72,9 @@ namespace Player
             }
         }
 
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

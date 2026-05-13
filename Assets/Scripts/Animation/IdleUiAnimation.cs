@@ -11,14 +11,14 @@ namespace Animation
     /// </summary>
     public class IdleUiAnimation : MonoBehaviour, ILevelRegistryUser, IOnRestart, IOnCheckPoint, ILevelState
     {
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         [SerializeField] private CanvasGroup canvasGroup;
         private Sequence _canvasGroupOpacitySequence;
         public event Action OnCanvasAnimationEnd;
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             
             _canvasGroupOpacitySequence = DOTween.Sequence();
             
@@ -30,12 +30,12 @@ namespace Animation
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
 
         public void OnLevelRestart()

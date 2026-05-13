@@ -21,17 +21,17 @@ namespace Player
         private IPlayerState _moveState;
 
         //It's public for states
-        public LevelRegistrySo levelRegistrySo;
+        public ILevelRegistry _levelRegistry;
 
         private void Awake()
         {
-            levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
 
             _playerCoreLogic = GetComponent<PlayerCoreLogic>();
             
             //Initializing Caches
             _idleState = new PlayerIdleState(_playerCoreLogic);
-            _moveState = new PlayerMoveState(_playerCoreLogic, levelRegistrySo);
+            _moveState = new PlayerMoveState(_playerCoreLogic, _levelRegistry);
             
             //Setting player state default to PlayerMoveState
             ChangeStateIdle();
@@ -44,7 +44,7 @@ namespace Player
         
         private void OnDestroy()
         {
-            levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
             // This ensures the static event is unsubscribed
             _currentState?.StateEnd();
         }
@@ -96,9 +96,9 @@ namespace Player
 
         public void OnLevelStop() {/*EMPTY*/}
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            this.levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

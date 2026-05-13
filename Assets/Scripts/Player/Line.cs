@@ -31,7 +31,7 @@ namespace Player
         private PositionRotationChangeCheckPointRestart _positionRotationChangeCheckPointRestart;
 
         private bool _playerOnGround = true;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
 
         private Coroutine _cloneCubesCoroutine;
 
@@ -55,9 +55,9 @@ namespace Player
             Debug.LogWarning("Line: PositionRotationChangeCheckPointRestart not found. CloneCubes can be misaligned at CheckPoint and Restart.");
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
 
         private void Awake()
@@ -65,7 +65,7 @@ namespace Player
             //Creating a new GameObject to add CloneCubes under it
             _parentCubeClone = new GameObject("CloneCubesParent").transform;
             
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             _propBlock = new MaterialPropertyBlock();
             
             _waitForSecondsCloneCube = new WaitForSeconds(updateInterval);
@@ -84,7 +84,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         private void InitializeCloneCubes()

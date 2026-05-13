@@ -11,16 +11,16 @@ namespace Gameplay
     public class CheckpointTrigger : MonoBehaviour, IOnRestart, ILevelRegistryUser
     {
         private bool _triggered;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
         }
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         //Checkpoint check happen when player trigger CheckPoint.prefab
@@ -40,9 +40,9 @@ namespace Gameplay
             _triggered = false;
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

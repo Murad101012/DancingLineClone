@@ -16,11 +16,11 @@ namespace Player
         
         public event Action OnPlayerCheckPointComplete;
         public event Action OnPlayerRestartComplete;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             
             if (!TryGetComponent(out _checkPointSnapshot))
             {
@@ -39,7 +39,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         public void OnLevelCheckPoint()
@@ -58,9 +58,9 @@ namespace Player
             OnPlayerRestartComplete?.Invoke();
         }
 
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Editor
         private Color _originalColor;
         private Transform _playerTransform;
         private float _pathWidth = 1.0f;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         
         private void OnEnable()
         {
@@ -41,8 +41,8 @@ namespace Editor
             if (state == PlayModeStateChange.EnteredPlayMode && _onRecord)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                _levelRegistrySo = GameObject.FindFirstObjectByType<LevelRegistrySo>();
-                _levelRegistrySo.Register(this);
+                _levelRegistry = GameObject.FindFirstObjectByType<LevelRegistrySo>();
+                _levelRegistry.Register(this);
             }
         }
 
@@ -356,12 +356,12 @@ namespace Editor
 
         public void OnLevelStop()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

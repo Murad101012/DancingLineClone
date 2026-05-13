@@ -12,7 +12,7 @@ namespace Core
     /// <remarks>For scripts be able to find <see cref="LevelRegistrySo"/> to register/unregister themselves,
     /// please look into <see cref="ILevelRegistryUser"/> and <see cref="SceneILevelRegistryUserBootstrapper"/></remarks>
     [CreateAssetMenu(menuName = "ScriptableObjects/LevelRegistry")]
-    public class LevelRegistrySo : ScriptableObject
+    public class LevelRegistrySo : ScriptableObject, ILevelRegistry
     {
         private List<ILevelState> _levelStates = new();
         private List<IOnCheckPoint> _onCheckPoints = new();

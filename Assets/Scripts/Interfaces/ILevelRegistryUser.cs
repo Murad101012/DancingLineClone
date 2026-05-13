@@ -1,5 +1,3 @@
-using Core;
-
 namespace Interfaces
 {
     /// <summary>
@@ -11,6 +9,6 @@ namespace Interfaces
     /// scripts are under the list and scripts can register themselves.
     public interface ILevelRegistryUser
     {
-        void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo);
+        void LevelRegistrySoSetter(ILevelRegistry levelRegistry);
     }
 }

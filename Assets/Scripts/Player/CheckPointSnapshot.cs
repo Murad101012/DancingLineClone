@@ -17,15 +17,15 @@ namespace Player
         public Quaternion CheckpointRotation { get; private set; }
         
         private DirectionController _directionController;
-        public DirectionController.Directions[] CheckPointDirections { get; private set; } = new DirectionController.Directions[2];
+        public IMovementEnums.Directions[] CheckPointDirections { get; private set; } = new IMovementEnums.Directions[2];
         
         private bool _checkPointTriggered;
         public static event Action OnCheckpointUpdated;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
 
             if (!TryGetComponent(out _directionController))
             {
@@ -35,7 +35,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Player
             //Getting directions
             if (_directionController != null)
             {
-                CheckPointDirections = _directionController.CurrentDirections.Clone() as DirectionController.Directions[];
+                CheckPointDirections = _directionController.CurrentDirections.Clone() as IMovementEnums.Directions[];
             }
             
             _checkPointTriggered = true;
@@ -68,13 +68,13 @@ namespace Player
             if (!_checkPointTriggered) return;
             CheckpointPosition = Vector3.zero;
             CheckpointRotation = Quaternion.identity;
-            CheckPointDirections = Array.Empty<DirectionController.Directions>();
+            CheckPointDirections = Array.Empty<IMovementEnums.Directions>();
             _checkPointTriggered = false;
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

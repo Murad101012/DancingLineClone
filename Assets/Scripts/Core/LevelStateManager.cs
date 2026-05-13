@@ -10,13 +10,15 @@ namespace Core
     /// <summary>
     /// It helps to change States of Level with Interfaces using <see cref="LevelRegistrySo"/>
     /// </summary>
-    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory, ILevelRegistryUser
+    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory
     {
+        /// <summary>
+        /// LevelRegistrySo must manually to this script
+        /// </summary>
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private LevelPropertiesSo levelPropertiesSo;
         [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this 
         private bool _isVictory;
-        private LevelRegistrySo _levelRegistrySo;
         
         private void OnEnable()
         {
@@ -28,7 +30,7 @@ namespace Core
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            levelRegistrySo.Register(this);
         }
 
         private void OnDisable()
@@ -41,45 +43,45 @@ namespace Core
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            levelRegistrySo.Unregister(this);
         }
 
         #region Triggers Interfaces
         public void StartTheGame()
         {
-            _levelRegistrySo.TriggerStartILevelState();
+            levelRegistrySo.TriggerStartILevelState();
         }
         
         private void StopTheGame()
         {
-            _levelRegistrySo.TriggerStopILevelState();
+            levelRegistrySo.TriggerStopILevelState();
         }
 
         private void RestartOrCheckpointTheLevel(bool isRestart)
         {
             if(isRestart) RestartTheLevel();
-            else _levelRegistrySo.TriggerOnCheckPoint();
+            else levelRegistrySo.TriggerOnCheckPoint();
         }
 
         private void RestartTheLevel()
         {
-            _levelRegistrySo.TriggerOnRestart();
+            levelRegistrySo.TriggerOnRestart();
         }
 
         public void CheckPointTheLevel()
         {
-            _levelRegistrySo.TriggerOnCheckPoint();
+            levelRegistrySo.TriggerOnCheckPoint();
         }
         
         private void SetTheVictory()
         {
-            _levelRegistrySo.TriggerOnVictory();
+            levelRegistrySo.TriggerOnVictory();
         }
 
         private void PlayerDead()
         {
             if (_isVictory) return;
-            _levelRegistrySo.TriggerOnDead();
+            levelRegistrySo.TriggerOnDead();
         }
         
         #endregion
@@ -113,11 +115,6 @@ namespace Core
         public void OnVictory()
         {
             _isVictory = true;
-        }
-        
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
-        {
-            _levelRegistrySo = levelRegistrySo;
         }
     }
 }

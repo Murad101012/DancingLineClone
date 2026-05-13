@@ -15,12 +15,12 @@ namespace Camera
         private CinemachineCamera[] _cameras;
         [SerializeField] private Transform cineMachineCamerasParent;
         [SerializeField] private CinemachineCamera cameraAtBeginning;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
         [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEventSo;
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             sceneFullyLoadedEventSo.OnSceneFullyLoaded += Initialization;
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
@@ -32,7 +32,7 @@ namespace Camera
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
             sceneFullyLoadedEventSo.OnSceneFullyLoaded -= Initialization;
         }
 
@@ -77,9 +77,9 @@ namespace Camera
 
         public void OnLevelStop() {/*It will be empty*/}
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Animation
         private Color _restartBackgroundImageEndColor = new (1, 1, 1, 1);
         private Color _restartBackgroundImageBeginningColor = new (1, 1, 1, 0.86274f);
         
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
 
         public static event Action<bool> RestartBeginAnimationEnd;
         public event Action RestartEndAnimationEnd;
@@ -60,7 +60,7 @@ namespace Animation
             _backgroundRectBeginningOffsetMaxValues = backgroundRect.offsetMax;
             _backgroundImageBeginningColor = backgroundImage.color;
             
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             InitializeSequence();
         }
 
@@ -154,7 +154,7 @@ namespace Animation
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
             // Clean up the tween memory
             _defeatSequence?.Kill();
             _restartEndSequence?.Kill();
@@ -171,9 +171,9 @@ namespace Animation
             }
         }
 
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }
