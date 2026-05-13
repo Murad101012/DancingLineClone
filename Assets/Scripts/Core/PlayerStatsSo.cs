@@ -2,8 +2,11 @@ using UnityEngine;
 
 namespace Core
 {
+    /// <summary>
+    /// Stats of player than can be unique for each different levels
+    /// </summary>
     [CreateAssetMenu(menuName = "ScriptableObjects/ObjectStats")]
-    public class ObjectStatsSo : ScriptableObject
+    public class PlayerStatsSo : ScriptableObject
     {
         [Header("Movement")]
         public int speed;

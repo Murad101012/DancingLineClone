@@ -11,6 +11,7 @@ namespace Player
     /// Trail comes right behind of player.
     /// </summary>
     /// <remarks>Must add as component to the Player.prefab</remarks>
+    /// <remarks>Line works as creating pre-defined cubes and moving them with some delay by order</remarks>
     [RequireComponent(typeof(StateMachine))]
     public class Line : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelState, IOnDead, IVictory, ILevelRegistryUser
     {

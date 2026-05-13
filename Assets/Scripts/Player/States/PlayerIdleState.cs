@@ -1,8 +1,10 @@
 using Interfaces;
-using UnityEngine;
 
 namespace Player.States
 {
+    /// <summary>
+    /// State Machine when players do nothing in level
+    /// </summary>
     public class PlayerIdleState : IPlayerState
     {
         private PlayerCoreLogic _playerCoreLogic;

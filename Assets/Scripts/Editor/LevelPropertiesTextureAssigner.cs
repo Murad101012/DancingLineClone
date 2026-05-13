@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Editor
 {
+    /// <summary>
+    /// It's automate blurring the texture (In low resolution) of Level preview image and assign to the background
+    /// </summary>
     [CustomEditor(typeof(LevelPropertiesSo))]
     public class LevelPropertiesTextureAssigner : UnityEditor.Editor
     {

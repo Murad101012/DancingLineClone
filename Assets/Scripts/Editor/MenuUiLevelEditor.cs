@@ -5,6 +5,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// Automate adding new levels information to the UI Carousel
+/// </summary>
+/// <remarks>This script works that gets each levels information assigned to <see cref="MenuUiLevelController.levelPropertiesSo"/> list
+/// and add information of each <see cref="LevelPropertiesSo"/> to the .uxml file of MenuUi (MenuDocument.uxml) with Regex</remarks>
 [CustomEditor(typeof(MenuUiLevelController))]
 public class MenuUiLevelEditor : UnityEditor.Editor
 {

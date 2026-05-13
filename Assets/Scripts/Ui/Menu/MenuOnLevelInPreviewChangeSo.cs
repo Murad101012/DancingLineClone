@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Ui.Menu
 {
+    /// <summary>
+    /// Invoke each time player change level in preview with level currently player looking at
+    /// </summary>
+    /// <remarks> For separating connection between other scripts (e.g <see cref="GlobalAudioPlayer"/>, it's used
+    /// SO, instead of static events</remarks>
     [CreateAssetMenu(menuName = "ScriptableObjects/MenuLevelPreviewChangeEvent")]
     public class MenuOnLevelInPreviewChangeSo : ScriptableObject
     {

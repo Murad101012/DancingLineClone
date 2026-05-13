@@ -64,7 +64,7 @@ namespace Player.States
         //TODO: Change transform.position to RigidBody for prevent teleport and transform to Update()
         private void MovePlayerForwardZIndex()
         {
-            _movementTransform.position += _movementTransform.forward * _playerCoreLogic.ObjectStatsSo.speed * Time.deltaTime;
+            _movementTransform.position += _movementTransform.forward * _playerCoreLogic.PlayerStatsSo.speed * Time.deltaTime;
         }
         
         /// <summary>

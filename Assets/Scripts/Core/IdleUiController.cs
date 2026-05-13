@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Core
 {
+    /// <summary>
+    /// Control the lifecycle of Idle Ui's element
+    /// </summary>
     public class IdleUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelRegistryUser, ILevelState
     {
         private LevelRegistrySo _levelRegistrySo;

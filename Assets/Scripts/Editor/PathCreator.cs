@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace Editor
 {
+    /// <summary>
+    /// Automate path creation
+    /// </summary>
+    /// <example> 1. Starts the game, 2. Create new PathCreatorSo, 3. Click on Record, 4. When finished stop the record, 5. Click on "Bake PathCreatorSO" </example>
     public class PathCreator : EditorWindow, ILevelState, ILevelRegistryUser
     {
         private Vector2 _scrollPos;

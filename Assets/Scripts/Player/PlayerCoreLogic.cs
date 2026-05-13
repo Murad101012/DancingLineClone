@@ -12,7 +12,7 @@ namespace Player
     [RequireComponent(typeof(StateMachine))]
     public class PlayerCoreLogic : MonoBehaviour, IVictory
     {
-        [field: SerializeField] public ObjectStatsSo ObjectStatsSo { get; private set; }
+        [field: SerializeField] public PlayerStatsSo PlayerStatsSo { get; private set; }
         
         public static event Action Dead;
 
@@ -23,12 +23,12 @@ namespace Player
 
         private void Awake()
         {
-            if (ObjectStatsSo == null)
+            if (PlayerStatsSo == null)
             {
                 Debug.LogWarning(
                     $"ObjectStatsSo is not assigned, using dummy ObjectStatsSo with default values for {name}");
-                ObjectStatsSo = ScriptableObject.CreateInstance<ObjectStatsSo>();
-                ObjectStatsSo.speed = 3;
+                PlayerStatsSo = ScriptableObject.CreateInstance<PlayerStatsSo>();
+                PlayerStatsSo.speed = 3;
             }
         }
 

@@ -5,6 +5,9 @@ using UnityEngine.UIElements;
 
 namespace Ui.SceneTransformation
 {
+    /// <summary>
+    /// Controls lifecycle of Loading screen assets
+    /// </summary>
     [RequireComponent(typeof(SceneTransformationElementReference))]
     public class SceneTransformationUiController : MonoBehaviour
     {

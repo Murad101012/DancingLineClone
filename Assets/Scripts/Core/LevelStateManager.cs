@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Core
 {
     /// <summary>
-    /// It helps to change States of Level with Interfaces
+    /// It helps to change States of Level with Interfaces using <see cref="LevelRegistrySo"/>
     /// </summary>
     public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory, ILevelRegistryUser
     {

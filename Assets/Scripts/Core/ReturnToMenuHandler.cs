@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Core
 {
+    /// <summary>
+    /// Listens <see cref="ReturnToMenuEvent"/> to send signal <see cref="SceneLoader"/> for loading back to Menu scene
+    /// </summary>
     [RequireComponent(typeof(SceneLoader))]
     public class ReturnToMenuHandler : MonoBehaviour
     {
