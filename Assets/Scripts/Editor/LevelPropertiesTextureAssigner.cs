@@ -1,3 +1,4 @@
+using Core.Data;
 using Gameplay;
 using UnityEditor;
 using UnityEngine;

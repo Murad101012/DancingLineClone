@@ -1,9 +1,8 @@
-using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
-namespace Gameplay
+namespace Core.Data
 {
     /// <summary>
     /// This ScriptableObject includes properties for level in both.. in level selection

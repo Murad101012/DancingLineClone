@@ -1,8 +1,9 @@
-using System;
+using Core.Data;
 using Interfaces;
+using Ui.LevelPlay;
 using UnityEngine;
 
-namespace Core
+namespace Gameplay
 {
     /// <summary>
     /// Logic when player dead
@@ -10,7 +11,7 @@ namespace Core
     public class DefeatLogic : MonoBehaviour, IOnDead, ILevelRegistryUser
     {
        private DefeatUiController _defeatUiController;
-       [SerializeField] private ProgressInCurrentLoadedLevel progressInCurrentLoadedLevel;
+       [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
        
        private ILevelRegistry _levelRegistry;
 
@@ -31,7 +32,7 @@ namespace Core
            if (_defeatUiController != null)
            {
                //On dead, it calculates the progress (as %) player made by "playback time of current song * 100 / total length of current song"
-               _defeatUiController.ChangeLevelProgressText(Mathf.Clamp(progressInCurrentLoadedLevel.playbackInAudioWhenPlayerDead * 100 / progressInCurrentLoadedLevel.audioDuration, 0f, 100f));
+               _defeatUiController.ChangeLevelProgressText(Mathf.Clamp(progressInCurrentLoadedLevelSo.playbackInAudioWhenPlayerDead * 100 / progressInCurrentLoadedLevelSo.audioDuration, 0f, 100f));
            }
            else
            {

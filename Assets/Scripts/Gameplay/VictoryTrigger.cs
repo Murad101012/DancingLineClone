@@ -1,8 +1,9 @@
 using System;
+using Core.Data;
 using Interfaces;
 using UnityEngine;
 
-namespace Core
+namespace Gameplay
 {
     /// <summary>
     /// It's for triggering the Victory that put on at the of level.
@@ -10,11 +11,11 @@ namespace Core
     /// </summary>
     public class VictoryTrigger: MonoBehaviour
     {
-        public static event Action OnVictoryTriggered;
+        [SerializeField] private LevelEventHubSo levelEventHubSo;
         
         private void OnTriggerEnter(Collider other)
         {
-            if(other.TryGetComponent(out IVictory _)) OnVictoryTriggered?.Invoke();
+            if(other.TryGetComponent(out IVictory _)) levelEventHubSo.PublishVictory();
         }
     }
 }

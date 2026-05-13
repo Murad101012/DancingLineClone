@@ -1,3 +1,4 @@
+using Core.Data;
 using Interfaces;
 using UnityEngine;
 namespace Core

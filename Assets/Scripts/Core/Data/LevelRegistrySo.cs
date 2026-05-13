@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Interfaces;
+using UnityEngine;
 
-namespace Core
+namespace Core.Data
 {
     /// <summary>
     /// Centralized register point for interfaces such as <see cref="IOnRestart"/>, <see cref="IOnDead"/> and etc.

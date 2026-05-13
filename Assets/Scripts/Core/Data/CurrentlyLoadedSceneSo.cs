@@ -1,7 +1,6 @@
-using Gameplay;
 using UnityEngine;
 
-namespace Core
+namespace Core.Data
 {
     /// <summary>
     /// Source of truth that keeping information about currently level's information by <see cref="SceneLoader"/>

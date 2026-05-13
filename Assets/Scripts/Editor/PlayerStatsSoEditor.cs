@@ -1,4 +1,5 @@
 using Core;
+using Core.Data;
 using Player;
 using UnityEditor;
 using UnityEngine;

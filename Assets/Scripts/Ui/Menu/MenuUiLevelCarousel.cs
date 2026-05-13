@@ -1,4 +1,5 @@
 using System;
+using Core.Data;
 using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
@@ -67,7 +68,7 @@ namespace Ui.Menu
         private StyleFloat _opacitySliderFloat;
         
         private event Action OnSpaceBetweenLevelChange;
-        public static event Action OnLoadLevelButtonClicked;
+        [SerializeField] private SceneLoadStateEventSo sceneLoadStateEventSo;
         
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
 
@@ -174,7 +175,7 @@ namespace Ui.Menu
                 }, 
                 1.75f, 
                 0.6f).
-                SetEase(Ease.OutCirc).OnComplete(() => OnLoadLevelButtonClicked?.Invoke()));
+                SetEase(Ease.OutCirc).OnComplete(() => sceneLoadStateEventSo.InvokeOnPlayerClickedToLoadScene()));
             
             _sequenceLevelLoad.Append(DOTween.To(
                     () => _menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview].style.scale.value.value.x,

@@ -789,6 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17340637d834d2a858437e98f0576e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatLogic
+  progressInCurrentLoadedLevelSo: {fileID: 0}
 --- !u!114 &65638155447461988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,6 +805,9 @@ MonoBehaviour:
   defeatScreen: {fileID: 2210802445877880288}
   checkPointButton: {fileID: 5156781863290924870}
   backToMenuButton: {fileID: 3126866721181999544}
+  levelNameText: {fileID: 6528557162640664432}
+  levelProgressText: {fileID: 8946397529558236233}
+  currentlyLoadedSceneSo: {fileID: 11400000, guid: 95bcd2f5a340464c3bcd6976b650bad8, type: 2}
 --- !u!114 &2838457644595657811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,6 +826,7 @@ MonoBehaviour:
   backgroundImage: {fileID: 2424287718365344543}
   defeatRoot: {fileID: 2001690052080248468}
   button: {fileID: 5156781863290924870}
+  levelEventHubSo: {fileID: 11400000, guid: d5fbd401841ba63c7bd5787dd5c2c986, type: 2}
 --- !u!1 &5164968012362394705
 GameObject:
   m_ObjectHideFlags: 0

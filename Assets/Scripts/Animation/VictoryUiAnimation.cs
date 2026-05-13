@@ -1,7 +1,9 @@
 using System;
 using Core;
+using Core.Data;
 using DG.Tweening;
 using Interfaces;
+using Ui.LevelPlay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,7 +51,7 @@ namespace Animation
         
         private ILevelRegistry _levelRegistry;
 
-        public static event Action RestartBeginAnimationEnd;
+        [SerializeField] private LevelEventHubSo levelEventHubSo;
         public event Action RestartEndAnimationEnd;
         
 
@@ -97,7 +99,7 @@ namespace Animation
                 _restartBackgroundImagePositionCurrent.y = y;
                 backgroundRect.offsetMin = _restartBackgroundImagePositionCurrent;
             }, _restartBeginBackgroundImageBottomEndPosition, _restartAnimationDuration)
-                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => RestartBeginAnimationEnd?.Invoke()));
+                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => levelEventHubSo.PublishRestartBeginAnimationEnd()));
             
             _restartBeginSequence.Join(backgroundImage.DOColor(_restartBackgroundImageEndColor, _restartAnimationDuration).From(_restartBackgroundImageBeginningColor, false));
             _restartBeginSequence.Join(elementsCanvasGroup.DOFade(0f, _restartAnimationDuration).From(1f, false));

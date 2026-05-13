@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core
+namespace Core.Data
 {
     /// <summary>
     /// Prevent race-condition cause from not fully initialized GameObject between scenes load 
@@ -16,10 +16,12 @@ namespace Core
     /// their code when it's trigger.
     /// </remarks>
     [CreateAssetMenu(menuName = "ScriptableObjects/SceneFullyLoadedEventSo")]
-    public class SceneFullyLoadedEventSo : ScriptableObject
+    public class SceneLoadStateEventSo : ScriptableObject
     {
+        public event Action OnPlayerClickedToLoadLevel;
         public event Action OnSceneFullyLoaded;
         public event Action OnSceneBeginToLoad;
+        public event Action OnLoadingScreenFullyLoaded;
 
         public void InvokeOnSceneBeginToLoad()
         {
@@ -29,6 +31,16 @@ namespace Core
         public void InvokeOnSceneFullyLoaded()
         {
             OnSceneFullyLoaded?.Invoke();
+        }
+
+        public void InvokeOnLoadingScreenFullyLoaded()
+        {
+            OnLoadingScreenFullyLoaded?.Invoke();
+        }
+
+        public void InvokeOnPlayerClickedToLoadScene()
+        {
+            OnPlayerClickedToLoadLevel?.Invoke();
         }
     }
 }

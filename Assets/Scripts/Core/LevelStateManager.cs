@@ -1,8 +1,5 @@
-using System;
-using Animation;
-using Gameplay;
+using Core.Data;
 using Interfaces;
-using Player;
 using UnityEngine;
 
 namespace Core
@@ -18,14 +15,15 @@ namespace Core
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private LevelPropertiesSo levelPropertiesSo;
         [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this 
+        [SerializeField] private LevelEventHubSo levelEventHubSo;
         private bool _isVictory;
         
         private void OnEnable()
         {
-            PlayerCoreLogic.Dead += PlayerDead;
-            VictoryTrigger.OnVictoryTriggered += SetTheVictory;
-            DefeatUiAnimation.RestartBeginAnimationEnd += RestartOrCheckpointTheLevel;
-            VictoryUiAnimation.RestartBeginAnimationEnd += RestartTheLevel;
+            levelEventHubSo.OnPlayerDead += PlayerOnPlayerDead;
+            levelEventHubSo.OnVictoryTriggered += SetTheVictory;
+            levelEventHubSo.OnCheckpointBeginAnimationEnd += CheckpointTheLevel;
+            levelEventHubSo.OnRestartBeginAnimationEnd += RestartTheLevel;
         }
 
         private void Awake()
@@ -35,10 +33,10 @@ namespace Core
 
         private void OnDisable()
         {
-            PlayerCoreLogic.Dead -= PlayerDead;
-            VictoryTrigger.OnVictoryTriggered -= SetTheVictory;
-            DefeatUiAnimation.RestartBeginAnimationEnd -= RestartOrCheckpointTheLevel;
-            VictoryUiAnimation.RestartBeginAnimationEnd -= RestartTheLevel;
+            levelEventHubSo.OnPlayerDead -= PlayerOnPlayerDead;
+            levelEventHubSo.OnVictoryTriggered -= SetTheVictory;
+            levelEventHubSo.OnCheckpointBeginAnimationEnd -= CheckpointTheLevel;
+            levelEventHubSo.OnRestartBeginAnimationEnd -= RestartTheLevel;
         }
 
         private void OnDestroy()
@@ -57,10 +55,9 @@ namespace Core
             levelRegistrySo.TriggerStopILevelState();
         }
 
-        private void RestartOrCheckpointTheLevel(bool isRestart)
-        {
-            if(isRestart) RestartTheLevel();
-            else levelRegistrySo.TriggerOnCheckPoint();
+        private void CheckpointTheLevel()
+        { 
+            levelRegistrySo.TriggerOnCheckPoint();
         }
 
         private void RestartTheLevel()
@@ -78,7 +75,7 @@ namespace Core
             levelRegistrySo.TriggerOnVictory();
         }
 
-        private void PlayerDead()
+        private void PlayerOnPlayerDead()
         {
             if (_isVictory) return;
             levelRegistrySo.TriggerOnDead();

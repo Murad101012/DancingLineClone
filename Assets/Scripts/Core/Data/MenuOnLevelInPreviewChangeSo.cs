@@ -1,8 +1,7 @@
 using System;
-using Gameplay;
 using UnityEngine;
 
-namespace Ui.Menu
+namespace Core.Data
 {
     /// <summary>
     /// Invoke each time player change level in preview with level currently player looking at

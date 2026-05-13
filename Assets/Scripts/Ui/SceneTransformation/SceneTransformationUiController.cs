@@ -1,4 +1,5 @@
 using System;
+using Core.Data;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,11 +15,13 @@ namespace Ui.SceneTransformation
         private SceneTransformationElementReference _sceneTransformationElementReference;
         private StyleFloat _opacityFloat;
         private Sequence _sequenceLoadScreen;
-        public bool loadScreenAnimationFullyLoaded;
+        [SerializeField] private SceneLoadStateEventSo sceneLoadStateEventSo;
 
         private void Awake()
         {
             _sceneTransformationElementReference = GetComponent<SceneTransformationElementReference>();
+            sceneLoadStateEventSo.OnPlayerClickedToLoadLevel += LoadScreenAnimationForward;
+            sceneLoadStateEventSo.OnSceneFullyLoaded += LoadScreenAnimationBackward;
         }
 
         private void Start()
@@ -58,14 +61,23 @@ namespace Ui.SceneTransformation
             _sequenceLoadScreen.SetAutoKill(false);
 
             _sequenceLoadScreen.AppendInterval(0.5f);
-            _sequenceLoadScreen.OnComplete(() => loadScreenAnimationFullyLoaded = true);
-            _sequenceLoadScreen.OnRewind(() => loadScreenAnimationFullyLoaded = false);
+            _sequenceLoadScreen.OnComplete(() => sceneLoadStateEventSo.InvokeOnLoadingScreenFullyLoaded());
         }
 
-        public void LoadScreenAnimation(bool forward = true)
+        private void OnDestroy()
         {
-            if(forward) _sequenceLoadScreen.Restart();
-            else _sequenceLoadScreen.PlayBackwards();
+            sceneLoadStateEventSo.OnPlayerClickedToLoadLevel -= LoadScreenAnimationForward;
+            sceneLoadStateEventSo.OnSceneFullyLoaded -= LoadScreenAnimationBackward;
+        }
+
+        private void LoadScreenAnimationForward()
+        {
+            _sequenceLoadScreen.Restart();
+        }
+
+        private void LoadScreenAnimationBackward()
+        {
+            _sequenceLoadScreen.PlayBackwards();
         }
     }
 }

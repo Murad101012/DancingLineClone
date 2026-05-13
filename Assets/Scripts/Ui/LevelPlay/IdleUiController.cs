@@ -1,10 +1,9 @@
-using System;
 using Animation;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Core
+namespace Ui.LevelPlay
 {
     /// <summary>
     /// Control the lifecycle of Idle Ui's element

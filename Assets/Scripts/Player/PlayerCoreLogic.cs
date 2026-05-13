@@ -1,5 +1,6 @@
 using System;
 using Core;
+using Core.Data;
 using Interfaces;
 using UnityEngine;
 
@@ -10,12 +11,11 @@ namespace Player
     /// extending capabilities to <see cref="Interfaces.IVictory"/>
     /// </summary>
     [RequireComponent(typeof(StateMachine))]
-    public class PlayerCoreLogic : MonoBehaviour, IVictory
+    public class PlayerCoreLogic : MonoBehaviour
     {
         [field: SerializeField] public PlayerStatsSo PlayerStatsSo { get; private set; }
+        [SerializeField] private LevelEventHubSo levelEventHubSo;
         
-        public static event Action Dead;
-
         private void OnEnable()
         {
             GroundStateChecker.OnNonGroundChange += OnNonGroundStateChangeUpdater;
@@ -28,7 +28,7 @@ namespace Player
                 Debug.LogWarning(
                     $"ObjectStatsSo is not assigned, using dummy ObjectStatsSo with default values for {name}");
                 PlayerStatsSo = ScriptableObject.CreateInstance<PlayerStatsSo>();
-                PlayerStatsSo.speed = 3;
+                PlayerStatsSo.speed = 10;
             }
         }
 
@@ -42,10 +42,14 @@ namespace Player
         {
             if (currentState)
             {
-                Dead?.Invoke();
+                if (levelEventHubSo == null)
+                {
+                    Debug.LogWarning($"{nameof(levelEventHubSo)} isn't assigned, can't invoke dead");
+                    return;
+                }
+                
+                levelEventHubSo.PublishPlayerDead();
             }
         }
-
-        public void OnVictory(){/*It will be empty*/}
     }
 }
