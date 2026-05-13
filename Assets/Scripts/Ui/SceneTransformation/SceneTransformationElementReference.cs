@@ -4,6 +4,10 @@ using UnityEngine.UIElements;
 
 namespace Ui.SceneTransformation
 {
+    /// <summary>
+    /// Keeping the reference to the elements in loading screen
+    /// </summary>
+    /// <remarks>Logic works exactly same as <see cref="MenuUiElementReference"/></remarks>
     public class SceneTransformationElementReference : MonoBehaviour
     {
         public VisualElement Root;

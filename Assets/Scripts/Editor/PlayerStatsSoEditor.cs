@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Editor
 {
-    [CustomEditor(typeof(ObjectStatsSo))]
+    [CustomEditor(typeof(PlayerStatsSo))]
     public class PlayerStatsSoEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
@@ -14,7 +14,7 @@ namespace Editor
 
             // 'target' is a built-in variable in the Editor class. 
             // We just need to cast it to your specific type.
-            ObjectStatsSo script = (ObjectStatsSo)target; 
+            PlayerStatsSo script = (PlayerStatsSo)target; 
 
             EditorGUILayout.Space();
             GUI.backgroundColor = Color.cyan;
@@ -26,7 +26,7 @@ namespace Editor
             }
         }
 
-        private void FetchPlayerData(ObjectStatsSo script)
+        private void FetchPlayerData(PlayerStatsSo script)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
 
@@ -34,9 +34,6 @@ namespace Editor
             {
                 // Record the object so "Undo" (Ctrl+Z) works!
                 Undo.RecordObject(script, "Fetch Player Data");
-
-                script.firstLevelBeginPosition = player.transform.position;
-                script.firstLevelBeginRotation = player.transform.rotation;
 
                 // Mark the SO as 'dirty' so Unity knows it needs to be saved to the SSD
                 EditorUtility.SetDirty(script);

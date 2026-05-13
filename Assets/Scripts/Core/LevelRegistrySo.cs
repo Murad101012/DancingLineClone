@@ -5,14 +5,12 @@ using Interfaces;
 
 namespace Core
 {
-    //TODO: Separate logic where Registers stay here but Triggers must have their own class
-    //TODO: Make this summary not exclusive to ILevelState description
     /// <summary>
-    /// Central Registry point for Interfaces as <see cref="ILevelState"/> and etc. This script server for prevent to find <see cref="ILevelState"/>
-    /// by using FindAnyObjectType which is CPU hungry operation. When game first begin, all scripts with <see cref="ILevelState"/>
-    /// <see cref="RegisterILevelState"/> itself and this helps to only looking <see cref="_levelStates"/> will be enough to see all scripts are
-    /// currently using <see cref="ILevelState"/>
+    /// Centralized register point for interfaces such as <see cref="IOnRestart"/>, <see cref="IOnDead"/> and etc.
+    /// (look for the following List for all interfaces).
     /// </summary>
+    /// <remarks>For scripts be able to find <see cref="LevelRegistrySo"/> to register/unregister themselves,
+    /// please look into <see cref="ILevelRegistryUser"/> and <see cref="SceneILevelRegistryUserBootstrapper"/></remarks>
     [CreateAssetMenu(menuName = "ScriptableObjects/LevelRegistry")]
     public class LevelRegistrySo : ScriptableObject
     {
@@ -47,6 +45,8 @@ namespace Core
             if (entity is IVictory victory) _victories.Remove(victory);
             if (entity is IOnDead dead) _deads.Remove(dead);
         }
+        
+        //In here we can trigger all the interfaces we want those scrips are registered themselves
 
         #region ILevelState Methods
         public void TriggerStartILevelState()

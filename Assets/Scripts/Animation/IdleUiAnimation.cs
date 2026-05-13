@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace Animation
 {
+    /// <summary>
+    /// Animation sequences collection for Idle screen (Screen appear that waiting for player to click the screen and begin to play)
+    /// </summary>
     public class IdleUiAnimation : MonoBehaviour, ILevelRegistryUser, IOnRestart, IOnCheckPoint, ILevelState
     {
         private LevelRegistrySo _levelRegistrySo;

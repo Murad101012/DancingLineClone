@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Core
 {
+    /// <summary>
+    /// Controls the lifetime of gameobjects of Victory Ui prefab
+    /// </summary>
     public class VictoryUiController : MonoBehaviour, IVictory, IOnRestart, ILevelRegistryUser
     {
         [Header("UI References")]
