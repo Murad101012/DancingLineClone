@@ -389,9 +389,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Core.LevelStateManager, Assembly-CSharp
-        m_MethodName: CheckPointTheLevel
+      - m_Target: {fileID: 65638155447461988}
+        m_TargetAssemblyTypeName: Core.DefeatUiController, Assembly-CSharp
+        m_MethodName: OnLevelCheckPointButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

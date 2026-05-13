@@ -37,6 +37,7 @@ namespace Editor
             if (state == PlayModeStateChange.EnteredPlayMode && _onRecord)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+                _levelRegistrySo = GameObject.FindFirstObjectByType<LevelRegistrySo>();
                 _levelRegistrySo.Register(this);
             }
         }

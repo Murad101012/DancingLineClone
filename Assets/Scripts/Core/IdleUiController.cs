@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Core
 {
-    public class IdleUiController : MonoBehaviour, IOnRestart, ILevelRegistryUser, ILevelState
+    public class IdleUiController : MonoBehaviour, IOnRestart, IOnCheckPoint, ILevelRegistryUser, ILevelState
     {
         private LevelRegistrySo _levelRegistrySo;
         [SerializeField] private GameObject idleCanvas;
@@ -47,6 +47,16 @@ namespace Core
         }
 
         public void OnLevelRestart()
+        {
+            ActivateIdleCanvas();
+        }
+        
+        public void OnLevelCheckPoint()
+        {
+            ActivateIdleCanvas();
+        }
+
+        private void ActivateIdleCanvas()
         {
             backToMenuButton.interactable = true;
             _onIdle = true;

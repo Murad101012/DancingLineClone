@@ -20,6 +20,7 @@ namespace Audio
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
+        [SerializeField] private ProgressInCurrentLoadedLevel progressInCurrentLoadedLevel;
 
         private void OnEnable()
         {
@@ -27,6 +28,11 @@ namespace Audio
             {
                 Debug.LogWarning($"{name}: {nameof(menuOnLevelInPreviewChangeSo)} is null. Can't access audio when level preview change");
                 return;
+            }
+
+            if (progressInCurrentLoadedLevel == null)
+            {
+                Debug.LogWarning($"{name}: {nameof(progressInCurrentLoadedLevel)} is null. Can't write information about audio that where currently is playing on");
             }
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
             sceneFullyLoadedEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
@@ -44,8 +50,6 @@ namespace Audio
             _audioSource = GetComponent<AudioSource>();
             
             levelRegistrySo.Register(this);
-            
-            InsertClip(_clip);
         }
 
         private void OnDisable()
@@ -70,6 +74,7 @@ namespace Audio
         {
             _clip = clip;
             _audioSource.clip = clip;
+            progressInCurrentLoadedLevel.audioDuration = _audioSource.clip.length;
         }
 
         private void PlaySound(bool delay = false)
@@ -102,6 +107,7 @@ namespace Audio
 
         public void OnDead()
         {
+            progressInCurrentLoadedLevel.playbackInAudioWhenPlayerDead = _audioSource.time;
             StopSound();
         }
 

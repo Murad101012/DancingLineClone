@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Animation
 {
-    public class IdleUiAnimation : MonoBehaviour, ILevelRegistryUser, IOnRestart, ILevelState
+    public class IdleUiAnimation : MonoBehaviour, ILevelRegistryUser, IOnRestart, IOnCheckPoint, ILevelState
     {
         private LevelRegistrySo _levelRegistrySo;
         [SerializeField] private CanvasGroup canvasGroup;
@@ -39,15 +39,17 @@ namespace Animation
         {
             _canvasGroupOpacitySequence.PlayBackwards();
         }
+        
+        public void OnLevelCheckPoint()
+        {
+            _canvasGroupOpacitySequence.PlayBackwards();
+        }
 
         public void OnLevelStart()
         {
             _canvasGroupOpacitySequence.PlayForward();
         }
 
-        public void OnLevelStop()
-        {
-            throw new NotImplementedException();
-        }
+        public void OnLevelStop(){/*IT WILL BE EMPTY*/}
     }
 }
