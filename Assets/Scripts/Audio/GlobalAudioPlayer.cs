@@ -1,10 +1,6 @@
-using System;
-using Core;
 using DataContainer;
 using DG.Tweening;
-using Gameplay;
 using Interfaces;
-using Ui.Menu;
 using UnityEngine;
 
 namespace Audio
@@ -16,8 +12,6 @@ namespace Audio
     public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
     {
         private AudioSource _audioSource;
-        private AudioClip _clip;
-        private SceneLoader _sceneLoader;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private SceneLoadStateEventSo sceneLoadStateEvent;
@@ -73,7 +67,6 @@ namespace Audio
         
         private void InsertClip(AudioClip clip)
         {
-            _clip = clip;
             _audioSource.clip = clip;
             progressInCurrentLoadedLevelSo.audioDuration = _audioSource.clip.length;
         }
