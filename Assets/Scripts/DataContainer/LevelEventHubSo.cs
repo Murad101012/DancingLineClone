@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     [CreateAssetMenu(menuName = "ScriptableObjects/LevelEventHub")]
     public class LevelEventHubSo : ScriptableObject

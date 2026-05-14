@@ -1,5 +1,3 @@
-using System;
-using Core;
 using Interfaces;
 using Player.States;
 using UnityEngine;

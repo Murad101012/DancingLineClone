@@ -1,5 +1,5 @@
 using System;
-using Core.Data;
+using DataContainer;
 using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;

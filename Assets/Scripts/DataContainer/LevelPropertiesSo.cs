@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// This ScriptableObject includes properties for level in both.. in level selection

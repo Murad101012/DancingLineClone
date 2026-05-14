@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// Prevent race-condition cause from not fully initialized GameObject between scenes load 

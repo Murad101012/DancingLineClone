@@ -1,5 +1,5 @@
 using Core;
-using Core.Data;
+using DataContainer;
 using Interfaces;
 using Unity.Cinemachine;
 using UnityEngine;

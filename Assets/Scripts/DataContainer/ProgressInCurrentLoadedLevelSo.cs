@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// Source of truth for information about what achieved and how much progressed

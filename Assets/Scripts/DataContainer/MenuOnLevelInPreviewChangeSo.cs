@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// Invoke each time player change level in preview with level currently player looking at

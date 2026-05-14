@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// Stats of player than can be unique for each different levels

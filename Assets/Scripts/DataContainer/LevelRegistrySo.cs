@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Interfaces;
 using UnityEngine;
 
-namespace Core.Data
+namespace DataContainer
 {
     /// <summary>
     /// Centralized register point for interfaces such as <see cref="IOnRestart"/>, <see cref="IOnDead"/> and etc.

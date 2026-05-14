@@ -1,6 +1,6 @@
 using System;
 using Core;
-using Core.Data;
+using DataContainer;
 using DG.Tweening;
 using Interfaces;
 using Ui.LevelPlay;
