@@ -1,4 +1,5 @@
 using System;
+using DataContainer;
 using Interfaces;
 using UnityEngine;
 
@@ -19,8 +20,8 @@ namespace Player
         public IMovementEnums.Directions[] CheckPointDirections { get; private set; } = new IMovementEnums.Directions[2];
         
         private bool _checkPointTriggered;
-        public static event Action OnCheckpointUpdated;
         private ILevelRegistry _levelRegistry;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
 
         private void Awake()
         {
@@ -53,7 +54,7 @@ namespace Player
             }
             
             _checkPointTriggered = true;
-            OnCheckpointUpdated?.Invoke();
+            progressInCurrentLoadedLevelSo.PublishCheckPointerTrigger();
         }
         
         

@@ -28,10 +28,11 @@ namespace Ui.LevelPlay
         
         [Header("")]
         [SerializeField] private CurrentlyLoadedSceneSo currentlyLoadedSceneSo;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
         
         private void OnEnable()
         {
-            CheckPointSnapshot.OnCheckpointUpdated += RefreshCheckPointButtonState;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger += RefreshCheckPointButtonState;
 
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
             TryGetComponent(out _defeatUiAnimation);
@@ -47,7 +48,7 @@ namespace Ui.LevelPlay
         
         private void OnDisable()
         {
-            CheckPointSnapshot.OnCheckpointUpdated -= RefreshCheckPointButtonState;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger -= RefreshCheckPointButtonState;
             if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd -= Reset;
         }
 

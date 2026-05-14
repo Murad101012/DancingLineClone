@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace DataContainer
@@ -10,6 +11,12 @@ namespace DataContainer
     {
         public float audioDuration;
         public float playbackInAudioWhenPlayerDead;
+        public event Action OnCheckPointTrigger;
+
+        public void PublishCheckPointerTrigger()
+        {
+            OnCheckPointTrigger?.Invoke();
+        }
         
         //For future reference
         public int collectedCoins;

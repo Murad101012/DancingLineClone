@@ -808,6 +808,7 @@ MonoBehaviour:
   levelNameText: {fileID: 6528557162640664432}
   levelProgressText: {fileID: 8946397529558236233}
   currentlyLoadedSceneSo: {fileID: 11400000, guid: 95bcd2f5a340464c3bcd6976b650bad8, type: 2}
+  progressInCurrentLoadedLevelSo: {fileID: 11400000, guid: 363fd1c9c26c864be82d676d90c0b08d, type: 2}
 --- !u!114 &2838457644595657811
 MonoBehaviour:
   m_ObjectHideFlags: 0

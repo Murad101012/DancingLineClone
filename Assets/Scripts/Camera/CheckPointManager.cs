@@ -1,6 +1,7 @@
 using Interfaces;
 using Unity.Cinemachine;
 using UnityEngine;
+using DataContainer;
 
 namespace Camera
 {
@@ -15,10 +16,11 @@ namespace Camera
         private CinemachineCamera _cameraAtCheckPoint;
         private bool _playerCheckPointHappen;
         private ILevelRegistry _levelRegistry;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
 
         private void OnEnable()
         {
-            Player.CheckPointSnapshot.OnCheckpointUpdated += OnCheckPointUpdated;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger += OnCheckPointUpdated;
         }
 
         private void Awake()
@@ -29,7 +31,7 @@ namespace Camera
 
         private void OnDisable()
         {
-            Player.CheckPointSnapshot.OnCheckpointUpdated -= OnCheckPointUpdated;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger -= OnCheckPointUpdated;
         }
 
         private void OnDestroy()

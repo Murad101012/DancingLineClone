@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412716a8130b471a837b020eaf2b8896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.CheckpointSender
+  progressInCurrentLoadedLevelSo: {fileID: 11400000, guid: 363fd1c9c26c864be82d676d90c0b08d, type: 2}
 --- !u!114 &4410637167621894252
 MonoBehaviour:
   m_ObjectHideFlags: 0
