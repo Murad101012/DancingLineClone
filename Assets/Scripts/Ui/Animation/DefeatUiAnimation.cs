@@ -1,38 +1,38 @@
 using System;
-using Core;
 using DataContainer;
 using DG.Tweening;
 using Interfaces;
-using Ui.LevelPlay;
+using Ui.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Animation
+namespace Ui.Animation
 {
     /// <summary>
-    /// Animations for Victory.prefab
+    /// Animations for Defeat.prefab using DOTween
     /// </summary>
-    /// <remarks>Since animations of Victory and defeat is same with minor changes, code is duplicated from <see cref="DefeatUiAnimation"/></remarks>
-    [RequireComponent(typeof(VictoryUiController))]
-    public class VictoryUiAnimation : MonoBehaviour, IVictory, IOnRestart, ILevelRegistryUser
+    [RequireComponent(typeof(DefeatUiController))]
+    public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead, ILevelRegistryUser
     {
         [SerializeField] private RectTransform backgroundRect;
-        [SerializeField] private CanvasGroup victoryCanvasGroup;
+        [SerializeField] private CanvasGroup defeatCanvasGroup;
         [SerializeField] private CanvasGroup elementsCanvasGroup;
         [SerializeField] private Image backgroundImage;
-        [SerializeField] private GameObject victoryRoot;
+        [SerializeField] private GameObject defeatRoot;
+        [SerializeField] private Button button;
         private bool _animationWorking;
+        private bool _isPlayerRestart;
         
         //Getting beginning values to reset back
         private Vector2 _backgroundRectBeginningOffsetMinValues;
         private Vector2 _backgroundRectBeginningOffsetMaxValues;
         private Color _backgroundImageBeginningColor;
 
-        private Sequence _victorySequence;
-        private readonly float _victoryBackgroundImageEndPosition = 200f;
-        private readonly float _victoryBackgroundImageBeginningPosition = 1000f;
-        private readonly float _victoryAnimationDuration = 0.5f;
-        private Vector2 _victoryBackgroundImagePositionCurrent;
+        private Sequence _defeatSequence;
+        private readonly float _defeatBackgroundImageEndPosition = 200f;
+        private readonly float _defeatBackgroundImageBeginningPosition = 1000f;
+        private readonly float _defeatAnimationDuration = 0.5f;
+        private Vector2 _defeatBackgroundImagePositionCurrent;
         
         //Stage 1 
         private Sequence _restartBeginSequence;
@@ -50,7 +50,6 @@ namespace Animation
         private Color _restartBackgroundImageBeginningColor = new (1, 1, 1, 0.86274f);
         
         private ILevelRegistry _levelRegistry;
-
         [SerializeField] private LevelEventHubSo levelEventHubSo;
         public event Action RestartEndAnimationEnd;
         
@@ -68,29 +67,29 @@ namespace Animation
         private void InitializeSequence()
         {
             // Create the sequence and ensure it doesn't destroy itself so we can play it backwards
-            _victorySequence = DOTween.Sequence();
+            _defeatSequence = DOTween.Sequence();
             _restartBeginSequence = DOTween.Sequence();
             _restartEndSequence = DOTween.Sequence();
 
-            _victorySequence.AppendCallback(() => backgroundRect.gameObject.SetActive(true));
+            _defeatSequence.AppendCallback(() => backgroundRect.gameObject.SetActive(true));
                 
-            _victorySequence.Join(DOTween.To(
+            _defeatSequence.Join(DOTween.To(
                 () => backgroundRect.offsetMin.y,
                 y =>
                 {
-                    _victoryBackgroundImagePositionCurrent.x = backgroundRect.offsetMin.x;
-                    _victoryBackgroundImagePositionCurrent.y = y;
-                    backgroundRect.offsetMin = _victoryBackgroundImagePositionCurrent;
+                    _defeatBackgroundImagePositionCurrent.x = backgroundRect.offsetMin.x;
+                    _defeatBackgroundImagePositionCurrent.y = y;
+                    backgroundRect.offsetMin = _defeatBackgroundImagePositionCurrent;
                 },
-                _victoryBackgroundImageEndPosition, 
-                _victoryAnimationDuration
-            ).From(_victoryBackgroundImageBeginningPosition, false).SetEase(Ease.OutBack));
+                _defeatBackgroundImageEndPosition, 
+                _defeatAnimationDuration
+            ).From(_defeatBackgroundImageBeginningPosition, false).SetEase(Ease.OutBack));
 
 
-            _victorySequence.Join(victoryCanvasGroup.DOFade(1f, _victoryAnimationDuration).From(0f, false));
+            _defeatSequence.Join(defeatCanvasGroup.DOFade(1f, _defeatAnimationDuration).From(0f, false));
 
-            _victorySequence.SetAutoKill(false);
-            _victorySequence.Pause();
+            _defeatSequence.SetAutoKill(false);
+            _defeatSequence.Pause();
             
             
             _restartBeginSequence.Join(DOTween.To(() => backgroundRect.offsetMin.y, y =>
@@ -99,7 +98,11 @@ namespace Animation
                 _restartBackgroundImagePositionCurrent.y = y;
                 backgroundRect.offsetMin = _restartBackgroundImagePositionCurrent;
             }, _restartBeginBackgroundImageBottomEndPosition, _restartAnimationDuration)
-                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() => levelEventHubSo.PublishRestartBeginAnimationEnd()));
+                .From(_restartBeginBackgroundImageBottomBeginningPosition, false).SetEase(Ease.InBack).OnComplete(() =>
+                {
+                    if (_isPlayerRestart) levelEventHubSo.PublishRestartBeginAnimationEnd();
+                    else levelEventHubSo.PublishCheckpointBeginAnimationEnd();
+                }));
             
             _restartBeginSequence.Join(backgroundImage.DOColor(_restartBackgroundImageEndColor, _restartAnimationDuration).From(_restartBackgroundImageBeginningColor, false));
             _restartBeginSequence.Join(elementsCanvasGroup.DOFade(0f, _restartAnimationDuration).From(1f, false));
@@ -138,12 +141,17 @@ namespace Animation
             _animationWorking = false;
         }
 
-        public void OnVictory()
+        public void OnDead()
         {
-            _victorySequence.Restart();
+            _defeatSequence.Restart();
         }
-        
+
         public void OnLevelRestart()
+        {
+            _restartEndSequence.Restart();
+        }
+
+        public void OnLevelCheckPoint()
         {
             _restartEndSequence.Restart();
         }
@@ -152,17 +160,18 @@ namespace Animation
         {
             _levelRegistry.Unregister(this);
             // Clean up the tween memory
-            _victorySequence?.Kill();
+            _defeatSequence?.Kill();
             _restartEndSequence?.Kill();
             _restartBeginSequence?.Kill();
         }
 
-        public void PlayRestartBeginAnimation()
+        public void PlayRestartBeginAnimation(bool isRestart)
         {
             if (!_animationWorking)
             {
                 _restartBeginSequence.Restart();
                 _animationWorking = true;
+                _isPlayerRestart = isRestart;
             }
         }
 

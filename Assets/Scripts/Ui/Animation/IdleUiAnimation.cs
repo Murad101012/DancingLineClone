@@ -1,10 +1,9 @@
 using System;
-using Core;
 using DG.Tweening;
 using Interfaces;
 using UnityEngine;
 
-namespace Animation
+namespace Ui.Animation
 {
     /// <summary>
     /// Animation sequences collection for Idle screen (Screen appear that waiting for player to click the screen and begin to play)

@@ -1,6 +1,6 @@
 using DataContainer;
 using Interfaces;
-using Ui.LevelPlay;
+using Ui.Controllers;
 using UnityEngine;
 
 namespace Gameplay

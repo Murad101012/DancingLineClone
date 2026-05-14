@@ -1,9 +1,9 @@
-using Animation;
 using Interfaces;
+using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.LevelPlay
+namespace Ui.Controllers
 {
     /// <summary>
     /// Controls the lifetime of gameobjects of Victory Ui prefab

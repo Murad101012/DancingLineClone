@@ -1,6 +1,4 @@
-using System;
 using DataContainer;
-using Gameplay;
 using UnityEngine;
 
 namespace Ui.Menu

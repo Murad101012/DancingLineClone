@@ -1,12 +1,11 @@
-using Animation;
 using DataContainer;
 using Interfaces;
-using Player;
 using TMPro;
+using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.LevelPlay
+namespace Ui.Controllers
 {
     /// <summary>
     /// Responsible for managing life cycle of Defeat.prefab's gameobjects

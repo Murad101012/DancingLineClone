@@ -1,9 +1,9 @@
-using Animation;
 using Interfaces;
+using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ui.LevelPlay
+namespace Ui.Controllers
 {
     /// <summary>
     /// Control the lifecycle of Idle Ui's element
@@ -82,9 +82,6 @@ namespace Ui.LevelPlay
             }
         }
 
-        public void OnLevelStop()
-        {
-            /*It will be empty*/
-        }
+        public void OnLevelStop(){/*It will be empty*/ }
     }
 }
