@@ -1,5 +1,5 @@
+using DataContainer;
 using Interfaces;
-using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,21 +13,21 @@ namespace Ui.Controllers
         [Header("UI References")]
         [SerializeField] private GameObject victoryScreen;
         [SerializeField] private Button restartButton;
-        private VictoryUiAnimation _victoryUiAnimation;
         private ILevelRegistry _levelRegistry;
+        
+        [SerializeField] private LevelUiFlowSo levelUiFlow;
         
         private void OnEnable()
         {
             _levelRegistry.Register(this);
             
-            TryGetComponent(out _victoryUiAnimation);
-            if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd += Reset;
+            if(levelUiFlow != null) levelUiFlow.Victory_OnRestartEndAnimationEnd += Reset;
         }
 
         private void OnDisable()
         {
             _levelRegistry.Unregister(this);
-            if(_victoryUiAnimation != null) _victoryUiAnimation.RestartEndAnimationEnd -= Reset;
+            if(levelUiFlow != null) levelUiFlow.Victory_OnRestartEndAnimationEnd -= Reset;
         }
 
         public void OnVictory()
@@ -46,17 +46,17 @@ namespace Ui.Controllers
         
         private void NullCheckDefeatUiAnimationRewindEvent()
         {
-            if (_victoryUiAnimation == null)
+            if (levelUiFlow == null)
             {
                 Reset();
-                Debug.LogWarning($"{name}: VictoryUiController: _victoryUiAnimation is null, " +
+                Debug.LogWarning($"{name}: VictoryUiController: {nameof(levelUiFlow)} is null, " +
                                  $"bypassing animation");
             }
         }
         
         public void OnLevelRestartButton()
         {
-            _victoryUiAnimation.PlayRestartBeginAnimation();
+            levelUiFlow.PublishVictory_PlayRestartBeginAnimation();
         }
         
         public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)

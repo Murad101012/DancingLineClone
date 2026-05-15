@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Ui.SceneTransformation
+namespace Ui.ElementReferences
 {
     /// <summary>
     /// Keeping the reference to the elements in loading screen

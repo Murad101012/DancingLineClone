@@ -1,4 +1,5 @@
 using System;
+using DataContainer;
 using DG.Tweening;
 using Interfaces;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace Ui.Animation
         private ILevelRegistry _levelRegistry;
         [SerializeField] private CanvasGroup canvasGroup;
         private Sequence _canvasGroupOpacitySequence;
-        public event Action OnCanvasAnimationEnd;
+        [SerializeField] private LevelUiFlowSo levelUiFlow;
 
         private void Awake()
         {
@@ -22,7 +23,17 @@ namespace Ui.Animation
             _canvasGroupOpacitySequence = DOTween.Sequence();
             
             _canvasGroupOpacitySequence.Append(canvasGroup.DOFade(0, 0.5f).From(1f).
-                OnComplete(() => OnCanvasAnimationEnd?.Invoke()));
+                OnComplete(() =>
+                {
+                    if (levelUiFlow != null)
+                    {
+                        levelUiFlow.PublishOnCanvasAnimationEnd();
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"{name}: variable '{nameof(levelUiFlow)}' not set. Can't publish when Canvas animation end");
+                    }
+                }));
             _canvasGroupOpacitySequence.SetAutoKill(false);
             _canvasGroupOpacitySequence.Pause();
         }

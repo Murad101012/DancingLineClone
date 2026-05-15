@@ -1,7 +1,6 @@
 using DataContainer;
 using Interfaces;
 using TMPro;
-using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,20 +21,19 @@ namespace Ui.Controllers
         /// Duplicates from <see cref="CheckPointSnapshot._checkPointTriggered"/>
         /// </remarks>
         private bool _checkPointTriggered;
-        private DefeatUiAnimation _defeatUiAnimation;
         private ILevelRegistry _levelRegistry;
         
         [Header("")]
         [SerializeField] private CurrentlyLoadedSceneSo currentlyLoadedSceneSo;
         [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
+        [SerializeField] private LevelUiFlowSo levelUiFlowSo;
         
         private void OnEnable()
         {
             progressInCurrentLoadedLevelSo.OnCheckPointTrigger += RefreshCheckPointButtonState;
 
             //It's require for smooth DefeatScreen disabling, without preventing Scaling down animation
-            TryGetComponent(out _defeatUiAnimation);
-            if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd += Reset;
+            if(levelUiFlowSo != null) levelUiFlowSo.Defeat_OnRestartEndAnimationEnd += Reset;
         }
 
         private void Awake()
@@ -48,7 +46,7 @@ namespace Ui.Controllers
         private void OnDisable()
         {
             progressInCurrentLoadedLevelSo.OnCheckPointTrigger -= RefreshCheckPointButtonState;
-            if(_defeatUiAnimation != null) _defeatUiAnimation.RestartEndAnimationEnd -= Reset;
+            if(levelUiFlowSo != null) levelUiFlowSo.Defeat_OnRestartEndAnimationEnd -= Reset;
         }
 
         private void OnDestroy()
@@ -88,10 +86,10 @@ namespace Ui.Controllers
 
         private void NullCheckDefeatUiAnimationRewindEvent()
         {
-            if (_defeatUiAnimation == null)
+            if (levelUiFlowSo == null)
             {
                 Reset();
-                Debug.LogWarning($"{name}: DefeatUiController: _defeatUiAnimation is null, " +
+                Debug.LogWarning($"{name}: DefeatUiController: {nameof(levelUiFlowSo)} is null, " +
                                  $"bypassing animation");
             }
         }
@@ -103,12 +101,12 @@ namespace Ui.Controllers
 
         public void OnLevelRestartButton()
         {
-            _defeatUiAnimation.PlayRestartBeginAnimation(true);
+            levelUiFlowSo.PublishDefeat_PlayRestartBeginAnimation(true);
         }
 
         public void OnLevelCheckPointButton()
         {
-            _defeatUiAnimation.PlayRestartBeginAnimation(false);
+            levelUiFlowSo.PublishDefeat_PlayRestartBeginAnimation(false);
         }
 
         public void ChangeLevelProgressText(float progress)

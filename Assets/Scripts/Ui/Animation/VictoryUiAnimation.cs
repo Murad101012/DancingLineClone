@@ -2,7 +2,6 @@ using System;
 using DataContainer;
 using DG.Tweening;
 using Interfaces;
-using Ui.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +11,6 @@ namespace Ui.Animation
     /// Animations for Victory.prefab
     /// </summary>
     /// <remarks>Since animations of Victory and defeat is same with minor changes, code is duplicated from <see cref="DefeatUiAnimation"/></remarks>
-    [RequireComponent(typeof(VictoryUiController))]
     public class VictoryUiAnimation : MonoBehaviour, IVictory, IOnRestart, ILevelRegistryUser
     {
         [SerializeField] private RectTransform backgroundRect;
@@ -51,8 +49,7 @@ namespace Ui.Animation
         private ILevelRegistry _levelRegistry;
 
         [SerializeField] private LevelEventHubSo levelEventHubSo;
-        public event Action RestartEndAnimationEnd;
-        
+        [SerializeField] private LevelUiFlowSo levelUiFlowSo;
 
         private void Awake()
         {
@@ -61,6 +58,10 @@ namespace Ui.Animation
             _backgroundImageBeginningColor = backgroundImage.color;
             
             _levelRegistry.Register(this);
+            if (levelUiFlowSo != null)
+            {
+                levelUiFlowSo.Victory_OnPlayRestartBeginAnimation += PlayRestartBeginAnimation;
+            }
             InitializeSequence();
         }
 
@@ -119,7 +120,14 @@ namespace Ui.Animation
 
             _restartEndSequence.Append(backgroundImage.DOColor(Color.clear, _restartAnimationDuration).From(_restartBackgroundImageEndColor, false).OnComplete (() =>
             {
-                RestartEndAnimationEnd?.Invoke();
+                if (levelUiFlowSo != null)
+                {
+                    levelUiFlowSo.PublishVictory_RestartEndAnimationEnd();
+                }
+                else
+                {
+                    Debug.Log($"{name}: variable '{nameof(levelUiFlowSo)}' is null. Can't publish event that restart animation end");
+                }
                 ResetAnimationValues();
             }));
 
@@ -150,13 +158,17 @@ namespace Ui.Animation
         private void OnDestroy()
         {
             _levelRegistry.Unregister(this);
+            if (levelUiFlowSo != null)
+            {
+                levelUiFlowSo.Victory_OnPlayRestartBeginAnimation -= PlayRestartBeginAnimation;
+            }
             // Clean up the tween memory
             _victorySequence?.Kill();
             _restartEndSequence?.Kill();
             _restartBeginSequence?.Kill();
         }
 
-        public void PlayRestartBeginAnimation()
+        private void PlayRestartBeginAnimation()
         {
             if (!_animationWorking)
             {

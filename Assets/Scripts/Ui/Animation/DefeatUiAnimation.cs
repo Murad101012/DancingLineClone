@@ -2,7 +2,6 @@ using System;
 using DataContainer;
 using DG.Tweening;
 using Interfaces;
-using Ui.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,6 @@ namespace Ui.Animation
     /// <summary>
     /// Animations for Defeat.prefab using DOTween
     /// </summary>
-    [RequireComponent(typeof(DefeatUiController))]
     public class DefeatUiAnimation : MonoBehaviour, IOnRestart, IOnCheckPoint, IOnDead, ILevelRegistryUser
     {
         [SerializeField] private RectTransform backgroundRect;
@@ -51,8 +49,8 @@ namespace Ui.Animation
         
         private ILevelRegistry _levelRegistry;
         [SerializeField] private LevelEventHubSo levelEventHubSo;
-        public event Action RestartEndAnimationEnd;
-        
+
+        [SerializeField] private LevelUiFlowSo levelUiFlowSo;
 
         private void Awake()
         {
@@ -61,6 +59,15 @@ namespace Ui.Animation
             _backgroundImageBeginningColor = backgroundImage.color;
             
             _levelRegistry.Register(this);
+            if (levelUiFlowSo != null)
+            {
+                levelUiFlowSo.Defeat_OnPlayRestartBeginAnimation += PlayRestartBeginAnimation;
+            }
+            else
+            {
+                Debug.LogWarning($"{name}: variable '{nameof(levelUiFlowSo)}' is null. Can't listen to when play restart animation");
+            }
+            
             InitializeSequence();
         }
 
@@ -123,7 +130,14 @@ namespace Ui.Animation
 
             _restartEndSequence.Append(backgroundImage.DOColor(Color.clear, _restartAnimationDuration).From(_restartBackgroundImageEndColor, false).OnComplete (() =>
             {
-                RestartEndAnimationEnd?.Invoke();
+                if (levelUiFlowSo != null)
+                {
+                    levelUiFlowSo.PublishDefeat_RestartEndAnimationEnd();
+                }
+                else
+                {
+                    Debug.LogWarning($"{name}: variable '{nameof(levelUiFlowSo)}' is null.");
+                }
                 ResetAnimationValues();
             }));
 
@@ -159,13 +173,17 @@ namespace Ui.Animation
         private void OnDestroy()
         {
             _levelRegistry.Unregister(this);
+            if (levelUiFlowSo != null)
+            {
+                levelUiFlowSo.Defeat_OnPlayRestartBeginAnimation -= PlayRestartBeginAnimation;
+            }
             // Clean up the tween memory
             _defeatSequence?.Kill();
             _restartEndSequence?.Kill();
             _restartBeginSequence?.Kill();
         }
 
-        public void PlayRestartBeginAnimation(bool isRestart)
+        private void PlayRestartBeginAnimation(bool isRestart)
         {
             if (!_animationWorking)
             {

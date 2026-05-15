@@ -1,5 +1,5 @@
+using DataContainer;
 using Interfaces;
-using Ui.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,26 +13,28 @@ namespace Ui.Controllers
         private ILevelRegistry _levelRegistry;
         [SerializeField] private GameObject idleCanvas;
         [SerializeField] private Button backToMenuButton;
-        private IdleUiAnimation _idleUiAnimation;
+        [SerializeField] private LevelUiFlowSo levelUiFlowSo;
         private bool _onIdle = true;
 
         private void Awake()
         {
             _levelRegistry.Register(this);
-            TryGetComponent(out _idleUiAnimation);
         }
 
         private void OnEnable()
         {
-            if (_idleUiAnimation != null)
+            if (levelUiFlowSo != null)
             {
-                _idleUiAnimation.OnCanvasAnimationEnd += DisableIdleCanvas;
+                levelUiFlowSo.OnCanvasAnimationEnd += DisableIdleCanvas;
             }
         }
 
         private void OnDisable()
         {
-            _idleUiAnimation.OnCanvasAnimationEnd -= DisableIdleCanvas;
+            if (levelUiFlowSo != null)
+            {
+                levelUiFlowSo.OnCanvasAnimationEnd -= DisableIdleCanvas;
+            }
         }
 
         private void OnDestroy()
@@ -74,9 +76,9 @@ namespace Ui.Controllers
         {
             backToMenuButton.interactable = false;
             _onIdle = false;
-            if (_idleUiAnimation == null)
+            if (levelUiFlowSo == null)
             {
-                Debug.LogWarning($"{name}: {nameof(_idleUiAnimation)} is null. " +
+                Debug.LogWarning($"{name}: {nameof(levelUiFlowSo)} is null. " +
                                  $"Disabling the IdleUiCanvas without waiting idle animation complete when {nameof(OnLevelStart)}");
                 idleCanvas.SetActive(false);
             }

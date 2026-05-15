@@ -1,10 +1,10 @@
-using System;
 using DataContainer;
 using DG.Tweening;
+using Ui.ElementReferences;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Ui.SceneTransformation
+namespace Ui.Controllers
 {
     /// <summary>
     /// Controls lifecycle of Loading screen assets
