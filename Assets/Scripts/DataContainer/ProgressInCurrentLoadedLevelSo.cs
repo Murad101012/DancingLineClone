@@ -9,8 +9,11 @@ namespace DataContainer
     [CreateAssetMenu(menuName = "ScriptableObjects/ProgressInCurrentLoadedLevel")]
     public class ProgressInCurrentLoadedLevelSo : ScriptableObject
     {
+        //Finding the progress
         public float audioDuration;
         public float playbackInAudioWhenPlayerDead;
+        public float progressInCurrentLoadedLevel;
+        
         public event Action OnCheckPointTrigger;
 
         public void PublishCheckPointerTrigger()

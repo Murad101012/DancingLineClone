@@ -66,6 +66,7 @@ namespace Ui.Controllers
         public void OnDead()
         {
             defeatScreen.SetActive(true);
+            ChangeLevelProgressText(progressInCurrentLoadedLevelSo.progressInCurrentLoadedLevel);
         }
 
         public void Reset()
