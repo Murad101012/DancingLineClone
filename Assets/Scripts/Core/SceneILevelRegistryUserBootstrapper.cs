@@ -1,5 +1,7 @@
+using DataContainer;
 using Interfaces;
 using UnityEngine;
+ 
 namespace Core
 {
     /// <summary>
@@ -30,6 +32,7 @@ namespace Core
             {
                 if (gameObjectUsesLevelRegistryUser[i] is ILevelRegistryUser user)
                 {
+                    //levelRegistrySo implements ILevelRegistry
                     user.LevelRegistrySoSetter(levelRegistrySo);
                 }
                 else

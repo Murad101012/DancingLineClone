@@ -1,9 +1,6 @@
-using System;
-using Core;
+using DataContainer;
 using DG.Tweening;
-using Gameplay;
 using Interfaces;
-using Ui.Menu;
 using UnityEngine;
 
 namespace Audio
@@ -15,12 +12,10 @@ namespace Audio
     public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
     {
         private AudioSource _audioSource;
-        private AudioClip _clip;
-        private SceneLoader _sceneLoader;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         [SerializeField] private LevelRegistrySo levelRegistrySo;
-        [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEvent;
-        [SerializeField] private ProgressInCurrentLoadedLevel progressInCurrentLoadedLevel;
+        [SerializeField] private SceneLoadStateEventSo sceneLoadStateEvent;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
 
         private void OnEnable()
         {
@@ -30,12 +25,12 @@ namespace Audio
                 return;
             }
 
-            if (progressInCurrentLoadedLevel == null)
+            if (progressInCurrentLoadedLevelSo == null)
             {
-                Debug.LogWarning($"{name}: {nameof(progressInCurrentLoadedLevel)} is null. Can't write information about audio that where currently is playing on");
+                Debug.LogWarning($"{name}: {nameof(progressInCurrentLoadedLevelSo)} is null. Can't write information about audio that where currently is playing on");
             }
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
-            sceneFullyLoadedEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
+            sceneLoadStateEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
             menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent += MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
         }
 
@@ -55,7 +50,7 @@ namespace Audio
         private void OnDisable()
         {
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
-            sceneFullyLoadedEvent.OnSceneBeginToLoad -= OnSceneBeginToLoad;
+            sceneLoadStateEvent.OnSceneBeginToLoad -= OnSceneBeginToLoad;
             menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent -= MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
         }
 
@@ -72,9 +67,8 @@ namespace Audio
         
         private void InsertClip(AudioClip clip)
         {
-            _clip = clip;
             _audioSource.clip = clip;
-            progressInCurrentLoadedLevel.audioDuration = _audioSource.clip.length;
+            progressInCurrentLoadedLevelSo.audioDuration = _audioSource.clip.length;
         }
 
         private void PlaySound(bool delay = false)
@@ -107,7 +101,7 @@ namespace Audio
 
         public void OnDead()
         {
-            progressInCurrentLoadedLevel.playbackInAudioWhenPlayerDead = _audioSource.time;
+            progressInCurrentLoadedLevelSo.playbackInAudioWhenPlayerDead = _audioSource.time;
             StopSound();
         }
 

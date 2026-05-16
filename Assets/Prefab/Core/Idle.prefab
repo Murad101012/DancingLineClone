@@ -94,7 +94,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7075864733604612971
 Transform:
   m_ObjectHideFlags: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.IdleUiAnimation
   canvasGroup: {fileID: 643081703210422723}
+  levelUiFlow: {fileID: 11400000, guid: 926847ce03da6c54487c4586c868941b, type: 2}
 --- !u!114 &6973784690403750705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.IdleUiController
   idleCanvas: {fileID: 5986466691218700576}
   backToMenuButton: {fileID: 8449906003016539308}
+  levelUiFlowSo: {fileID: 11400000, guid: 926847ce03da6c54487c4586c868941b, type: 2}
 --- !u!1 &4125569192792505832
 GameObject:
   m_ObjectHideFlags: 0

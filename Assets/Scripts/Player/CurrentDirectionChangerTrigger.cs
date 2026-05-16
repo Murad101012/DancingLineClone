@@ -12,7 +12,7 @@ namespace Player
     /// </remarks>
     public class CurrentDirectionChangerTrigger : MonoBehaviour
     {
-        [SerializeField] private DirectionController.Directions[] moveDirections = new DirectionController.Directions[2];
+        [SerializeField] private IMovementEnums.Directions[] moveDirections = new IMovementEnums.Directions[2];
         
         private void OnTriggerEnter(Collider other)
         {

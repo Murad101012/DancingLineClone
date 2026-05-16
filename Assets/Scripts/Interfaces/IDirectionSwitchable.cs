@@ -1,5 +1,3 @@
-using Player;
-
 namespace Interfaces
 {
     /// <summary>
@@ -11,6 +9,6 @@ namespace Interfaces
     /// </remarks>
     public interface IDirectionSwitchable
     {
-        void ChangeDirection(DirectionController.Directions[] newStates);
+        void ChangeDirection(IMovementEnums.Directions[] newStates);
     }
 }

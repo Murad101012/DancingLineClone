@@ -120,8 +120,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Core.DefeatUiController, Assembly-CSharp
+      - m_Target: {fileID: 4137457558602844423}
+        m_TargetAssemblyTypeName: Core.VictoryUiController, Assembly-CSharp
         m_MethodName: OnLevelRestartButton
         m_Mode: 1
         m_Arguments:
@@ -193,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.VictoryUiController
   victoryScreen: {fileID: 5479775461689156978}
   restartButton: {fileID: 7716417119224369416}
+  levelUiFlow: {fileID: 11400000, guid: 926847ce03da6c54487c4586c868941b, type: 2}
 --- !u!114 &2317906812595980978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +206,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d59d8e3c17854a698829073d14565e14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Animation.VictoryUiAnimation
+  backgroundRect: {fileID: 4435969778712050047}
+  victoryCanvasGroup: {fileID: 6815194218235123492}
+  elementsCanvasGroup: {fileID: 3556401193599763682}
+  backgroundImage: {fileID: 569275678804139188}
   victoryRoot: {fileID: 5993964224693876700}
+  levelEventHubSo: {fileID: 11400000, guid: d5fbd401841ba63c7bd5787dd5c2c986, type: 2}
+  levelUiFlowSo: {fileID: 11400000, guid: 926847ce03da6c54487c4586c868941b, type: 2}
 --- !u!1 &5479775461689156978
 GameObject:
   m_ObjectHideFlags: 0

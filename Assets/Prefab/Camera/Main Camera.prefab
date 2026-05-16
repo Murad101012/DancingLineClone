@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef05adadc0bc4232a5217f936187cf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera.CheckPointManager
+  progressInCurrentLoadedLevelSo: {fileID: 11400000, guid: 363fd1c9c26c864be82d676d90c0b08d, type: 2}
 --- !u!114 &3976013002432543556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,4 +199,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Camera.RestartManager
   cineMachineCamerasParent: {fileID: 0}
   cameraAtBeginning: {fileID: 0}
-  sceneFullyLoadedEventSo: {fileID: 11400000, guid: 15bec76d7560c63179723d3d4addfb6f, type: 2}
+  sceneLoadStateEventSo: {fileID: 0}

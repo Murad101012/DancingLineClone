@@ -1,4 +1,4 @@
-using Core;
+using DataContainer;
 using Interfaces;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -15,13 +15,13 @@ namespace Camera
         private CinemachineCamera[] _cameras;
         [SerializeField] private Transform cineMachineCamerasParent;
         [SerializeField] private CinemachineCamera cameraAtBeginning;
-        private LevelRegistrySo _levelRegistrySo;
-        [SerializeField] private SceneFullyLoadedEventSo sceneFullyLoadedEventSo;
+        private ILevelRegistry _levelRegistry;
+        [SerializeField] private SceneLoadStateEventSo sceneLoadStateEventSo;
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
-            sceneFullyLoadedEventSo.OnSceneFullyLoaded += Initialization;
+            _levelRegistry.Register(this);
+            sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
 
@@ -32,8 +32,8 @@ namespace Camera
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
-            sceneFullyLoadedEventSo.OnSceneFullyLoaded -= Initialization;
+            _levelRegistry.Unregister(this);
+            sceneLoadStateEventSo.OnSceneFullyLoaded -= Initialization;
         }
 
         public void OnLevelRestart()
@@ -77,9 +77,9 @@ namespace Camera
 
         public void OnLevelStop() {/*It will be empty*/}
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }

@@ -511,9 +511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 568b8eeea82041d693889477552a20e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.LevelStateManager
-  levelRegistrySo: {fileID: 0}
+  levelRegistrySo: {fileID: 11400000, guid: a26c434f9a98c8fe0964dedfc46dad88, type: 2}
   levelPropertiesSo: {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   levelBeginButton: {fileID: 264532530}
+  levelEventHubSo: {fileID: 11400000, guid: d5fbd401841ba63c7bd5787dd5c2c986, type: 2}
 --- !u!114 &453676927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,7 +531,6 @@ MonoBehaviour:
   useNewLevelRegistrySo: 0
   gameObjectUsesLevelRegistryUser:
   - {fileID: 2577121934518752013}
-  - {fileID: 453676926}
   - {fileID: 4135856632245598308}
   - {fileID: 7884135418307458383}
   - {fileID: 2577121934518752014}
@@ -615,11 +615,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81b1aa61951aab4aaab1dc3436609828, type: 3}
---- !u!225 &702954324 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 6815194218235123492, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-  m_PrefabInstance: {fileID: 7884135418307458381}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &721076865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1002,22 +997,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8678641234270772807, guid: b1414c0e7f8409b1db44a357b3af0dbd, type: 3}
   m_PrefabInstance: {fileID: 721076865}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &962751340 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4435969778712050047, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-  m_PrefabInstance: {fileID: 7884135418307458381}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &962751341 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 569275678804139188, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-  m_PrefabInstance: {fileID: 7884135418307458381}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &969859610
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,11 +1209,6 @@ Transform:
   - {fileID: 837591999}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!225 &1340560594 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 3556401193599763682, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-  m_PrefabInstance: {fileID: 7884135418307458381}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1374067550
 GameObject:
   m_ObjectHideFlags: 0
@@ -1493,16 +1467,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6788523795041359953, guid: e70448abd1d9d2ef2b80dea6236c8040, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8686505976453280267, guid: e70448abd1d9d2ef2b80dea6236c8040, type: 3}
-      propertyPath: m_Size.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8686505976453280267, guid: e70448abd1d9d2ef2b80dea6236c8040, type: 3}
-      propertyPath: m_Size.z
-      value: 5
-      objectReference: {fileID: 0}
+    - target: {fileID: 7613502231929711310, guid: e70448abd1d9d2ef2b80dea6236c8040, type: 3}
+      propertyPath: levelEventHubSo
+      value: 
+      objectReference: {fileID: 11400000, guid: d5fbd401841ba63c7bd5787dd5c2c986, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2140,10 +2110,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Idle
       objectReference: {fileID: 0}
-    - target: {fileID: 4117209532313106477, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7075864733604612971, guid: 92d086084d7a93aea9c9fcdc48db3808, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2219,20 +2185,8 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 65638155447461988, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-      propertyPath: levelNameText
-      value: 
-      objectReference: {fileID: 5307840780835029870}
-    - target: {fileID: 65638155447461988, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-      propertyPath: levelProgressText
-      value: 
-      objectReference: {fileID: 5307840780835029871}
-    - target: {fileID: 65638155447461988, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-      propertyPath: currentlyLoadedSceneSo
-      value: 
-      objectReference: {fileID: 11400000, guid: 95bcd2f5a340464c3bcd6976b650bad8, type: 2}
     - target: {fileID: 1120637439576528284, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-      propertyPath: progressInCurrentLoadedLevel
+      propertyPath: progressInCurrentLoadedLevelSo
       value: 
       objectReference: {fileID: 11400000, guid: 363fd1c9c26c864be82d676d90c0b08d, type: 2}
     - target: {fileID: 1124364732755790599, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
@@ -2306,28 +2260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef539a44b79c42afaeecc022ac101106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Core.DefeatUiController
---- !u!114 &5307840780835029870 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6528557162640664432, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-  m_PrefabInstance: {fileID: 5307840780835029867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &5307840780835029871 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8946397529558236233, guid: cf9bed7cd79f09caf8f09e37c5a83926, type: 3}
-  m_PrefabInstance: {fileID: 5307840780835029867}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &7884135418307458381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2340,22 +2272,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Victory
       objectReference: {fileID: 0}
-    - target: {fileID: 2317906812595980978, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: backgroundRect
-      value: 
-      objectReference: {fileID: 962751340}
-    - target: {fileID: 2317906812595980978, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: backgroundImage
-      value: 
-      objectReference: {fileID: 962751341}
-    - target: {fileID: 2317906812595980978, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: victoryCanvasGroup
-      value: 
-      objectReference: {fileID: 702954324}
-    - target: {fileID: 2317906812595980978, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: elementsCanvasGroup
-      value: 
-      objectReference: {fileID: 1340560594}
     - target: {fileID: 5781088849248287143, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.3746
@@ -2396,18 +2312,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7716417119224369416, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7884135418307458382}
-    - target: {fileID: 7716417119224369416, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnLevelRestartButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 7716417119224369416, guid: 6d6ef71668a38ca76ba95655e803e893, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Core.VictoryUiController, Assembly-CSharp
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2447,6 +2351,10 @@ PrefabInstance:
       propertyPath: cameraAtBeginning
       value: 
       objectReference: {fileID: 1471919228}
+    - target: {fileID: 3976013002432543556, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
+      propertyPath: sceneLoadStateEventSo
+      value: 
+      objectReference: {fileID: 11400000, guid: 15bec76d7560c63179723d3d4addfb6f, type: 2}
     - target: {fileID: 3976013002432543556, guid: 15d8e390886f15532bc2fc9e8459589e, type: 3}
       propertyPath: cineMachineCamerasParent
       value: 

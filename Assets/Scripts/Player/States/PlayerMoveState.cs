@@ -1,5 +1,4 @@
 using System;
-using Core;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +13,7 @@ namespace Player.States
     public class PlayerMoveState : IPlayerState
     {
         private readonly PlayerCoreLogic _playerCoreLogic;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistrySo;
 
         private Transform _movementTransform;
         private bool _switchOrder;
@@ -27,7 +26,7 @@ namespace Player.States
         /// <remarks> This boolean duplicates from <see cref="GroundStateChecker._onGround"/></remarks>
         private bool _onGround = true;
         
-        public PlayerMoveState(PlayerCoreLogic playerCoreLogic, LevelRegistrySo registry) 
+        public PlayerMoveState(PlayerCoreLogic playerCoreLogic, ILevelRegistry registry) 
         {
             _playerCoreLogic = playerCoreLogic;
             _levelRegistrySo = registry;

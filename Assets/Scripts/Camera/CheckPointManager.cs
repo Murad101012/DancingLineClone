@@ -1,8 +1,7 @@
-using System;
-using Core;
 using Interfaces;
 using Unity.Cinemachine;
 using UnityEngine;
+using DataContainer;
 
 namespace Camera
 {
@@ -16,27 +15,28 @@ namespace Camera
         private CinemachineBrain _cineMachineBrain;
         private CinemachineCamera _cameraAtCheckPoint;
         private bool _playerCheckPointHappen;
-        private LevelRegistrySo _levelRegistrySo;
+        private ILevelRegistry _levelRegistry;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
 
         private void OnEnable()
         {
-            Player.CheckPointSnapshot.OnCheckpointUpdated += OnCheckPointUpdated;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger += OnCheckPointUpdated;
         }
 
         private void Awake()
         {
-            _levelRegistrySo.Register(this);
+            _levelRegistry.Register(this);
             _cineMachineBrain = GetComponent<CinemachineBrain>();
         }
 
         private void OnDisable()
         {
-            Player.CheckPointSnapshot.OnCheckpointUpdated -= OnCheckPointUpdated;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger -= OnCheckPointUpdated;
         }
 
         private void OnDestroy()
         {
-            _levelRegistrySo.Unregister(this);
+            _levelRegistry.Unregister(this);
         }
 
         private void OnCheckPointUpdated()
@@ -68,9 +68,9 @@ namespace Camera
             _playerCheckPointHappen = false;
         }
         
-        public void LevelRegistrySoSetter(LevelRegistrySo levelRegistrySo)
+        public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)
         {
-            _levelRegistrySo = levelRegistrySo;
+            _levelRegistry = levelRegistry;
         }
     }
 }
