@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Ui.Menu
+namespace Ui.ElementReferences
 {
     /// <summary>
     /// Get references from Menu UI Document and cache them for provide others

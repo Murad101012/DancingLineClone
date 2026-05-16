@@ -1,18 +1,18 @@
-using DataContainer;
 using UnityEngine;
 
-namespace Ui.Menu
+namespace DataContainer
 {
     /// <summary> Add/Remove Levels </summary>
     /// <remarks>
     /// It's make easier to modify Levels inside the list without directly modifying UXML
     /// </remarks>
-    public class MenuUiLevelController : MonoBehaviour
+    [CreateAssetMenu(menuName = "ScriptableObjects/LevelsListSo")]
+    public class LevelsListSo : ScriptableObject
     {
         public LevelPropertiesSo[] levelPropertiesSo;
         [HideInInspector] public int levelPropertiesLength;
 
-        private void Awake()
+        private void OnValidate()
         {
             levelPropertiesLength = levelPropertiesSo.Length;
         }

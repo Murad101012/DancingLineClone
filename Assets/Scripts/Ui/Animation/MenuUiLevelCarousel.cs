@@ -1,11 +1,12 @@
 using System;
 using DataContainer;
 using DG.Tweening;
+using Ui.ElementReferences;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Ui.Menu
+namespace Ui.Animation
 {
     /// <summary>
     /// Carousel drag between Level selections and make event invoke (with <see cref="MenuOnLevelInPreviewChangeSo.ChangeLevelInPreview"/>) when player changes level in preview
@@ -18,7 +19,7 @@ namespace Ui.Menu
     public class MenuUiLevelCarousel : MonoBehaviour
     {
         private MenuUiElementReference _menuUiElementReference;
-        private MenuUiLevelController _menuUiLevelController;
+        [SerializeField] private LevelsListSo levelsListSo;
 
         private bool _levelLoading;
 
@@ -82,7 +83,6 @@ namespace Ui.Menu
         private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
-            _menuUiLevelController = GetComponent<MenuUiLevelController>();
         }
         
         private void Start()
@@ -94,7 +94,7 @@ namespace Ui.Menu
             else
             {
                 menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
-                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[0], 0, true);
+                menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(levelsListSo.levelPropertiesSo[0], 0, true);
             }
             
             if (!_menuUiElementReference.CheckFinished)
@@ -261,7 +261,7 @@ namespace Ui.Menu
             
             if (cachedFilmReferenceXAbs > _areaWidthOfLevelIndexInPreview.x)
             {
-                if (_menuUiLevelController.levelPropertiesLength - 1 >= _levelIndexInPreview + 1)
+                if (levelsListSo.levelPropertiesLength - 1 >= _levelIndexInPreview + 1)
                 {
                     _levelIndexInPreview++;
                 }
@@ -275,7 +275,7 @@ namespace Ui.Menu
                 }
             }
             
-            menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(_menuUiLevelController.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
+            menuOnLevelInPreviewChangeSo.ChangeLevelInPreview(levelsListSo.levelPropertiesSo[_levelIndexInPreview], _levelIndexInPreview);
 
             //At the end we calculate new button area for the new button preview player change
             UpdateAreaWidthForCurrentButtonInPreview();
@@ -392,7 +392,7 @@ namespace Ui.Menu
                 we check the reverse where _levelIndexInPreview not the last level so it's not cause
                 array overflow when checking the next (right) level*/
                 if ((_levelIndexInPreview == 0 && i == -1) ||
-                    (_levelIndexInPreview == _menuUiLevelController.levelPropertiesLength - 1 && i == 1) ||
+                    (_levelIndexInPreview == levelsListSo.levelPropertiesLength - 1 && i == 1) ||
                     i == 0)
                     continue;
                 
@@ -421,7 +421,7 @@ namespace Ui.Menu
                         we check the reverse where _levelIndexInPreview not the last level so it's not cause
                         array overflow when checking the next (right) level*/
                         if ((_levelIndexInPreview == 0 && i == -1) || 
-                            (_levelIndexInPreview == _menuUiLevelController.levelPropertiesLength - 1 && i == 1) ||
+                            (_levelIndexInPreview == levelsListSo.levelPropertiesLength - 1 && i == 1) ||
                             i == 0)
                             continue;
                         
@@ -444,7 +444,7 @@ namespace Ui.Menu
                 /*if _levelIndexInPreview is 0, meaning there is not level at the left (previous),
                 we check the reverse where _levelIndexInPreview not the last level so it's not cause
                 array overflow when checking the next (right) level*/
-                if ((_levelIndexInPreview == 0 && i == -1) || (_levelIndexInPreview == _menuUiLevelController.levelPropertiesLength - 1 && i == 1)) continue;
+                if ((_levelIndexInPreview == 0 && i == -1) || (_levelIndexInPreview == levelsListSo.levelPropertiesLength - 1 && i == 1)) continue;
                 
                 _distanceBetweenCenterFocusAndButton = math.abs(_menuUiElementReference.LevelButtonsReferences[_levelIndexInPreview + i].style.translate.value.x.value + _currentScrollX);
                 _normalizedReverse = math.saturate(1f - _distanceBetweenCenterFocusAndButton / _spaceBetweenLevelButtons);

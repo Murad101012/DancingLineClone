@@ -1,111 +1,127 @@
 using System.IO;
 using System.Text.RegularExpressions;
-using Ui.Menu;
+using DataContainer;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-/// <summary>
-/// Automate adding new levels information to the UI Carousel
-/// </summary>
-/// <remarks>This script works that gets each levels information assigned to <see cref="MenuUiLevelController.levelPropertiesSo"/> list
-/// and add information of each <see cref="LevelPropertiesSo"/> to the .uxml file of MenuUi (MenuDocument.uxml) with Regex</remarks>
-[CustomEditor(typeof(MenuUiLevelController))]
-public class MenuUiLevelEditor : UnityEditor.Editor
+namespace Editor
 {
-    private MenuUiLevelController _menuUiLevelController;
-
-    // We do the "Heavy Lifting" once when you click the object
-    private void OnEnable()
+    /// <summary>
+    /// Automate adding new levels information to the UI Carousel
+    /// </summary>
+    /// <remarks>This script works that gets each levels information assigned to <see cref="MenuUiLevelList.levelPropertiesSo"/> list
+    /// and add information of each <see cref="LevelPropertiesSo"/> to the .uxml file of MenuUi (MenuDocument.uxml) with Regex</remarks>
+    public class MenuUiLevelEditor  : EditorWindow
     {
-        _menuUiLevelController = (MenuUiLevelController)target;
-    }
-    
-
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-        EditorGUILayout.Space();
-
-        bool canRefresh = true;
-
-        // Check Controller
-        if (_menuUiLevelController == null)
+        [MenuItem("Tools/Menu Ui Level Editor")]
+        public static void ShowWindow()
         {
-            EditorGUILayout.HelpBox("Controller not assigned!", MessageType.Error);
-            canRefresh = false;
+            // Get existing open window or if none, make a new one:
+            GetWindow<MenuUiLevelEditor>("Menu Ui Level Editor");
+        }
+        
+        [SerializeField] private LevelsListSo levelList;
+        [SerializeField] private UIDocument menuUiDocument;
+        
+        public void CreateGUI()
+        {
+            SerializedObject so = new SerializedObject(this);
+
+            // 1. Create Property Fields
+            var levelListField = new PropertyField(so.FindProperty(nameof(levelList)), "Levels List");
+            var menuUiField = new PropertyField(so.FindProperty(nameof(menuUiDocument)), "Menu UI Document");
+
+            // 2. Bind them
+            levelListField.Bind(so);
+            menuUiField.Bind(so);
+
+            // 3. Add them to root
+            rootVisualElement.Add(levelListField);
+            rootVisualElement.Add(menuUiField);
+
+            // 4. Create the HelpBox (Replacement for EditorGUILayout.HelpBox)
+            // We hide it by default and show it if levelList is null
+            HelpBox helpBox = new HelpBox("Controller not assigned!", HelpBoxMessageType.Error);
+            helpBox.style.display = levelList == null ? DisplayStyle.Flex : DisplayStyle.None;
+            rootVisualElement.Add(helpBox);
+
+            // 5. Create the Refresh Button
+            Button refreshButton = new Button(() => RefreshLevels()) { text = "Refresh Levels From List" };
+            refreshButton.SetEnabled(levelList != null);
+            rootVisualElement.Add(refreshButton);
+
+            // 6. Logic to update button/helpbox state when the SerializedObject changes
+            levelListField.RegisterValueChangeCallback(evt => {
+                bool isNull = evt.changedProperty.objectReferenceValue == null;
+                helpBox.style.display = isNull ? DisplayStyle.Flex : DisplayStyle.None;
+                refreshButton.SetEnabled(!isNull);
+            });
         }
 
-        GUI.enabled = canRefresh; // Greys out the button if checks fail
-        if (GUILayout.Button("Refresh Levels From List"))
+        private string GetUiDocumentAddress()
         {
-            RefreshLevels();
-        }
-        GUI.enabled = true;
-    }
+            if (levelList == null)
+            {
+                return "0";
+            }
 
-    private string GetUiDocumentAddress()
-    {
-        if (_menuUiLevelController == null)
-        {
+            string relativePath;
+
+            if (menuUiDocument != null)
+            {
+                // 1. Get the Unity Relative Path (e.g., "Assets/Menu.uxml")
+                relativePath = AssetDatabase.GetAssetPath(menuUiDocument.visualTreeAsset);
+
+                // 2. Get the Project Root (e.g., "/home/user/MyGame/")
+                // Application.dataPath is ".../Assets", so we go one level up
+                string projectRoot = Path.GetDirectoryName(Application.dataPath);
+
+                // 3. Combine them to get the "Surgical" path for the SSD
+                return Path.Combine(projectRoot, relativePath);
+            }
+
+            Debug.LogWarning($"{nameof(LevelsListSo)}: I couldn't find UIDocument under my parent");
             return "0";
         }
 
-        _menuUiLevelController.TryGetComponent(out UIDocument uiDocument);
-        string relativePath;
-
-        if (uiDocument != null)
+        //TODO: Writing Regex pattern helped by Gemini AI
+        private void RefreshLevels()
         {
-            // 1. Get the Unity Relative Path (e.g., "Assets/Menu.uxml")
-            relativePath = AssetDatabase.GetAssetPath(uiDocument.visualTreeAsset);
+            if (levelList.levelPropertiesSo == null) return;
 
-            // 2. Get the Project Root (e.g., "/home/user/MyGame/")
-            // Application.dataPath is ".../Assets", so we go one level up
-            string projectRoot = Path.GetDirectoryName(Application.dataPath);
+            string fullPathOfUiDocument = GetUiDocumentAddress();
+            if (fullPathOfUiDocument == "0") return;
 
-            // 3. Combine them to get the "Surgical" path for the SSD
-            return Path.Combine(projectRoot, relativePath);
-        }
+            string originalXml = File.ReadAllText(fullPathOfUiDocument);
 
-        Debug.LogWarning($"{nameof(MenuUiLevelController)}: I couldn't find UIDocument under my parent");
-        return "0";
-    }
-
-    //TODO: Writing Regex pattern helped by Gemini AI
-    private void RefreshLevels()
-    {
-        if (_menuUiLevelController.levelPropertiesSo == null) return;
-
-        string fullPathOfUiDocument = GetUiDocumentAddress();
-        if (fullPathOfUiDocument == "0") return;
-
-        string originalXml = File.ReadAllText(fullPathOfUiDocument);
-
-        string buttonsXml = "";
-        for (int i = 0; i < _menuUiLevelController.levelPropertiesSo.Length; i++)
-        {
-            var level = _menuUiLevelController.levelPropertiesSo[i];
-            string assetPath = AssetDatabase.GetAssetPath(level.levelImage);
-
-            // If there is no image, we skip the style to avoid "Invalid Path" errors
-            string styleString = "";
-            if (!string.IsNullOrEmpty(assetPath))
+            string buttonsXml = "";
+            for (int i = 0; i < levelList.levelPropertiesSo.Length; i++)
             {
-                // Added the missing '); at the end of the URL
-                styleString = $"style=\"background-image: url('project://database/{assetPath}');\"";
+                var level = levelList.levelPropertiesSo[i];
+                string assetPath = AssetDatabase.GetAssetPath(level.levelImage);
+
+                // If there is no image, we skip the style to avoid "Invalid Path" errors
+                string styleString = "";
+                if (!string.IsNullOrEmpty(assetPath))
+                {
+                    // Added the missing '); at the end of the URL
+                    styleString = $"style=\"background-image: url('project://database/{assetPath}');\"";
+                }
+
+                buttonsXml += $"\n\n                <ui:VisualElement name=\"{level.levelName}\" class=\"btn-level\" >\n                    <ui:VisualElement name=\"Btn_Background\" class=\"btn-level-image\" {styleString} />\n                </ui:VisualElement>";
+
+                //buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
             }
 
-            buttonsXml += $"\n\n                <ui:VisualElement name=\"{level.levelName}\" class=\"btn-level\" >\n                    <ui:VisualElement name=\"Btn_Background\" class=\"btn-level-image\" {styleString} />\n                </ui:VisualElement>";
+            buttonsXml += "\n\n";
 
-            //buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
+            File.WriteAllText(fullPathOfUiDocument, Regex.Replace(originalXml,
+                @"(?<=<ui:VisualElement name=""Cont_Carousel""[^>]*>).*?(?=</ui:VisualElement >)", buttonsXml,
+                RegexOptions.Singleline));
+
+            AssetDatabase.Refresh();
         }
-
-        buttonsXml += "\n\n";
-
-        File.WriteAllText(fullPathOfUiDocument, Regex.Replace(originalXml,
-            @"(?<=<ui:VisualElement name=""Cont_Carousel""[^>]*>).*?(?=</ui:VisualElement >)", buttonsXml,
-            RegexOptions.Singleline));
-
-        AssetDatabase.Refresh();
     }
 }

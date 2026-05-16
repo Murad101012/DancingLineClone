@@ -1,9 +1,10 @@
 using DataContainer;
 using DG.Tweening;
+using Ui.ElementReferences;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Ui.Menu
+namespace Ui.Controllers
 {
     /// <summary>
     /// Responsible to control Menu's UI (e.g: changing behavior of an element (Interactable, Opacity, Enabled)) at level selection,
