@@ -4,12 +4,12 @@ using System.IO;
 
 namespace Editor
 {
-    public class MeshExporter
+    public abstract class MeshExporter
     {
-        [MenuItem("Assets/Export Selected Mesh Only", false, 10)]
-        public static void ExportMesh()
+        [MenuItem("Assets/Export All Child Meshes Separately", false, 10)]
+        public static void ExportAllMeshes()
         {
-            // Get the selected object in the Project view
+            // Get the selected parent object in the Project/Hierarchy view
             GameObject selectedAsset = Selection.activeObject as GameObject;
             if (selectedAsset == null)
             {
@@ -25,28 +25,48 @@ namespace Editor
                 return;
             }
 
-            MeshFilter meshFilter = selectedAsset.GetComponentInChildren<MeshFilter>();
-            if (meshFilter == null || meshFilter.sharedMesh == null)
+            // Find ALL MeshFilters inside the hierarchy
+            MeshFilter[] meshFilters = selectedAsset.GetComponentsInChildren<MeshFilter>();
+            if (meshFilters == null || meshFilters.Length == 0)
             {
-                Debug.LogError("No MeshFilter found on the selected asset.");
+                Debug.LogError($"No MeshFilters found inside {selectedAsset.name} or its children.");
                 return;
             }
 
-            // Get the directory containing the FBX file
+            // Get the folder path containing the FBX file
             string targetDirectory = Path.GetDirectoryName(assetPath);
-        
-            // Generate the new target path inside that same directory
-            string newMeshPath = Path.Combine(targetDirectory, $"{selectedAsset.name}_PureMesh.mesh");
+            int exportCount = 0;
 
-            // Create a clean copy of the mesh to isolate it from the FBX file structure
-            Mesh meshToSave = Object.Instantiate(meshFilter.sharedMesh);
-        
-            // Save it directly as a native Unity binary .mesh asset
-            AssetDatabase.CreateAsset(meshToSave, newMeshPath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh(); // Force Unity to update the folder view instantly
-        
-            Debug.Log($"Successfully exported pure mesh asset to: {newMeshPath}");
+            // Loop through every single mesh found using a standard loop
+            for (int i = 0; i < meshFilters.Length; i++)
+            {
+                MeshFilter filter = meshFilters[i];
+                
+                // Skip if the filter or its mesh data is empty/null
+                if (filter == null || filter.sharedMesh == null)
+                {
+                    continue;
+                }
+
+                // Use the name of the specific child gameobject (e.g., "1", "2", "3")
+                string childName = filter.gameObject.name;
+                string newMeshPath = Path.Combine(targetDirectory, $"{childName}_PureMesh.mesh");
+
+                // Isolate the vertex and index buffers from the original file container
+                Mesh meshToSave = Object.Instantiate(filter.sharedMesh);
+
+                // Save it directly as a native Unity binary file
+                AssetDatabase.CreateAsset(meshToSave, newMeshPath);
+                exportCount++;
+            }
+
+            // Batch save changes to the asset database for speed
+            if (exportCount > 0)
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                Debug.Log($"Successfully extracted {exportCount} pure individual mesh assets to: {targetDirectory}");
+            }
         }
     }
 }
