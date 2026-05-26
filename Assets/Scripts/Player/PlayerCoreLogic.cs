@@ -4,14 +4,15 @@ using UnityEngine;
 namespace Player
 {
     /// <summary>
-    /// It's central point for ObjectSo, tracking Dead and
-    /// extending capabilities to <see cref="Interfaces.IVictory"/>
+    /// It's central point for ObjectSo, tracking Dead (and other interfaces) and add additional information,
+    /// about player to <see cref="DataContainer"/> (e.g <see cref="ProgressInCurrentLoadedLevelSo"/>
     /// </summary>
     [RequireComponent(typeof(StateMachine))]
     public class PlayerCoreLogic : MonoBehaviour
     {
         [field: SerializeField] public PlayerStatsSo PlayerStatsSo { get; private set; }
         [SerializeField] private LevelEventHubSo levelEventHubSo;
+        [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
         
         private void OnEnable()
         {
@@ -26,6 +27,15 @@ namespace Player
                     $"ObjectStatsSo is not assigned, using dummy ObjectStatsSo with default values for {name}");
                 PlayerStatsSo = ScriptableObject.CreateInstance<PlayerStatsSo>();
                 PlayerStatsSo.speed = 10;
+            }
+
+            if (progressInCurrentLoadedLevelSo == null)
+            {
+                Debug.LogWarning($"{name}: variable {progressInCurrentLoadedLevelSo} is null. Can't add player location");
+            }
+            else
+            {
+                progressInCurrentLoadedLevelSo.playerTransform = transform;
             }
         }
 

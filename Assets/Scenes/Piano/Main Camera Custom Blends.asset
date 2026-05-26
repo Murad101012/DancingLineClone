@@ -24,3 +24,14 @@ MonoBehaviour:
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
+  - From: Cinemachine Camera (1)
+    To: Cinemachine Camera (2)
+    Blend:
+      Style: 2
+      Time: 8
+      CustomCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0

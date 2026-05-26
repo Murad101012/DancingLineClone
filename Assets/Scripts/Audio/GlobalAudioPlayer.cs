@@ -1,3 +1,4 @@
+using System;
 using DataContainer;
 using DG.Tweening;
 using Interfaces;
@@ -9,13 +10,14 @@ namespace Audio
     /// All sounds in the game going through this script
     /// </summary>
     [RequireComponent(typeof(AudioSource))]
-    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead
+    public class GlobalAudioPlayer : MonoBehaviour, ILevelState, IOnDead, IOnCheckPoint
     {
         private AudioSource _audioSource;
         [SerializeField] private MenuOnLevelInPreviewChangeSo menuOnLevelInPreviewChangeSo;
         [SerializeField] private LevelRegistrySo levelRegistrySo;
         [SerializeField] private SceneLoadStateEventSo sceneLoadStateEvent;
         [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
+        private float _audioPlaybackTimeSnapshotOnTrigger;
 
         private void OnEnable()
         {
@@ -32,6 +34,7 @@ namespace Audio
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent += OnLevelPreviewChange;
             sceneLoadStateEvent.OnSceneBeginToLoad += OnSceneBeginToLoad;
             menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent += MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger += OnCheckPointTrigger;
         }
 
         private void MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent(bool obj)
@@ -47,11 +50,17 @@ namespace Audio
             levelRegistrySo.Register(this);
         }
 
+        private void Update()
+        {
+            progressInCurrentLoadedLevelSo.audioPlaybackTime = _audioSource.time;
+        }
+
         private void OnDisable()
         {
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
             sceneLoadStateEvent.OnSceneBeginToLoad -= OnSceneBeginToLoad;
             menuOnLevelInPreviewChangeSo.BeginLevelPreviewChangeEvent -= MenuOnLevelInPreviewChangeSoOnBeginLevelPreviewChangeEvent;
+            progressInCurrentLoadedLevelSo.OnCheckPointTrigger -= OnCheckPointTrigger;
         }
 
         private void OnDestroy()
@@ -110,6 +119,17 @@ namespace Audio
             if (menuOnLevelInPreviewChangeSo.levelInPreview.levelSound == null) return;
             InsertClip(menuOnLevelInPreviewChangeSo.levelInPreview.levelSound);
             if(!menuOnLevelInPreviewChangeSo.playerCurrentlyChangeLevelPreview) PlaySound(true);
+        }
+
+        private void OnCheckPointTrigger()
+        {
+            _audioPlaybackTimeSnapshotOnTrigger = _audioSource.time;
+        }
+
+        public void OnLevelCheckPoint()
+        {
+            StopSound(false);
+            _audioSource.time = _audioPlaybackTimeSnapshotOnTrigger;
         }
     }
 }
