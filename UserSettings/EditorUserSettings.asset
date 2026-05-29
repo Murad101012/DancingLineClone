@@ -30,13 +30,13 @@ EditorUserSettings:
       value: 505000565d010a0f5f5b5c7446740d40444e1d737f2c23367e7a1835b0b7623e
       flags: 0
     RecentlyUsedSceneGuid-7:
-      value: 5a00065306510f5e0c5d5b21477308491416412c7d2a75652b2c4d31e7e2643c
-      flags: 0
-    RecentlyUsedSceneGuid-8:
       value: 57535756010d0c0c095a5d2741200b11141540297b7c27682c7a1c6bb5b1323e
       flags: 0
-    RecentlyUsedSceneGuid-9:
+    RecentlyUsedSceneGuid-8:
       value: 50070c02520c0d025e5d0a2016755e491416497d7f7a253375794c36b0b16c3b
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 5a00065306510f5e0c5d5b21477308491416412c7d2a75652b2c4d31e7e2643c
       flags: 0
     UIToolkit.EnableEventDebugger:
       value: 37434103
