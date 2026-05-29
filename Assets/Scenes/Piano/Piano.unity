@@ -32796,6 +32796,10 @@ PrefabInstance:
       propertyPath: clonedCubesCount
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7965822604755946435, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: cb1ec87d1f1a1a5969ea5d2d086438ed, type: 2}
     - target: {fileID: 8039633664303414315, guid: d3e0d22c06648e50d80b04095683b989, type: 3}
       propertyPath: m_Name
       value: Player
