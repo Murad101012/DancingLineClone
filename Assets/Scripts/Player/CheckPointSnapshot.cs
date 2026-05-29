@@ -44,7 +44,9 @@ namespace Player
         public void CheckPointReceive(Transform transformPlayer)
         {
             //Setting only X and Z positions of trigger but keeping Y same as player's it's position
-            CheckpointPosition = new Vector3(transformPlayer.position.x, transform.position.y, transformPlayer.position.z);
+            //CheckpointPosition = new Vector3(transformPlayer.position.x, transform.position.y, transformPlayer.position.z);
+            
+            CheckpointPosition = transform.position;
             CheckpointRotation = transform.rotation;
             
             //Getting directions

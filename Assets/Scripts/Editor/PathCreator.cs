@@ -42,8 +42,8 @@ namespace Editor
             if (state == PlayModeStateChange.EnteredPlayMode && _onRecord)
             {
                 _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-                _levelRegistry = GameObject.FindFirstObjectByType<LevelRegistrySo>();
-                _levelRegistry.Register(this);
+                //_levelRegistry = GameObject.FindFirstObjectByType<LevelRegistrySo>();
+                //_levelRegistry.Register(this);
             }
         }
 
@@ -357,7 +357,7 @@ namespace Editor
 
         public void OnLevelStop()
         {
-            _levelRegistry.Unregister(this);
+            //_levelRegistry.Unregister(this);
         }
         
         public void LevelRegistrySoSetter(ILevelRegistry levelRegistry)

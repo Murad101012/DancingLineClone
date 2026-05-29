@@ -6,37 +6,37 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     GraphicsSettingsInspector_UserSettings:
-      value: 18134705175a055722080a3115371d4a0d55006876786860616b0471b8b07a68ffab74f9ee2a3a30300cea1a11320d0beb1a0c25f7060f494b4cdf1b18f3045e38cb5ad8
+      value: 18134705175a055722080a3115371d4a0d55006876786860616b0471b8b56076b2fa7aabf7332f39350be139222b0d33c613190ed80a070e5354bf2c04f61c075cec168707
       flags: 0
     RecentlyUsedSceneGuid-0:
-      value: 55010c075c575e0f5c585a2344275940424e1d722e7f73627e714a6be7b46d3e
-      flags: 0
-    RecentlyUsedSceneGuid-1:
-      value: 53030c0703020b0d550c587444740648454f402c78707368282c4e6abab8676e
-      flags: 0
-    RecentlyUsedSceneGuid-2:
-      value: 5504525e52530c5d0e58097045260b41444e4e79797e2267792d4c66e0b5623c
-      flags: 0
-    RecentlyUsedSceneGuid-3:
-      value: 530107045d045a5d0f5f557145715e45464f407d2d7a7560742a4b61b2e6376e
-      flags: 0
-    RecentlyUsedSceneGuid-4:
-      value: 050601505302590b555b0e7447765e43414e4d72757873322f711c67b7b1646f
-      flags: 0
-    RecentlyUsedSceneGuid-5:
-      value: 5a08575f5207595a0f5d59741173094444164f7d7d2a23317c7a4465bbe1646d
-      flags: 0
-    RecentlyUsedSceneGuid-6:
-      value: 56080150510d0b0b0c5c092740210b4114154c727d7b7635752c1830bab9323c
-      flags: 0
-    RecentlyUsedSceneGuid-7:
-      value: 510155525551590358085420122606164f164d782e7824347e2c1c32b6e5633e
-      flags: 0
-    RecentlyUsedSceneGuid-8:
       value: 025051030656510f5f5c5a2714750912124f1d2e7f7b2362292c4c36b2e5663b
       flags: 0
-    RecentlyUsedSceneGuid-9:
+    RecentlyUsedSceneGuid-1:
+      value: 5a08575f5207595a0f5d59741173094444164f7d7d2a23317c7a4465bbe1646d
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 5a5500560150595a5d56557443215a16444e1a7e2d2b23327e7b1930b0b6666a
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 5554525604065c0e090d0f7442225a45154e1b727a2e7162787b456be6b5316f
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 5452515f010c0f5a5b570e7611720841454e4e7e757e2061752f1f6bb3e56460
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 55050257500d5c025b5d0e20437107124516417a297c75362f7c186ab2b83168
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 505000565d010a0f5f5b5c7446740d40444e1d737f2c23367e7a1835b0b7623e
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 57535756010d0c0c095a5d2741200b11141540297b7c27682c7a1c6bb5b1323e
+      flags: 0
+    RecentlyUsedSceneGuid-8:
       value: 50070c02520c0d025e5d0a2016755e491416497d7f7a253375794c36b0b16c3b
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 5a00065306510f5e0c5d5b21477308491416412c7d2a75652b2c4d31e7e2643c
       flags: 0
     UIToolkit.EnableEventDebugger:
       value: 37434103

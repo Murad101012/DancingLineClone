@@ -11,9 +11,12 @@ namespace DataContainer
     {
         //Finding the progress
         public float audioDuration;
+        public float audioPlaybackTime;
         public float playbackInAudioWhenPlayerDead;
         public float progressInCurrentLoadedLevel;
-        
+
+        public Transform playerTransform;
+            
         public event Action OnCheckPointTrigger;
 
         public void PublishCheckPointerTrigger()
