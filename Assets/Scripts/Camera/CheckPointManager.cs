@@ -57,8 +57,10 @@ namespace Camera
             /*If cameras are not same, then current one will be Non-priortized (0)
              and Camera at checkPoint will be priortized instead
             */
+            _cineMachineBrain.enabled = false;
             currentCamera.Priority = 0;
             _cameraAtCheckPoint.Priority = 1;
+            _cineMachineBrain.enabled = true;
         }
 
         //If player Restart the level, latest Checkpoint Camera will be reset
