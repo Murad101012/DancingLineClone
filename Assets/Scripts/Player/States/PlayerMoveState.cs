@@ -10,7 +10,7 @@ namespace Player.States
     /// while the player is in the active 'Moving' state.
     /// </summary>
     /// <remarks> It's belong to </remarks>
-    public class PlayerMoveState : IPlayerState
+    public class PlayerMoveState : IPlayerState, ILevelState, IOnDead
     {
         private readonly PlayerCoreLogic _playerCoreLogic;
         private ILevelRegistry _levelRegistrySo;
@@ -36,6 +36,8 @@ namespace Player.States
         
         public void StateBegin()
         {
+            _dancingLineCloneInput.Player.Enable();
+            
             _movementTransform = _playerCoreLogic.transform;
             
             /*As soon as game begin script get the first Direction information since, with OnGroundChange event,
@@ -44,10 +46,6 @@ namespace Player.States
             _currentDirectionsAsQuaternions = _directionController.CurrentDirectionsAsQuaternions;
             
             GroundStateChecker.OnGroundChange += OnGroundStateChangeUpdater;
-            
-            //New Input System
-            _dancingLineCloneInput.Player.Enable();
-            _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
             
             _levelRegistrySo.Register(this);
         }
@@ -133,9 +131,18 @@ namespace Player.States
             _dancingLineCloneInput.Player.Disable();
         }
 
-        public void OnLevelRestart()
+        public void OnDead()
         {
-            _switchOrder = false;
+            _dancingLineCloneInput.Player.ChangeDirection.performed -= SwitchOrder;
         }
+
+        public void OnLevelStart()
+        {
+            //New Input System
+            _dancingLineCloneInput.Player.ChangeDirection.performed += SwitchOrder;
+        }
+
+        public void OnLevelStop(){/*IT WILL BE EMPTY*/}
+        
     }
 }

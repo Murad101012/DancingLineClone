@@ -2,6 +2,7 @@ using DataContainer;
 using Interfaces;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Ui.Controllers
@@ -28,6 +29,9 @@ namespace Ui.Controllers
         [SerializeField] private ProgressInCurrentLoadedLevelSo progressInCurrentLoadedLevelSo;
         [SerializeField] private LevelUiFlowSo levelUiFlowSo;
         
+        //Input
+        private DancingLineCloneInput _dancingLineCloneInput;
+        
         private void OnEnable()
         {
             progressInCurrentLoadedLevelSo.OnCheckPointTrigger += RefreshCheckPointButtonState;
@@ -39,6 +43,8 @@ namespace Ui.Controllers
         private void Awake()
         {
             levelNameText.text = currentlyLoadedSceneSo.loadedScene.levelName;
+            _dancingLineCloneInput = new DancingLineCloneInput();
+            _dancingLineCloneInput.OnDeadScreen.Enable();
             
             _levelRegistry.Register(this);
         }
@@ -52,6 +58,9 @@ namespace Ui.Controllers
         private void OnDestroy()
         {
             _levelRegistry.Unregister(this);
+            _dancingLineCloneInput.OnDeadScreen.Disable();
+            _dancingLineCloneInput.OnDeadScreen.CheckPoint.performed -= CheckPointOnPerformed;
+            _dancingLineCloneInput.OnDeadScreen.Restart.performed -= RestartOnPerformed;
         }
 
         private void RefreshCheckPointButtonState() 
@@ -65,6 +74,9 @@ namespace Ui.Controllers
         {
             defeatScreen.SetActive(true);
             ChangeLevelProgressText(progressInCurrentLoadedLevelSo.progressInCurrentLoadedLevel);
+            
+            _dancingLineCloneInput.OnDeadScreen.CheckPoint.performed += CheckPointOnPerformed;
+            _dancingLineCloneInput.OnDeadScreen.Restart.performed += RestartOnPerformed;
         }
 
         public void Reset()
@@ -98,14 +110,28 @@ namespace Ui.Controllers
         {
             _levelRegistry = levelRegistry;
         }
+        
+        private void RestartOnPerformed(InputAction.CallbackContext obj)
+        {
+            OnLevelRestartButton();
+        }
+
+        private void CheckPointOnPerformed(InputAction.CallbackContext obj)
+        {
+            OnLevelCheckPointButton();
+        }
 
         public void OnLevelRestartButton()
         {
+            _dancingLineCloneInput.OnDeadScreen.CheckPoint.performed -= CheckPointOnPerformed;
+            _dancingLineCloneInput.OnDeadScreen.Restart.performed -= RestartOnPerformed;
             levelUiFlowSo.PublishDefeat_PlayRestartBeginAnimation(true);
         }
 
         public void OnLevelCheckPointButton()
         {
+            _dancingLineCloneInput.OnDeadScreen.CheckPoint.performed -= CheckPointOnPerformed;
+            _dancingLineCloneInput.OnDeadScreen.Restart.performed -= RestartOnPerformed;
             levelUiFlowSo.PublishDefeat_PlayRestartBeginAnimation(false);
         }
 

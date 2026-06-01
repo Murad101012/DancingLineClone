@@ -33,7 +33,25 @@ namespace Camera
             _levelRegistry.Register(this);
             _cineMachineBrain = GetComponent<CinemachineBrain>();
             sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            if(sceneLoadStateEventSo != null) sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            else
+            {
+                Debug.LogWarning($"{name}: sceneLoadStateEventSo variable is null, manually calling Initialization");
+                Initialization();
+            }
         }
+        
+#if UNITY_EDITOR
+        private void Start()
+        {
+            //If camera length is 0 or didn't initialized and if this is in Unity Editor, in some chance developer playing the level,
+            //bypassing the initilization and directly playing the level, so we call the initialization manually (if this is the really what the issue)
+            if (_cameras?.Length == 0 || _cameras == null)
+            {
+                Initialization();
+            }
+        }
+#endif
 
         private void OnDisable()
         {
@@ -46,9 +64,10 @@ namespace Camera
             sceneLoadStateEventSo.OnSceneFullyLoaded -= Initialization;
         }
         
-        public void Initialization()
+        private void Initialization()
         {
             //Getting all CineMachine cameras under parent and loading to _cameras variable
+            if (cineMachineCamerasParent == null) return;
             _cameras = cineMachineCamerasParent.GetComponentsInChildren<CinemachineCamera>(true);
             if (_cameras.Length == 0)
             {
@@ -64,6 +83,7 @@ namespace Camera
 
         private void OnCheckPointUpdated()
         {
+            if (_cameras?.Length == 0 || _cameras == null) return;
             for (int i = 0; i < _cameras.Length; i++)
             {
                 _cinemachineCamerasSnapshotIndexs[i] = _cameras[i].Priority;
@@ -75,7 +95,8 @@ namespace Camera
         public void OnLevelCheckPoint()
         {
             if (!_playerCheckPointHappen) return;
-            
+            if (_cameras?.Length == 0 || _cameras == null) return;
+                                
             _cineMachineBrain.enabled = false;
             for (int i = 0; i < _cameras.Length; i++)
             {

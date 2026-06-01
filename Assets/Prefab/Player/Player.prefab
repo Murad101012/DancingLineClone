@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   <PlayerStatsSo>k__BackingField: {fileID: 11400000, guid: 2270d23fd4567ef009734d60b0048702, type: 2}
   levelEventHubSo: {fileID: 11400000, guid: d5fbd401841ba63c7bd5787dd5c2c986, type: 2}
-  progressInCurrentLoadedLevelSo: {fileID: 0}
+  progressInCurrentLoadedLevelSo: {fileID: 11400000, guid: 363fd1c9c26c864be82d676d90c0b08d, type: 2}
 --- !u!114 &2889111229900714444
 MonoBehaviour:
   m_ObjectHideFlags: 0

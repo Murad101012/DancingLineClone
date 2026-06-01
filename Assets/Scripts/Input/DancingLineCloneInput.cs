@@ -148,6 +148,401 @@ public partial class @DancingLineCloneInput: IInputActionCollection2, IDisposabl
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""734f058d-4ec8-4f05-8c00-8de0b2edcf14"",
+            ""actions"": [
+                {
+                    ""name"": ""NavigateBetweenLevels"",
+                    ""type"": ""Value"",
+                    ""id"": ""bd166637-f57e-41ab-9771-fa1f64781f0e"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LevelSelectionConfirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dcd0a64-85f7-4fec-a8c9-4bd3e3acbb58"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""[Gamepad Stick]"",
+                    ""id"": ""b7254c53-b678-439c-b3ef-169da3140df0"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""64818d4a-e576-4d38-838a-36adc732dbdb"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""d8112754-3e9e-4ae7-ba39-ae8e1591f804"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""[Gamepad D-Pad]"",
+                    ""id"": ""86052d6f-84b2-4c0a-8dee-70b66c745f5e"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""7d98f421-5742-47fb-9b64-86f88f358ba2"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""c64a86fe-e39b-408f-a756-36f17cd303d8"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""[Keyboard Directions]"",
+                    ""id"": ""cdacdb87-6e14-4daf-8833-a452762d4227"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""98443f41-dc0a-4aca-ba7c-a2638784b88d"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9baa12cc-80ae-4b0c-9571-213102ab5ce7"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""[Keyboard Letters]"",
+                    ""id"": ""5eca15fe-1b2e-410a-a302-12cf0cc12b32"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""18e9a9a3-9fcc-4be3-8489-b75cf4c594dd"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""05ca2ed4-51ef-49b2-8b83-4958a5434fee"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NavigateBetweenLevels"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd416e12-2efd-45fc-a35f-c27c510c63aa"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LevelSelectionConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58e50e81-6d80-442c-b614-18a7449a1e67"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LevelSelectionConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a8ee8e5f-7b81-4d5e-b5c8-5d845c0e4ce3"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LevelSelectionConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ceac7933-302c-4b54-b2dd-64ae08dd4aba"",
+                    ""path"": ""<Keyboard>/numpadEnter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LevelSelectionConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""OnLevelWaitToPlay"",
+            ""id"": ""0c00d6b8-a0a5-4791-9f93-24ed918fa80e"",
+            ""actions"": [
+                {
+                    ""name"": ""BeginTheGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""caa10f9e-27c7-4f39-9032-abea3162ca66"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BackToMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""3fa268f3-62db-4c9a-80a8-517820cb1d31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""c947872b-59cf-4224-a209-a200bed00eb0"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""BeginTheGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1404454-8d4f-49f4-8428-1ffcbc7ad45d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""BeginTheGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f185ad7b-61fa-4a87-86b9-06adf277cb6f"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Touchscreen"",
+                    ""action"": ""BeginTheGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7d2866de-c821-4ef3-b8a7-54651e79ac2a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Mouse"",
+                    ""action"": ""BeginTheGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""712ea33f-a568-4b44-b034-f62b589d8d26"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1239d72a-02f5-4ead-94f7-0060ceac715b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""OnDeadScreen"",
+            ""id"": ""fd1293dd-8b87-419f-858c-89a01dec586c"",
+            ""actions"": [
+                {
+                    ""name"": ""BackToMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab4c29a8-677b-49be-834e-c04aef414b1d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CheckPoint"",
+                    ""type"": ""Button"",
+                    ""id"": ""58099a05-3fcd-47e8-94ad-693207ab3061"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""e23e3dea-268f-46e2-9e13-efcfe8685412"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""27d06482-fe37-4489-9bdf-03bfd639df1d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e0a799c-0e3e-4a4c-aad9-0dd26ac0fe29"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""33f07e52-b90e-42cf-ae0c-4ea17ea89990"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""CheckPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38eb9da5-7b72-4caa-9f14-8c0812f14e73"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""CheckPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91788b31-26ee-45f4-b096-53bd8091e3e7"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49f9f443-5a43-4770-8536-a541febf12a7"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -200,11 +595,27 @@ public partial class @DancingLineCloneInput: IInputActionCollection2, IDisposabl
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_ChangeDirection = m_Player.FindAction("ChangeDirection", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_NavigateBetweenLevels = m_Menu.FindAction("NavigateBetweenLevels", throwIfNotFound: true);
+        m_Menu_LevelSelectionConfirm = m_Menu.FindAction("LevelSelectionConfirm", throwIfNotFound: true);
+        // OnLevelWaitToPlay
+        m_OnLevelWaitToPlay = asset.FindActionMap("OnLevelWaitToPlay", throwIfNotFound: true);
+        m_OnLevelWaitToPlay_BeginTheGame = m_OnLevelWaitToPlay.FindAction("BeginTheGame", throwIfNotFound: true);
+        m_OnLevelWaitToPlay_BackToMenu = m_OnLevelWaitToPlay.FindAction("BackToMenu", throwIfNotFound: true);
+        // OnDeadScreen
+        m_OnDeadScreen = asset.FindActionMap("OnDeadScreen", throwIfNotFound: true);
+        m_OnDeadScreen_BackToMenu = m_OnDeadScreen.FindAction("BackToMenu", throwIfNotFound: true);
+        m_OnDeadScreen_CheckPoint = m_OnDeadScreen.FindAction("CheckPoint", throwIfNotFound: true);
+        m_OnDeadScreen_Restart = m_OnDeadScreen.FindAction("Restart", throwIfNotFound: true);
     }
 
     ~@DancingLineCloneInput()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, DancingLineCloneInput.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Menu.enabled, "This will cause a leak and performance issues, DancingLineCloneInput.Menu.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_OnLevelWaitToPlay.enabled, "This will cause a leak and performance issues, DancingLineCloneInput.OnLevelWaitToPlay.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_OnDeadScreen.enabled, "This will cause a leak and performance issues, DancingLineCloneInput.OnDeadScreen.Disable() has not been called.");
     }
 
     /// <summary>
@@ -372,6 +783,338 @@ public partial class @DancingLineCloneInput: IInputActionCollection2, IDisposabl
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
+    private readonly InputAction m_Menu_NavigateBetweenLevels;
+    private readonly InputAction m_Menu_LevelSelectionConfirm;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Menu".
+    /// </summary>
+    public struct MenuActions
+    {
+        private @DancingLineCloneInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MenuActions(@DancingLineCloneInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/NavigateBetweenLevels".
+        /// </summary>
+        public InputAction @NavigateBetweenLevels => m_Wrapper.m_Menu_NavigateBetweenLevels;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/LevelSelectionConfirm".
+        /// </summary>
+        public InputAction @LevelSelectionConfirm => m_Wrapper.m_Menu_LevelSelectionConfirm;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MenuActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MenuActions" />
+        public void AddCallbacks(IMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
+            @NavigateBetweenLevels.started += instance.OnNavigateBetweenLevels;
+            @NavigateBetweenLevels.performed += instance.OnNavigateBetweenLevels;
+            @NavigateBetweenLevels.canceled += instance.OnNavigateBetweenLevels;
+            @LevelSelectionConfirm.started += instance.OnLevelSelectionConfirm;
+            @LevelSelectionConfirm.performed += instance.OnLevelSelectionConfirm;
+            @LevelSelectionConfirm.canceled += instance.OnLevelSelectionConfirm;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MenuActions" />
+        private void UnregisterCallbacks(IMenuActions instance)
+        {
+            @NavigateBetweenLevels.started -= instance.OnNavigateBetweenLevels;
+            @NavigateBetweenLevels.performed -= instance.OnNavigateBetweenLevels;
+            @NavigateBetweenLevels.canceled -= instance.OnNavigateBetweenLevels;
+            @LevelSelectionConfirm.started -= instance.OnLevelSelectionConfirm;
+            @LevelSelectionConfirm.performed -= instance.OnLevelSelectionConfirm;
+            @LevelSelectionConfirm.canceled -= instance.OnLevelSelectionConfirm;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MenuActions.UnregisterCallbacks(IMenuActions)" />.
+        /// </summary>
+        /// <seealso cref="MenuActions.UnregisterCallbacks(IMenuActions)" />
+        public void RemoveCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MenuActions.AddCallbacks(IMenuActions)" />
+        /// <seealso cref="MenuActions.RemoveCallbacks(IMenuActions)" />
+        /// <seealso cref="MenuActions.UnregisterCallbacks(IMenuActions)" />
+        public void SetCallbacks(IMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MenuActions" /> instance referencing this action map.
+    /// </summary>
+    public MenuActions @Menu => new MenuActions(this);
+
+    // OnLevelWaitToPlay
+    private readonly InputActionMap m_OnLevelWaitToPlay;
+    private List<IOnLevelWaitToPlayActions> m_OnLevelWaitToPlayActionsCallbackInterfaces = new List<IOnLevelWaitToPlayActions>();
+    private readonly InputAction m_OnLevelWaitToPlay_BeginTheGame;
+    private readonly InputAction m_OnLevelWaitToPlay_BackToMenu;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "OnLevelWaitToPlay".
+    /// </summary>
+    public struct OnLevelWaitToPlayActions
+    {
+        private @DancingLineCloneInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public OnLevelWaitToPlayActions(@DancingLineCloneInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "OnLevelWaitToPlay/BeginTheGame".
+        /// </summary>
+        public InputAction @BeginTheGame => m_Wrapper.m_OnLevelWaitToPlay_BeginTheGame;
+        /// <summary>
+        /// Provides access to the underlying input action "OnLevelWaitToPlay/BackToMenu".
+        /// </summary>
+        public InputAction @BackToMenu => m_Wrapper.m_OnLevelWaitToPlay_BackToMenu;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_OnLevelWaitToPlay; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="OnLevelWaitToPlayActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(OnLevelWaitToPlayActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="OnLevelWaitToPlayActions" />
+        public void AddCallbacks(IOnLevelWaitToPlayActions instance)
+        {
+            if (instance == null || m_Wrapper.m_OnLevelWaitToPlayActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnLevelWaitToPlayActionsCallbackInterfaces.Add(instance);
+            @BeginTheGame.started += instance.OnBeginTheGame;
+            @BeginTheGame.performed += instance.OnBeginTheGame;
+            @BeginTheGame.canceled += instance.OnBeginTheGame;
+            @BackToMenu.started += instance.OnBackToMenu;
+            @BackToMenu.performed += instance.OnBackToMenu;
+            @BackToMenu.canceled += instance.OnBackToMenu;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="OnLevelWaitToPlayActions" />
+        private void UnregisterCallbacks(IOnLevelWaitToPlayActions instance)
+        {
+            @BeginTheGame.started -= instance.OnBeginTheGame;
+            @BeginTheGame.performed -= instance.OnBeginTheGame;
+            @BeginTheGame.canceled -= instance.OnBeginTheGame;
+            @BackToMenu.started -= instance.OnBackToMenu;
+            @BackToMenu.performed -= instance.OnBackToMenu;
+            @BackToMenu.canceled -= instance.OnBackToMenu;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="OnLevelWaitToPlayActions.UnregisterCallbacks(IOnLevelWaitToPlayActions)" />.
+        /// </summary>
+        /// <seealso cref="OnLevelWaitToPlayActions.UnregisterCallbacks(IOnLevelWaitToPlayActions)" />
+        public void RemoveCallbacks(IOnLevelWaitToPlayActions instance)
+        {
+            if (m_Wrapper.m_OnLevelWaitToPlayActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="OnLevelWaitToPlayActions.AddCallbacks(IOnLevelWaitToPlayActions)" />
+        /// <seealso cref="OnLevelWaitToPlayActions.RemoveCallbacks(IOnLevelWaitToPlayActions)" />
+        /// <seealso cref="OnLevelWaitToPlayActions.UnregisterCallbacks(IOnLevelWaitToPlayActions)" />
+        public void SetCallbacks(IOnLevelWaitToPlayActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OnLevelWaitToPlayActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OnLevelWaitToPlayActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="OnLevelWaitToPlayActions" /> instance referencing this action map.
+    /// </summary>
+    public OnLevelWaitToPlayActions @OnLevelWaitToPlay => new OnLevelWaitToPlayActions(this);
+
+    // OnDeadScreen
+    private readonly InputActionMap m_OnDeadScreen;
+    private List<IOnDeadScreenActions> m_OnDeadScreenActionsCallbackInterfaces = new List<IOnDeadScreenActions>();
+    private readonly InputAction m_OnDeadScreen_BackToMenu;
+    private readonly InputAction m_OnDeadScreen_CheckPoint;
+    private readonly InputAction m_OnDeadScreen_Restart;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "OnDeadScreen".
+    /// </summary>
+    public struct OnDeadScreenActions
+    {
+        private @DancingLineCloneInput m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public OnDeadScreenActions(@DancingLineCloneInput wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "OnDeadScreen/BackToMenu".
+        /// </summary>
+        public InputAction @BackToMenu => m_Wrapper.m_OnDeadScreen_BackToMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "OnDeadScreen/CheckPoint".
+        /// </summary>
+        public InputAction @CheckPoint => m_Wrapper.m_OnDeadScreen_CheckPoint;
+        /// <summary>
+        /// Provides access to the underlying input action "OnDeadScreen/Restart".
+        /// </summary>
+        public InputAction @Restart => m_Wrapper.m_OnDeadScreen_Restart;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_OnDeadScreen; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="OnDeadScreenActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(OnDeadScreenActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="OnDeadScreenActions" />
+        public void AddCallbacks(IOnDeadScreenActions instance)
+        {
+            if (instance == null || m_Wrapper.m_OnDeadScreenActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OnDeadScreenActionsCallbackInterfaces.Add(instance);
+            @BackToMenu.started += instance.OnBackToMenu;
+            @BackToMenu.performed += instance.OnBackToMenu;
+            @BackToMenu.canceled += instance.OnBackToMenu;
+            @CheckPoint.started += instance.OnCheckPoint;
+            @CheckPoint.performed += instance.OnCheckPoint;
+            @CheckPoint.canceled += instance.OnCheckPoint;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="OnDeadScreenActions" />
+        private void UnregisterCallbacks(IOnDeadScreenActions instance)
+        {
+            @BackToMenu.started -= instance.OnBackToMenu;
+            @BackToMenu.performed -= instance.OnBackToMenu;
+            @BackToMenu.canceled -= instance.OnBackToMenu;
+            @CheckPoint.started -= instance.OnCheckPoint;
+            @CheckPoint.performed -= instance.OnCheckPoint;
+            @CheckPoint.canceled -= instance.OnCheckPoint;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="OnDeadScreenActions.UnregisterCallbacks(IOnDeadScreenActions)" />.
+        /// </summary>
+        /// <seealso cref="OnDeadScreenActions.UnregisterCallbacks(IOnDeadScreenActions)" />
+        public void RemoveCallbacks(IOnDeadScreenActions instance)
+        {
+            if (m_Wrapper.m_OnDeadScreenActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="OnDeadScreenActions.AddCallbacks(IOnDeadScreenActions)" />
+        /// <seealso cref="OnDeadScreenActions.RemoveCallbacks(IOnDeadScreenActions)" />
+        /// <seealso cref="OnDeadScreenActions.UnregisterCallbacks(IOnDeadScreenActions)" />
+        public void SetCallbacks(IOnDeadScreenActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OnDeadScreenActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OnDeadScreenActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="OnDeadScreenActions" /> instance referencing this action map.
+    /// </summary>
+    public OnDeadScreenActions @OnDeadScreen => new OnDeadScreenActions(this);
     private int m_KeyboardSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -438,5 +1181,78 @@ public partial class @DancingLineCloneInput: IInputActionCollection2, IDisposabl
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChangeDirection(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Menu" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MenuActions.AddCallbacks(IMenuActions)" />
+    /// <seealso cref="MenuActions.RemoveCallbacks(IMenuActions)" />
+    public interface IMenuActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "NavigateBetweenLevels" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNavigateBetweenLevels(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LevelSelectionConfirm" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLevelSelectionConfirm(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "OnLevelWaitToPlay" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="OnLevelWaitToPlayActions.AddCallbacks(IOnLevelWaitToPlayActions)" />
+    /// <seealso cref="OnLevelWaitToPlayActions.RemoveCallbacks(IOnLevelWaitToPlayActions)" />
+    public interface IOnLevelWaitToPlayActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "BeginTheGame" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBeginTheGame(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BackToMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBackToMenu(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "OnDeadScreen" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="OnDeadScreenActions.AddCallbacks(IOnDeadScreenActions)" />
+    /// <seealso cref="OnDeadScreenActions.RemoveCallbacks(IOnDeadScreenActions)" />
+    public interface IOnDeadScreenActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "BackToMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBackToMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CheckPoint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCheckPoint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Restart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRestart(InputAction.CallbackContext context);
     }
 }

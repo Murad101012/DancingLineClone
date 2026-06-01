@@ -1,3 +1,4 @@
+using System;
 using DataContainer;
 using Interfaces;
 using Unity.Cinemachine;
@@ -22,7 +23,12 @@ namespace Camera
         private void Awake()
         {
             _levelRegistry.Register(this);
-            sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            if(sceneLoadStateEventSo != null) sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            else
+            {
+                Debug.LogWarning($"{name}: sceneLoadStateEventSo variable is null, manually calling Initialization");
+                Initialization();
+            }
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
 
@@ -30,6 +36,18 @@ namespace Camera
             Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent is null, disabling the Restart feature for Camera");
             enabled = false;
         }
+
+#if UNITY_EDITOR
+        private void Start()
+        {
+            //If camera length is 0 or didn't initialized and if this is in Unity Editor, in some chance developer playing the level,
+            //bypassing the initilization and directly playing the level, so we call the initialization manually (if this is the really what the issue)
+            if (_cameras?.Length == 0 || _cameras == null)
+            {
+                Initialization();
+            }
+        }
+#endif
 
         private void OnDestroy()
         {
@@ -39,6 +57,7 @@ namespace Camera
 
         public void OnLevelRestart()
         {
+            if (_cameras?.Length == 0 || _cameras == null) return;
             _cineMachineBrain.enabled = false;
 
             //Resetting all CineMachine Camera component's priority value to default state

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: LevelsListSo
   m_EditorClassIdentifier: DataContainer::DataContainer.LevelsListSo
   levelPropertiesSo:
-  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
-  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
+  - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
+  - {fileID: 11400000, guid: 87fcd1487d564d1e7a470bb682a61663, type: 2}
   - {fileID: 11400000, guid: a5080a3fab6e11f308b21412db7e00a8, type: 2}
   - {fileID: 11400000, guid: 76ac756ce76c4ef6187a0f59feb15f27, type: 2}
   levelPropertiesLength: 5
