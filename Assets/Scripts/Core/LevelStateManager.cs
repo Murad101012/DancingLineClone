@@ -8,7 +8,7 @@ namespace Core
     /// <summary>
     /// It helps to change States of Level with Interfaces using <see cref="LevelRegistrySo"/>
     /// </summary>
-    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory
+    public class LevelStateManager : MonoBehaviour, ILevelState, IOnRestart, IOnCheckPoint, IVictory, IOnDead
     {
         /// <summary>
         /// LevelRegistrySo must manually to this script
@@ -18,6 +18,7 @@ namespace Core
         [SerializeField] private GameObject levelBeginButton; //:TODO Find a better location for this 
         [SerializeField] private LevelEventHubSo levelEventHubSo;
         private DancingLineCloneInput _dancingLineCloneInput;
+        private bool _defeatAnimationEndReadyToBeginToPlay = true;
         private bool _isVictory;
         
         private void OnEnable()
@@ -34,6 +35,12 @@ namespace Core
             _dancingLineCloneInput = new DancingLineCloneInput();
             _dancingLineCloneInput.OnLevelWaitToPlay.Enable();
             _dancingLineCloneInput.OnLevelWaitToPlay.BeginTheGame.performed += BeginTheGameOnPerformed;
+            levelEventHubSo.OnRestartEndAnimationEnd += LevelEventHubSoOnOnRestartEndAnimationEnd;
+        }
+
+        private void LevelEventHubSoOnOnRestartEndAnimationEnd()
+        {
+            _defeatAnimationEndReadyToBeginToPlay = true;
         }
 
         private void OnDisable()
@@ -53,6 +60,7 @@ namespace Core
 
         public void OnStartTheGameButton()
         {
+            if (!_defeatAnimationEndReadyToBeginToPlay) return;
             _dancingLineCloneInput.OnLevelWaitToPlay.BeginTheGame.performed -= BeginTheGameOnPerformed;
             StartTheGame();
         }
@@ -127,6 +135,11 @@ namespace Core
         public void OnVictory()
         {
             _isVictory = true;
+        }
+
+        public void OnDead()
+        {
+            _defeatAnimationEndReadyToBeginToPlay = false;
         }
     }
 }

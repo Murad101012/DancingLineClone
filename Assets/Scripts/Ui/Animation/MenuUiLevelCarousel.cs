@@ -584,7 +584,7 @@ namespace Ui.Animation
                     _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
                 }
 
-                _currentPositionReachedToTargetPosition = !(_distanceBetweenTargetAndCurrentScrollX > 70);
+                _currentPositionReachedToTargetPosition = !(_distanceBetweenTargetAndCurrentScrollX > 20);
                 
                 UpdateWheelTranslatePosition();
             
