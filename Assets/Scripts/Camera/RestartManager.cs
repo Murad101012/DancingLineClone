@@ -1,3 +1,4 @@
+using System;
 using DataContainer;
 using Interfaces;
 using Unity.Cinemachine;
@@ -17,11 +18,17 @@ namespace Camera
         [SerializeField] private CinemachineCamera cameraAtBeginning;
         private ILevelRegistry _levelRegistry;
         [SerializeField] private SceneLoadStateEventSo sceneLoadStateEventSo;
+        private int[] _cinemachineCamerasBeginningIndexs;
 
         private void Awake()
         {
             _levelRegistry.Register(this);
-            sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            if(sceneLoadStateEventSo != null) sceneLoadStateEventSo.OnSceneFullyLoaded += Initialization;
+            else
+            {
+                Debug.LogWarning($"{name}: sceneLoadStateEventSo variable is null, manually calling Initialization");
+                Initialization();
+            }
 
             _cineMachineBrain = GetComponent<CinemachineBrain>();
 
@@ -29,6 +36,18 @@ namespace Camera
             Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent is null, disabling the Restart feature for Camera");
             enabled = false;
         }
+
+#if UNITY_EDITOR
+        private void Start()
+        {
+            //If camera length is 0 or didn't initialized and if this is in Unity Editor, in some chance developer playing the level,
+            //bypassing the initilization and directly playing the level, so we call the initialization manually (if this is the really what the issue)
+            if (_cameras?.Length == 0 || _cameras == null)
+            {
+                Initialization();
+            }
+        }
+#endif
 
         private void OnDestroy()
         {
@@ -38,27 +57,36 @@ namespace Camera
 
         public void OnLevelRestart()
         {
-            //Resetting all CineMachine Camera component's priority value to 0
-            if (_cameras != null)
+            if (_cameras?.Length == 0 || _cameras == null) return;
+            _cineMachineBrain.enabled = false;
+
+            //Resetting all CineMachine Camera component's priority value to default state
+            for (int i = 0; i < _cameras.Length; i++)
             {
-                for (int i = 0; i < _cameras.Length; i++)
-                {
-                    _cameras[i].Priority = 0;
-                }
+                _cameras[i].Priority = _cinemachineCamerasBeginningIndexs[i];
             }
             
-            //Making most priortiest the CineMachine Camera that at the beginning of the level
-            cameraAtBeginning.Priority = 1;
+            _cineMachineBrain.enabled = true;
         }
         
         public void Initialization()
         {
             //Getting all CineMachine cameras under parent and loading to _cameras variable
             _cameras = cineMachineCamerasParent.GetComponentsInChildren<CinemachineCamera>(true);
-            if (_cameras.Length != 0) return;
-            Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
-                             " with CineMachineCamera component,  disabling the Restart feature for Camera");
-            enabled = false;
+            if (_cameras.Length == 0)
+            {
+                Debug.LogWarning("Camera/RestartManager: cineMachineCamerasParent doesn't have children" +
+                                 " with CineMachineCamera component,  disabling the Restart feature for Camera");
+                enabled = false;
+                return;
+            }
+            
+            //Taking all cinemachine cameras priorty at the beginning those default
+            _cinemachineCamerasBeginningIndexs = new int[_cameras.Length];
+            for (int i = 0; i < _cameras.Length; i++)
+            {
+                _cinemachineCamerasBeginningIndexs[i] = _cameras[i].Priority;
+            }
         }
 
         public void OnLevelStart()

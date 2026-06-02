@@ -4,6 +4,7 @@ using DG.Tweening;
 using Ui.ElementReferences;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 namespace Ui.Animation
@@ -35,6 +36,7 @@ namespace Ui.Animation
         private float _distanceBetweenTargetAndCurrentScrollX;
         private int _spaceBetweenLevelButtons;
         private int _lengthFromFirstLevelToLastLevelByPixels;
+        private bool _currentPositionReachedToTargetPosition;
         
         private Vector2 _startPos;
         private bool _hasMovedSignificantly;
@@ -55,6 +57,14 @@ namespace Ui.Animation
         private Angle _currentRotatingButtonAngle;
         private Rotate _currentRotatingButtonRotate;
         private StyleRotate _currentRotatingButtonStyleRotate;
+        
+        //Input Navigation with Buttons
+        private DancingLineCloneInput _dancingLineCloneInput;
+        private bool _playerNavigatingWithButtons;
+        private bool _playerCanNavigate;
+        private bool _navigatingFirstTimeOnPerformed = true;
+        private float _nextTimePlayerCanNavigate;
+        private float directionNavigate;
 
         //DOTween Sequence
         private Sequence _sequenceLevelLoad;
@@ -83,8 +93,56 @@ namespace Ui.Animation
         private void Awake()
         {
             _menuUiElementReference = GetComponent<MenuUiElementReference>();
+
+            _dancingLineCloneInput = new DancingLineCloneInput();
+            _dancingLineCloneInput.Menu.Enable();
+            _dancingLineCloneInput.Menu.LevelSelectionConfirm.performed += LevelSelectionConfirmOnPerformed;
+            _dancingLineCloneInput.Menu.NavigateBetweenLevels.performed += NavigateBetweenLevelsOnPerformed;
+            _dancingLineCloneInput.Menu.NavigateBetweenLevels.canceled += NavigateBetweenLevelsOnCanceled;
+        }
+
+        private void NavigateBetweenLevelsOnPerformed(InputAction.CallbackContext context)
+        {
+            if (!_currentPositionReachedToTargetPosition) return;
+            _playerNavigatingWithButtons = true;
+            if (_navigatingFirstTimeOnPerformed)
+            {
+                ChangeLevelPreviewNavigating();
+            }
+            directionNavigate = context.ReadValue<float>();
+        }
+
+        private void ChangeLevelPreviewNavigating()
+        {
+            if (directionNavigate < -0.15f)
+            {
+                if (_levelIndexInPreview > 0)
+                {
+                    _playerCanNavigate = false;
+                    _navigatingFirstTimeOnPerformed = false;
+                    _levelIndexInPreview--;
+                }
+            }
+            else if (directionNavigate > 0.15f)
+            {
+                if (levelsListSo.levelPropertiesLength - 1 >= _levelIndexInPreview + 1)
+                {
+                    _playerCanNavigate = false;
+                    _navigatingFirstTimeOnPerformed = false;
+                    _levelIndexInPreview++;
+                }
+            }
         }
         
+        private void NavigateBetweenLevelsOnCanceled(InputAction.CallbackContext context)
+        {
+            _playerNavigatingWithButtons = false;
+            _playerCanNavigate = false;
+            _navigatingFirstTimeOnPerformed = true;
+            _nextTimePlayerCanNavigate = 0;
+            directionNavigate = 0;
+        }
+
         private void Start()
         {
             if (menuOnLevelInPreviewChangeSo == null)
@@ -120,9 +178,9 @@ namespace Ui.Animation
 
         private void InitializationLogic()
         {
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerDownEvent>(ClickingTheWheel, TrickleDown.TrickleDown);
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerUpEvent>(LeftTheWheelToHold);
-            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerMoveEvent>(MovingTheWheel);
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerDownEvent>(ClickingTheWheelPointer, TrickleDown.TrickleDown);
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerUpEvent>(LeftTheWheelPointer);
+            _menuUiElementReference.DragZoneReference.RegisterCallback<PointerMoveEvent>(MovingTheWheelPointer);
 
             _menuUiElementReference.Root.RegisterCallback<GeometryChangedEvent>(UpdateSpaceBetweenMouseOnWindowWidthChange);
             
@@ -247,7 +305,7 @@ namespace Ui.Animation
         
         /*If player passed the area of a level button in preview, it means player drag quite far away the carousel so,
           change the _levelIndexInPreview to where the Carousel's translate.x value close to*/
-        private void LevelInPreviewChanger()
+        private void LevelInPreviewChangerBasedOnPointer()
         {
             //_levelIndexInPreview increase in negative axis so, if player try to change the opposite direction, we ignore
             if (_menuUiElementReference.CarouselReference.style.translate.value.x.value > 0) return;
@@ -317,7 +375,7 @@ namespace Ui.Animation
             //_menuUiElementReference.SliderCarouselReference.
         }
         
-        private void ClickingTheWheel(PointerDownEvent evt)
+        private void ClickingTheWheelPointer(PointerDownEvent evt)
         {
             _holdingTheMouseOnWheel = true;
             _startPos = evt.position; 
@@ -327,7 +385,7 @@ namespace Ui.Animation
             evt.StopPropagation();
         }
 
-        private void MovingTheWheel(PointerMoveEvent evt)
+        private void MovingTheWheelPointer(PointerMoveEvent evt)
         {
             if (!_holdingTheMouseOnWheel) return;
 
@@ -351,8 +409,13 @@ namespace Ui.Animation
                 _targetScrollX += evt.deltaPosition.x;
             }
         }
+
+        private void MovingTheWheelNavigation()
+        {
+            
+        }
         
-        private void LeftTheWheelToHold(PointerUpEvent evt)
+        private void LeftTheWheelPointer(PointerUpEvent evt)
         {
             if (!_holdingTheMouseOnWheel) return;
             
@@ -368,6 +431,11 @@ namespace Ui.Animation
             //Resetting values
             _holdingTheMouseOnWheel = false;
             _hasMovedSignificantly = false;
+        }
+
+        private void LevelSelectionConfirmOnPerformed(InputAction.CallbackContext obj)
+        {
+            LoadLevelButton();
         }
 
         private void LoadLevelButton()
@@ -509,12 +577,14 @@ namespace Ui.Animation
                 With next statement, we're rechange the _targetScrollX that make the _levelIndexInPreview center.
                 We check !_holdingTheMouseOnWheel since _distanceBetweenTargetAndCurrentScrollX > 0.1f can also be happens when player
                 holding the wheel but didn't move its cursor despite it's still holding the wheel*/
-                else if(!_holdingTheMouseOnWheel)
+                else if (!_holdingTheMouseOnWheel || _playerNavigatingWithButtons)
                 {
                     /*We multiply with negative since, levels keep increase its index at negative axis (e.g. if _spaceBetweenLevelButtons
                       is 400, then _levelIndexInPreview = 0's x position will -400, _levelIndexInPreview = 1's x position will -800* etc.)*/
                     _targetScrollX = -(_levelIndexInPreview * _spaceBetweenLevelButtons);
                 }
+
+                _currentPositionReachedToTargetPosition = !(_distanceBetweenTargetAndCurrentScrollX > 20);
                 
                 UpdateWheelTranslatePosition();
             
@@ -522,7 +592,7 @@ namespace Ui.Animation
             
                 if (_distanceBetweenTargetAndCurrentScrollX > 0.5f)
                 {
-                    LevelInPreviewChanger();
+                    LevelInPreviewChangerBasedOnPointer();
                     if(!_holdingTheMouseOnSlider) _menuUiElementReference.SliderCarouselReference.value = _currentScrollX / _lengthFromFirstLevelToLastLevelByPixels;
                 }
                 /*If player do not hold Wheel/Slider, means player not using any tool that help to change between level preview.
@@ -544,18 +614,33 @@ namespace Ui.Animation
                     _targetScrollX = _menuUiElementReference.SliderCarouselReference.value *
                                      _lengthFromFirstLevelToLastLevelByPixels;
                 }
+
+                if (_currentPositionReachedToTargetPosition && _playerNavigatingWithButtons)
+                {
+                    _nextTimePlayerCanNavigate -= Time.deltaTime;
+                    if (_nextTimePlayerCanNavigate < 0)
+                    {
+                        _playerCanNavigate = true;
+                        _nextTimePlayerCanNavigate = 0.3f;
+                        ChangeLevelPreviewNavigating();
+                    }
+                }
             }
         }
         
 
         private void OnDestroy()
         {
-            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerDownEvent>(ClickingTheWheel);
-            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerUpEvent>(LeftTheWheelToHold);
-            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerMoveEvent>(MovingTheWheel);
+            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerDownEvent>(ClickingTheWheelPointer);
+            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerUpEvent>(LeftTheWheelPointer);
+            _menuUiElementReference.DragZoneReference.UnregisterCallback<PointerMoveEvent>(MovingTheWheelPointer);
             _menuUiElementReference.Root.UnregisterCallback<GeometryChangedEvent>(UpdateSpaceBetweenMouseOnWindowWidthChange);
             
             menuOnLevelInPreviewChangeSo.LevelPreviewChangeEvent -= OnLevelPreviewChange;
+            
+            _dancingLineCloneInput.Menu.Disable();
+            _dancingLineCloneInput.Menu.LevelSelectionConfirm.performed -= LevelSelectionConfirmOnPerformed;
+
         }
     }
 }

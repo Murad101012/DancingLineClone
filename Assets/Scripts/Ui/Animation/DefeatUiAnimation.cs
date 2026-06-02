@@ -133,6 +133,7 @@ namespace Ui.Animation
                 if (levelUiFlowSo != null)
                 {
                     levelUiFlowSo.PublishDefeat_RestartEndAnimationEnd();
+                    levelEventHubSo.PublishRestartEndAnimationEnd();
                 }
                 else
                 {

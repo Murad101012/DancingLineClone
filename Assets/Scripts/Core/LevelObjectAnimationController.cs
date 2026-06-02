@@ -115,7 +115,7 @@ namespace Core
 
         private void AnimationSequencePrepare()
         {
-            DOTween.Init(true, true, LogBehaviour.ErrorsOnly).SetCapacity(200, 200);
+            DOTween.Init(true, true, LogBehaviour.ErrorsOnly).SetCapacity(700, 700);
             _animationSequences = new Sequence[animationData.Length];
             
             List<ushort> tempListOfTriggerTypeDistance = new List<ushort>();
@@ -465,9 +465,24 @@ namespace Core
             #endregion
             
             
-            for (ushort i = _currentSoundtrackTimelineIndexWaitingSnapshotOnCheckpointTrigger; i < _animationSequences.Length; i++)
+            //Cache:
+            ushort trueAnimIndex;
+
+            for (ushort i = 0; i < _animationTriggerTypeSoundtrackTimeArrayLength; i++)
             {
-                ResetAnimationSequences(i);
+                trueAnimIndex = _animationTriggerTypeSoundtrackTimelineIndexList[i];
+                
+                if (i < _currentSoundtrackTimelineIndexWaiting)
+                {
+                    _animationSequences[trueAnimIndex].Complete();
+                }
+                else
+                {
+                    ResetAnimationSequences(trueAnimIndex);
+                }
+        
+                animationData[trueAnimIndex].proceed = false;
+                animationData[trueAnimIndex].delayFinished = false;
             }
         }
 

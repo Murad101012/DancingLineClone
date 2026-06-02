@@ -95,12 +95,12 @@ namespace Player
                 _clonedCubes[i].transform.position = transform.position;
                 
                 //Breaking SRP batch by overriding with an empty Property Block.
-                _clonedCubes[i].GetComponent<Renderer>().SetPropertyBlock(_propBlock);
+                //_clonedCubes[i].GetComponent<Renderer>().SetPropertyBlock(_propBlock);
             }
             
             //TODO: Move property block applying to player to other location
             //Also applying same Property Block to player cube itself
-            GetComponent<Renderer>().SetPropertyBlock(_propBlock);
+            //GetComponent<Renderer>().SetPropertyBlock(_propBlock);
         }
 
         /// <summary>

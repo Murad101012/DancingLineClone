@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using DataContainer;
@@ -86,13 +87,52 @@ namespace Editor
             return "0";
         }
 
-        //TODO: Writing Regex pattern helped by Gemini AI
+        private void CreateBackup(string sourceFilePath)
+        {
+            try
+            {
+                if (!File.Exists(sourceFilePath)) return;
+
+                // 1. Establish the clean tracking project folder boundaries
+                string relativeBackupDir = "Assets/Scripts/Ui/Menu/MenuDocumentCheckpoints";
+                string projectRoot = Path.GetDirectoryName(Application.dataPath);
+                string absoluteBackupFolder = Path.Combine(projectRoot, relativeBackupDir);
+
+                // 2. If the directory layer doesn't exist, safely generate it
+                if (!Directory.Exists(absoluteBackupFolder))
+                {
+                    Directory.CreateDirectory(absoluteBackupFolder);
+                }
+
+                // 3. Calculate file data parameters
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sourceFilePath);
+                string extension = Path.GetExtension(sourceFilePath);
+                
+                // Format details: e.g., "MenuDocument - 20260529_195710.uxml"
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string backupFileName = $"{fileNameWithoutExtension} - {timestamp}{extension}";
+                string finalBackupPath = Path.Combine(absoluteBackupFolder, backupFileName);
+
+                // 4. Perform direct storage copy pass
+                File.Copy(sourceFilePath, finalBackupPath, true);
+                
+                Debug.Log($"<color=#4CAF50><b>[UXML Backup Success]:</b></color> Snapshot saved safely to: {relativeBackupDir}/{backupFileName}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"MenuUiLevelEditor: Failed to create automatic file checkpoint backup. Exception: {ex.Message}");
+            }
+        }
+
         private void RefreshLevels()
         {
             if (levelList.levelPropertiesSo == null) return;
 
             string fullPathOfUiDocument = GetUiDocumentAddress();
             if (fullPathOfUiDocument == "0") return;
+
+            // 👑 THE BACKUP TRIGGER: Safely run a copy loop BEFORE we let Regex touch the content
+            CreateBackup(fullPathOfUiDocument);
 
             string originalXml = File.ReadAllText(fullPathOfUiDocument);
 
@@ -111,8 +151,6 @@ namespace Editor
                 }
 
                 buttonsXml += $"\n\n                <ui:VisualElement name=\"{level.levelName}\" class=\"btn-level\" >\n                    <ui:VisualElement name=\"Btn_Background\" class=\"btn-level-image\" {styleString} />\n                </ui:VisualElement>";
-
-                //buttonsXml += $"\n <ui:Button name=\"{level.levelName}\" class=\"btn-level-image\" {styleString} />";
             }
 
             buttonsXml += "\n\n";
